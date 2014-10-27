@@ -1,0 +1,106 @@
+<div>
+
+    <h2>AmazonInstances</h2>
+
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#saveAmazonInstanceModal" ng-click="clear()">
+        <span class="glyphicon glyphicon-flash"></span> Create a new AmazonInstance
+    </button>
+    <div class="modal fade" id="saveAmazonInstanceModal" tabindex="-1" role="dialog" aria-labelledby="myAmazonInstanceLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="form" role="form" novalidate
+                      class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength"
+                      ng-submit="create()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myAmazonInstanceLabel">Create or edit a AmazonInstance</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="amazoninstance.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>instanceId</label>
+                            <input type="text" class="form-control"
+                                   ng-model="amazoninstance.instanceId">
+                        </div>
+                        <div class="form-group">
+                            <label>instanceImageId</label>
+                            <input type="text" class="form-control"
+                                   ng-model="amazoninstance.instanceImageId">
+                        </div>
+                        <div class="form-group">
+                            <label>instanceType</label>
+                            <input type="text" class="form-control"
+                                   ng-model="amazoninstance.instanceType">
+                        </div>
+                        <div class="form-group">
+                            <label>instanceRegion</label>
+                            <input type="text" class="form-control"
+                                   ng-model="amazoninstance.instanceRegion">
+                        </div>
+                        <div class="form-group">
+                            <label>instanceStatus</label>
+                            <input type="text" class="form-control"
+                                   ng-model="amazoninstance.instanceStatus">
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                        </button>
+                        <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span> Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>instanceId</th>
+                    <th>instanceImageId</th>
+                    <th>instanceType</th>
+                    <th>instanceRegion</th>
+                    <th>instanceStatus</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="amazoninstance in amazoninstances">
+                    <td>{{amazoninstance.id}}</td>
+                    <td>{{amazoninstance.instanceId}}</td>
+                    <td>{{amazoninstance.instanceImageId}}</td>
+                    <td>{{amazoninstance.instanceType}}</td>
+                    <td>{{amazoninstance.instanceRegion}}</td>
+                    <td>{{amazoninstance.instanceStatus}}</td>
+                    <td>
+                        <button type="submit"
+                                ng-click="update(amazoninstance.id)"
+                                class="btn">
+                            <span class="glyphicon glyphicon-pencil"></span> Edit
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(amazoninstance.id)"
+                                class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span> Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+{
+  "generator-jhipster": {
+    "baseName": "miaas",
+    "packageName": "com.sjsu.miaas",
+    "packageFolder": "com/sjsu/miaas",
+    "authenticationType": "cookie",
+    "hibernateCache": "no",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "useCompass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "javaVersion": "7"
+  }
+}
