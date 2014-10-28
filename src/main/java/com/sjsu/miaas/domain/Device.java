@@ -3,7 +3,11 @@ package com.sjsu.miaas.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+
+import scala.math.BigInt;
+
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,13 +41,13 @@ public class Device implements Serializable {
     private String deviceMemory;
     
     @Column(name = "amazoninstance_id", insertable=false, updatable=false)
-    private String amazoninstance_id;
+    private BigInteger amazoninstance_id;
 
-    public String getAmazoninstance_id() {
+    public BigInteger getAmazoninstance_id() {
 		return amazoninstance_id;
 	}
 
-	public void setAmazoninstance_id(String amazoninstance_id) {
+	public void setAmazoninstance_id(BigInteger amazoninstance_id) {
 		this.amazoninstance_id = amazoninstance_id;
 	}
 
