@@ -6,6 +6,8 @@
 
     <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20141027100720_added_entity_AmazonInstance.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20141028224243_added_entity_Request.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20141027114921_added_entity_Device.xml" relativeToChangelogFile="false"/>
+    
     <!-- JHipster will add liquibase changelogs here -->
 </databaseChangeLog>
