@@ -7,9 +7,14 @@ import javax.inject.Inject;
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.StartInstancesRequest;
 import com.amazonaws.services.ec2.model.StopInstancesRequest;
+import com.sjsu.miaas.domain.AmazonInstance;
 import com.sjsu.miaas.repository.AmazonInstanceRepository;
 
 public class AWSInstanceAction extends AWSInstanceState {
+	
+	AmazonInstance ama= new AmazonInstance();
+	
+	
 	
 	@Inject
 	AmazonInstanceRepository amazonInstRepo;
@@ -38,7 +43,8 @@ public class AWSInstanceAction extends AWSInstanceState {
 			bRet = true;
 
 		}
-
+		
+		
 		return bRet;
 	}
 
@@ -69,4 +75,14 @@ public class AWSInstanceAction extends AWSInstanceState {
 
 		return bRet;
 	}
+
+
+
+public AmazonInstance CreateInstance(){
+	AmazonInstance aws = new AmazonInstance();
+	
+	
+	return aws;
+}
+
 }
