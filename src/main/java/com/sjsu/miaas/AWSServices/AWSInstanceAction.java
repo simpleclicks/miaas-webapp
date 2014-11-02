@@ -2,11 +2,17 @@ package com.sjsu.miaas.AWSServices;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.StartInstancesRequest;
 import com.amazonaws.services.ec2.model.StopInstancesRequest;
+import com.sjsu.miaas.repository.AmazonInstanceRepository;
 
 public class AWSInstanceAction extends AWSInstanceState {
+	
+	@Inject
+	AmazonInstanceRepository amazonInstRepo;
 
 	public AWSInstanceAction() {
 		super();
@@ -16,8 +22,6 @@ public class AWSInstanceAction extends AWSInstanceState {
 	public boolean startInstance(ArrayList<Instance> instanceId)
 			throws Exception {
 		boolean bRet = false;
-		
-
 		// Code to start instance
 		ArrayList<String> idr = new ArrayList<String>();
 		int i;
