@@ -7,8 +7,8 @@ miaasApp
                     templateUrl: 'views/requests.html',
                     controller: 'RequestController',
                     resolve:{
-                        resolvedRequest: ['Request', function (Request) {
-                            return Request.query();
+                        resolvedRequest: ['UserRequest', function (UserRequest) {
+                            return UserRequest.query();
                         }]
                     },
                     access: {

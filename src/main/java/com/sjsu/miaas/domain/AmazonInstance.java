@@ -3,7 +3,10 @@ package com.sjsu.miaas.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,8 +35,19 @@ public class AmazonInstance implements Serializable {
 
     @Column(name = "instance_status")
     private String instanceStatus;
+    
+    @Column(name = "available_resources")
+    private BigDecimal availableResources;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "amazoninstance_id")
+    public BigDecimal getAvailableResources() {
+		return availableResources;
+	}
+
+	public void setAvailableResources(BigDecimal availableResources) {
+		this.availableResources = availableResources;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "amazoninstance_id")
     @JsonIgnore
     private Set<Device> devices = new HashSet<>();
 

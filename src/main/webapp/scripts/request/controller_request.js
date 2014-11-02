@@ -1,11 +1,16 @@
 'use strict';
 
-miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request) {
+miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest) {
 
         $scope.requests = resolvedRequest;
         //$scope.users = resolvedUser;
         $scope.users = $rootScope.account.login;
         $scope.create = function () {
+            var userobj = {
+                login : $scope.users
+            };
+            $scope.request.user = userobj;
+            console.log($scope.request);
             Request.save($scope.request,
                 function () {
                     $scope.requests = Request.query();

@@ -6,3 +6,10 @@ miaasApp.factory('Request', function ($resource) {
             'get': { method: 'GET'}
         });
     });
+
+miaasApp.factory('UserRequest',function ($resource, $rootScope) {
+    var userid = $rootScope.account.login;
+    return $resource('app/rest/userrequests/' + userid, {}, {
+        'query': { method: 'GET', isArray: true}
+    });
+});

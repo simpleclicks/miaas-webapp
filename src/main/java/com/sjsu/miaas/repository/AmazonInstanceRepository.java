@@ -7,5 +7,5 @@ import com.sjsu.miaas.domain.AmazonInstance;
  * Spring Data JPA repository for the AmazonInstance entity.
  */
 public interface AmazonInstanceRepository extends JpaRepository<AmazonInstance, Long> {
-
+	
 }

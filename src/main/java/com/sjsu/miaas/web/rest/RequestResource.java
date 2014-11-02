@@ -3,6 +3,9 @@ package com.sjsu.miaas.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sjsu.miaas.domain.Request;
 import com.sjsu.miaas.repository.RequestRepository;
+import com.sjsu.miaas.service.ProcessRequestService;
+import com.sjsu.miaas.service.UserService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -25,6 +30,9 @@ public class RequestResource {
 
     @Inject
     private RequestRepository requestRepository;
+    
+    @Inject
+    private ProcessRequestService requestService;
 
     /**
      * POST  /rest/requests -> Create a new request.
@@ -48,6 +56,18 @@ public class RequestResource {
     public List<Request> getAll() {
         log.debug("REST request to get all Requests");
         return requestRepository.findAll();
+    }
+    
+    /**
+     * GET  /rest/requests -> get all the requests.
+     */
+    @RequestMapping(value = "/rest/userrequests/{login_name}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<Request> getAllforUser(@PathVariable String login_name) {
+        log.debug("REST request to get all User Requests");
+        return requestRepository.getRequestsByUserId(login_name);
     }
 
     /**
@@ -77,4 +97,19 @@ public class RequestResource {
         log.debug("REST request to delete Request : {}", id);
         requestRepository.delete(id);
     }
+    
+    /**
+     *  PROCESS user request 
+     */
+    @RequestMapping(value = "/rest/request/{id}",
+    		method = RequestMethod.GET,
+    		produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public void processRequest(@PathVariable Long id){
+    	
+    	
+    }
+    
+    
+    
 }

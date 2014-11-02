@@ -32,4 +32,9 @@
                                  referencedColumnNames="login"
                                  referencedTableName="T_USER"/>
     </changeSet>
+    <changeSet id="2014103101917" author="sheetal">
+        <addColumn tableName="T_REQUEST">
+            <column name="request_status" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

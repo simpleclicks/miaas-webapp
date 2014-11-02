@@ -23,4 +23,9 @@
         </createTable>
         
     </changeSet>
+    <changeSet id="2014103101902" author="sheetal">
+        <addColumn tableName="T_AMAZONINSTANCE">
+            <column name="available_resources" type="bigint"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

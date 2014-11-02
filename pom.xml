@@ -155,13 +155,9 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- The HikariCP Java Agent is disabled by default, as it is experimental
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP-agent</artifactId>
-            <version>${HikariCP.version}</version>
-        </dependency>
-        -->
+        <!-- The HikariCP Java Agent is disabled by default, as it is experimental 
+			<dependency> <groupId>com.zaxxer</groupId> <artifactId>HikariCP-agent</artifactId> 
+			<version>${HikariCP.version}</version> </dependency> -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -181,6 +177,13 @@
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
             <version>${javax.inject.version}</version>
+        </dependency>
+
+        <!-- REST client jar -->
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -302,8 +305,8 @@
         </resources>
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings
-                only. It has no influence on the Maven build itself.-->
+                <!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -400,11 +403,13 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <message>You are running an older version of Maven. JHipster requires at least Maven 3.0</message>
+                                    <message>You are running an older version of Maven. JHipster
+										requires at least Maven 3.0</message>
                                     <version>[3.0.0,)</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <message>You are running an older version of Java. JHipster requires at least JDK ${java.version}</message>
+                                    <message>You are running an older version of Java. JHipster
+										requires at least JDK ${java.version}</message>
                                     <version>[1.${java.version}.0,)</version>
                                 </requireJavaVersion>
                             </rules>
@@ -442,7 +447,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <jvmArguments>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
+                    <jvmArguments>-Xdebug
+						-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     <arguments>
                         <argument>--spring.profiles.active=dev</argument>
                     </arguments>

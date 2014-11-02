@@ -60,7 +60,11 @@ public class Request implements Serializable {
     @Column(name = "user_login", insertable=false, updatable=false)
     private String user_login;
 
-    public String getUser_login() {
+    public void setUser_login(String user_login) {
+		this.user_login = user_login;
+	}
+
+	public String getUser_login() {
 		return user_login;
 	}
 
