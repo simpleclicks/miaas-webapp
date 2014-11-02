@@ -78,8 +78,10 @@ public class ProcessRequestService {
 						d.setDeviceVersion(dev.getString("deviceVersion"));
 						d.setRequest(req);
 						d.setRequest_id(new BigInteger(req.getId().toString()));
-						devRepository.save(d);						
+						devRepository.save(d);
 					}
+					amazonInstance.setAvailableResources(amazonInstance.getAvailableResources().subtract(resrcQuantity));
+					amaInstanceRepository.save(amazonInstance);
 				}
 				break;
 			}
