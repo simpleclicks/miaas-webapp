@@ -1,0 +1,67 @@
+package com.sjsu.miaas.AWSServices;
+
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.amazonaws.services.ec2.model.Instance;
+
+
+public class AWSMethods {
+
+	private final AWSInstanceAction awsInstanceAction;
+
+	private final static Logger LOGGER = Logger.getLogger(AWSMethods.class.getName());
+
+	public AWSMethods()
+	{
+		awsInstanceAction = new AWSInstanceAction();		
+	}
+	
+	protected ArrayList<Instance> getAllInstances() throws Exception
+	{
+		return awsInstanceAction.getAllIntances();
+	}
+
+	protected ArrayList<Instance> getAllRunningInstances() throws Exception
+	{
+		return awsInstanceAction.getRunningInstances();
+	}
+
+	protected ArrayList<Instance> getAllStoppedInstances() throws Exception
+	{
+		return awsInstanceAction.getStoppedInstances();
+	}
+	
+	protected boolean stopAWSInstance(ArrayList<Instance> arrayListOfInstances) throws Exception {
+		return awsInstanceAction.stopInstance(arrayListOfInstances);
+	}
+
+	protected boolean startAWSInstance(ArrayList<Instance> arrayListOfInstances) throws Exception {
+		return awsInstanceAction.startInstance(arrayListOfInstances);
+	}
+
+	public void execute() throws Exception {
+
+		LOGGER.log(Level.INFO, "Entered into Amazon Start Stop Methods");
+		
+		ArrayList<Instance> arrayListOfInstances = getAllInstances();
+		LOGGER.log(Level.INFO, "List of All Instances : "+arrayListOfInstances.toString());
+
+		ArrayList<Instance> arrayListOfRunningInstances = getAllRunningInstances();
+		LOGGER.log(Level.INFO, "List of All Running Instances : "+arrayListOfRunningInstances.toString());
+
+		ArrayList<Instance> arrayListOfStoppedInstances = getAllStoppedInstances();
+		LOGGER.log(Level.INFO, "List of All Stopped Instances : "+arrayListOfStoppedInstances.toString());
+
+//		LOGGER.log(Level.INFO, "Stopping running instances : "+stopAWSInstance(arrayListOfRunningInstances));
+
+	}
+
+	public static void main(String args[]) throws Exception {
+		AWSMethods awsMethods = new AWSMethods();
+		awsMethods.execute();
+
+	}
+
+}
