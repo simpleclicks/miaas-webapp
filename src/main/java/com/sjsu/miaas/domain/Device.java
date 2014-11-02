@@ -50,10 +50,25 @@ public class Device implements Serializable {
 	public void setAmazoninstance_id(BigInteger amazoninstance_id) {
 		this.amazoninstance_id = amazoninstance_id;
 	}
+	
+	@Column(name = "request_id", insertable=false, updatable=false)
+    private BigInteger request_id;
+
+	public BigInteger getRequest_id() {
+		return request_id;
+	}
+
+	public void setRequest_id(BigInteger request_id) {
+		this.request_id = request_id;
+	}
 
 	@ManyToOne
     @JoinColumn(name="amazoninstance_id")
     private AmazonInstance amazonInstance;
+	
+	@ManyToOne
+    @JoinColumn(name="request_id")
+    private Request request;
 
     public Long getId() {
         return id;
@@ -119,7 +134,15 @@ public class Device implements Serializable {
         this.amazonInstance = amazonInstance;
     }
 
-    @Override
+    public Request getRequest() {
+		return request;
+	}
+
+	public void setRequest(Request request) {
+		this.request = request;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

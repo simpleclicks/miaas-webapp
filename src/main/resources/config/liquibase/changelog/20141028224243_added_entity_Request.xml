@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+
+    <!--
+        Added the entity Request.
+    -->
+    <changeSet id="20141028224243" author="jhipster">
+        <createTable tableName="T_REQUEST">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="request_type" type="varchar(255)"/>
+            <column name="request_start_date" type="date"/>
+            <column name="request_end_date" type="date"/>
+            <column name="resource_quantity" type="integer"/>
+            <column name="resource_type" type="varchar(255)"/>
+            <column name="resource_version" type="varchar(255)"/>
+            <column name="resource_memory" type="varchar(255)"/>
+            <column name="resource_backup" type="bit"/>
+            <column name="user_login" type="varchar(50)"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseColumnNames="user_login"
+                                 baseTableName="T_REQUEST"
+                                 constraintName="fk_request_user_id"
+                                 referencedColumnNames="login"
+                                 referencedTableName="T_USER"/>
+    </changeSet>
+    <changeSet id="2014103101917" author="sheetal">
+        <addColumn tableName="T_REQUEST">
+            <column name="request_status" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

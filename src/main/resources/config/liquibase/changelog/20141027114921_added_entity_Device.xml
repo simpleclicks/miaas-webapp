@@ -22,6 +22,7 @@
             <column name="device_version" type="varchar(255)"/>
             <column name="device_memory" type="varchar(255)"/>
             <column name="amazoninstance_id" type="bigint"/>
+            <column name="request_id" type="bigint"/>
         </createTable>
         
         <addForeignKeyConstraint baseColumnNames="amazoninstance_id"
@@ -29,5 +30,12 @@
                                  constraintName="fk_device_amazoninstance_id"
                                  referencedColumnNames="id"
                                  referencedTableName="T_AMAZONINSTANCE"/>
+                                 
+		<addForeignKeyConstraint baseColumnNames="request_id"
+                                 baseTableName="T_DEVICE"
+                                 constraintName="fk_device_request_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="T_REQUEST"/>
+		                                                                
     </changeSet>
 </databaseChangeLog>
