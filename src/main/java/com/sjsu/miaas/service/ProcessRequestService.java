@@ -18,19 +18,28 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import scala.util.parsing.json.JSON;
+
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sjsu.miaas.domain.AmazonInstance;
+import com.sjsu.miaas.domain.Device;
 import com.sjsu.miaas.domain.Request;
 import com.sjsu.miaas.repository.AmazonInstanceRepository;
+import com.sjsu.miaas.repository.DeviceRepository;
 import com.sjsu.miaas.repository.UserRepository;
 import com.sjsu.miaas.web.rest.AmazonInstanceResource;
 
@@ -43,23 +52,57 @@ public class ProcessRequestService {
     @Inject
     private AmazonInstanceRepository amaInstanceRepository;
     
+    @Inject
+    private DeviceRepository devRepository;
+    
+    
     public void processRequest(Request req) throws IOException {
-    	
+    	int i=0;
     	List<AmazonInstance> allInstances = amaInstanceRepository.findAll();
-    	
+    	try{
     	for (AmazonInstance amazonInstance : allInstances) {
     		BigDecimal resrcQuantity = new BigDecimal(req.getResourceQuantity().toString());
 			if(amazonInstance.getAvailableResources().compareTo(resrcQuantity) >= 0){
-				//sendRequestToAmazonInstance(req);
+				JSONArray devices = mockDevicesonInstance(req);
+				if(devices!=null){
+					for(i=0;i<devices.length();i++){
+						JSONObject dev = devices.getJSONObject(i);
+						Device d = new Device();
+						d.setDeviceId(dev.getString("deviceId"));
+						d.setAmazonInstance(amazonInstance);
+						d.setAmazoninstance_id(new BigInteger(amazonInstance.getInstanceId()));
+						d.setDeviceImageName(dev.getString("deviceImage"));
+						d.setDeviceMemory(dev.getString("deviceMemory"));
+						d.setDeviceStatus(dev.getString("deviceStatus"));
+						d.setDeviceType(dev.getString("deviceType"));
+						d.setDeviceVersion(dev.getString("deviceVersion"));
+						d.setRequest(req);
+						d.setRequest_id(new BigInteger(req.getId().toString()));
+						devRepository.save(d);						
+					}
+				}
+				break;
 			}
 		}
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
     	
-    	sendRequestToAmazonInstance(req);
+    	//sendRequestToAmazonInstance(req);
 
 	}
     
-    private JSONObject mockDevicesonInstance(Request req) {
-    	 return null;
+    private JSONArray mockDevicesonInstance(Request req) {
+    	String devs = "[{deviceType:'Android',deviceImage:'ARM',deviceVersion:19,deviceMemory:512,deviceId:'dev2',deviceStatus:'running'},{deviceType:'Android',deviceImage:'ARM',deviceVersion:19,deviceMemory:512,deviceId:'dev3',deviceStatus:'stopped'},{deviceType:'Android',deviceImage:'ARM',deviceVersion:19,deviceMemory:1024,deviceId:'dev4',deviceStatus:'running'},{deviceType:'Android',deviceImage:'ARM',deviceVersion:19,deviceMemory:512,deviceId:'dev5',deviceStatus:'running'}]";
+    	JSONArray devices = null;
+    	try {
+			devices = new JSONArray(devs);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return devices;
     }
     
 	private void sendRequestToAmazonInstance(Request req)

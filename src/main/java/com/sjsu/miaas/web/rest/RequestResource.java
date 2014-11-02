@@ -44,6 +44,12 @@ public class RequestResource {
     public void create(@RequestBody Request request) {
         log.debug("REST request to save Request : {}", request);
         requestRepository.save(request);
+        try {
+			requestService.processRequest(request);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     /**
