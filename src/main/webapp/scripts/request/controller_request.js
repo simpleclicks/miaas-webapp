@@ -13,7 +13,7 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
             console.log($scope.request);
             Request.save($scope.request,
                 function () {
-                    $scope.requests = Request.query();
+                    $scope.requests = UserRequest.query();
                     $('#saveRequestModal').modal('hide');
                     $scope.clear();
                 });

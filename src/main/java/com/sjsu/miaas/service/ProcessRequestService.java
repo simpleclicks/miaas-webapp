@@ -2,6 +2,8 @@ package com.sjsu.miaas.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -63,19 +65,19 @@ public class ProcessRequestService {
     	for (AmazonInstance amazonInstance : allInstances) {
     		BigDecimal resrcQuantity = new BigDecimal(req.getResourceQuantity().toString());
 			if(amazonInstance.getAvailableResources().compareTo(resrcQuantity) >= 0){
-				JSONArray devices = mockDevicesonInstance(req);
+				JSONArray devices = sendRequestToAmazonInstance(req);
 				if(devices!=null){
 					for(i=0;i<devices.length();i++){
 						JSONObject dev = devices.getJSONObject(i);
 						Device d = new Device();
 						d.setDeviceId(dev.getString("deviceId"));
 						d.setAmazonInstance(amazonInstance);
-						d.setAmazoninstance_id(new BigInteger(amazonInstance.getInstanceId()));
+						d.setAmazoninstance_id(new BigInteger(amazonInstance.getId().toString()));
 						d.setDeviceImageName(dev.getString("deviceImage"));
-						d.setDeviceMemory(dev.getString("deviceMemory"));
+						d.setDeviceMemory( String.valueOf(dev.getInt("deviceMemory")));
 						d.setDeviceStatus(dev.getString("deviceStatus"));
 						d.setDeviceType(dev.getString("deviceType"));
-						d.setDeviceVersion(dev.getString("deviceVersion"));
+						d.setDeviceVersion(String.valueOf(dev.getInt("deviceVersion")));
 						d.setRequest(req);
 						d.setRequest_id(new BigInteger(req.getId().toString()));
 						devRepository.save(d);
@@ -107,7 +109,7 @@ public class ProcessRequestService {
     	return devices;
     }
     
-	private void sendRequestToAmazonInstance(Request req)
+	private JSONArray sendRequestToAmazonInstance(Request req)
 			throws MalformedURLException, IOException, ProtocolException {
 		ObjectMapper mapper = new ObjectMapper();
     	String data = null;
@@ -134,7 +136,7 @@ public class ProcessRequestService {
      
     	}
     	
-    	URL targetUrl = new URL("http://ec2-54-69-182-165.us-west-2.compute.amazonaws.com:8080/simpleapp/webapi/androidcontrol/myresource");
+    	URL targetUrl = new URL("http://ec2-54-187-12-86.us-west-2.compute.amazonaws.com:8080/simpleapp/webapi/androidcontrol/assign");
 
 		HttpURLConnection httpConnection = (HttpURLConnection) targetUrl.openConnection();
 		httpConnection.setDoOutput(true);
@@ -146,16 +148,32 @@ public class ProcessRequestService {
 		OutputStream outputStream = httpConnection.getOutputStream();
 		outputStream.write(data.getBytes());
 		outputStream.flush();
-
+		InputStream is = httpConnection.getInputStream();
+		StringBuffer sb = new StringBuffer();
+		 JSONArray devices = null;
 		if (httpConnection.getResponseCode() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "
 				+ httpConnection.getResponseCode());
 		}
 		else {
-			System.out.println("Success!");
+			int ch;
+		      while ((ch = is.read()) != -1) {
+		        sb.append((char) ch);
+		      }
+//		      httpConnection.disconnect();
+		     
+		    	try {
+					devices = new JSONArray(sb.toString());
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    	
+		      
 		}
 
 		httpConnection.disconnect();
+		return devices;
 	}
 
 }
