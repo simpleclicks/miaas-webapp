@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.amazonaws.services.ec2.model.Instance;
+import com.sjsu.miaas.domain.AmazonInstance;
 
-
+@Service
+@Transactional
 public class AWSMethods {
 
 	private final AWSInstanceAction awsInstanceAction;
@@ -33,8 +38,8 @@ public class AWSMethods {
 		return awsInstanceAction.getStoppedInstances();
 	}
 	
-	protected boolean stopAWSInstance(ArrayList<Instance> arrayListOfInstances) throws Exception {
-		return awsInstanceAction.stopInstance(arrayListOfInstances);
+	protected boolean stopAWSInstance(String Instance) throws Exception {
+		return awsInstanceAction.stopInstance(Instance);
 	}
 
 	protected boolean startAWSInstance(ArrayList<Instance> arrayListOfInstances) throws Exception {
@@ -43,19 +48,22 @@ public class AWSMethods {
 
 	public void execute() throws Exception {
 
-		LOGGER.log(Level.INFO, "Entered into Amazon Start Stop Methods");
+	//	LOGGER.log(Level.INFO, "Entered into Amazon Start Stop Methods");
 		
-		ArrayList<Instance> arrayListOfInstances = getAllInstances();
-		LOGGER.log(Level.INFO, "List of All Instances : "+arrayListOfInstances.toString());
+	//	ArrayList<Instance> arrayListOfInstances = getAllInstances();
+	//	LOGGER.log(Level.INFO, "List of All Instances : "+arrayListOfInstances.toString());
 
-		ArrayList<Instance> arrayListOfRunningInstances = getAllRunningInstances();
-		LOGGER.log(Level.INFO, "List of All Running Instances : "+arrayListOfRunningInstances.toString());
+		//ArrayList<Instance> arrayListOfRunningInstances = getAllRunningInstances();
+		//LOGGER.log(Level.INFO, "List of All Running Instances : "+arrayListOfRunningInstances.toString());
 
-		ArrayList<Instance> arrayListOfStoppedInstances = getAllStoppedInstances();
-		LOGGER.log(Level.INFO, "List of All Stopped Instances : "+arrayListOfStoppedInstances.toString());
+//		ArrayList<Instance> arrayListOfStoppedInstances = getAllStoppedInstances();
+		//LOGGER.log(Level.INFO, "List of All Stopped Instances : "+arrayListOfStoppedInstances.toString());
 
+		//stopAWSInstance("i-ba25f4b0");
 //		LOGGER.log(Level.INFO, "Stopping running instances : "+stopAWSInstance(arrayListOfRunningInstances));
 
+		Instance aws1 = awsInstanceAction.CreateInstance();
+		System.out.println(aws1);
 	}
 
 	public static void main(String args[]) throws Exception {
