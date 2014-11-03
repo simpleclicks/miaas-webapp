@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface AmazonInstanceRepository extends JpaRepository<AmazonInstance, Long> {
 	
-	@Query("select a from AmazonInstance a where a.instance_id = ?1")
+	@Query("select a from AmazonInstance a where a.instanceId = ?1")
     AmazonInstance getAmazonInstancebyId(String instance_id);
 	
 }

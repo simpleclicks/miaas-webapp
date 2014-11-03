@@ -59,35 +59,31 @@ public class ProcessRequestService {
     
     
     public void processRequest(Request req) throws IOException {
-    	int i=0;
+    	
     	List<AmazonInstance> allInstances = amaInstanceRepository.findAll();
+    	BigDecimal resrcQuantity = new BigDecimal(req.getResourceQuantity().toString());
     	try{
     	for (AmazonInstance amazonInstance : allInstances) {
-    		BigDecimal resrcQuantity = new BigDecimal(req.getResourceQuantity().toString());
+    		
 			if(amazonInstance.getAvailableResources().compareTo(resrcQuantity) >= 0){
-				JSONArray devices = sendRequestToAmazonInstance(req);
-				if(devices!=null){
-					for(i=0;i<devices.length();i++){
-						JSONObject dev = devices.getJSONObject(i);
-						Device d = new Device();
-						d.setDeviceId(dev.getString("deviceId"));
-						d.setAmazonInstance(amazonInstance);
-						d.setAmazoninstance_id(new BigInteger(amazonInstance.getId().toString()));
-						d.setDeviceImageName(dev.getString("deviceImage"));
-						d.setDeviceMemory( String.valueOf(dev.getInt("deviceMemory")));
-						d.setDeviceStatus(dev.getString("deviceStatus"));
-						d.setDeviceType(dev.getString("deviceType"));
-						d.setDeviceVersion(String.valueOf(dev.getInt("deviceVersion")));
-						d.setRequest(req);
-						d.setRequest_id(new BigInteger(req.getId().toString()));
-						devRepository.save(d);
-					}
-					amazonInstance.setAvailableResources(amazonInstance.getAvailableResources().subtract(resrcQuantity));
-					amaInstanceRepository.save(amazonInstance);
-				}
+				assignDevicesOnAmazonInstance(req, amazonInstance,
+						resrcQuantity);
 				break;
+			} 
+			else if(amazonInstance.getAvailableResources().compareTo(new BigDecimal(0)) > 0){
+				BigDecimal assignResrcs = amazonInstance.getAvailableResources();
+				assignDevicesOnAmazonInstance(req, amazonInstance,
+						assignResrcs);
+				resrcQuantity = resrcQuantity.subtract(assignResrcs);
+				if(resrcQuantity.compareTo(new BigDecimal(0)) == 0) {
+					break;
+				}
 			}
 		}
+    	
+    	if(resrcQuantity.compareTo(new BigDecimal(0))>0){
+    		//create a new instance and assign emulators on the new instance.
+    	}
     	}
     	catch(Exception e){
     		e.printStackTrace();
@@ -95,6 +91,32 @@ public class ProcessRequestService {
     	
     	//sendRequestToAmazonInstance(req);
 
+	}
+
+	private void assignDevicesOnAmazonInstance(Request req,
+			AmazonInstance amazonInstance, BigDecimal resrcQuantity)
+			throws MalformedURLException, IOException, ProtocolException,
+			JSONException {
+		JSONArray devices = sendRequestToAmazonInstance(req);
+		if(devices!=null){
+			for(int i=0;i<devices.length();i++){
+				JSONObject dev = devices.getJSONObject(i);
+				Device d = new Device();
+				d.setDeviceId(dev.getString("deviceId"));
+				d.setAmazonInstance(amazonInstance);
+				d.setAmazoninstance_id(new BigInteger(amazonInstance.getId().toString()));
+				d.setDeviceImageName(dev.getString("deviceImage"));
+				d.setDeviceMemory( String.valueOf(dev.getInt("deviceMemory")));
+				d.setDeviceStatus(dev.getString("deviceStatus"));
+				d.setDeviceType(dev.getString("deviceType"));
+				d.setDeviceVersion(String.valueOf(dev.getInt("deviceVersion")));
+				d.setRequest(req);
+				d.setRequest_id(new BigInteger(req.getId().toString()));
+				devRepository.save(d);
+			}
+			amazonInstance.setAvailableResources(amazonInstance.getAvailableResources().subtract(resrcQuantity));
+			amaInstanceRepository.save(amazonInstance);
+		}
 	}
     
     private JSONArray mockDevicesonInstance(Request req) {
