@@ -14,7 +14,5 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface AuthorityRepository extends JpaRepository<Authority, String> {
 	
-	@Query("select a from AmazonInstance a where a.instanceId = ?1")
-    AmazonInstance getAmazonInstancebyId(String instanceId);
 	
 }
