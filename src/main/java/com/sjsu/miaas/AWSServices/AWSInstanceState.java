@@ -1,5 +1,5 @@
 package com.sjsu.miaas.AWSServices;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,9 +8,6 @@ import java.util.logging.Logger;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
-import com.amazonaws.auth.PropertiesCredentials;
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.ec2.AmazonEC2;
@@ -27,32 +24,32 @@ public class AWSInstanceState {
 	private AWSCredentials credentials = null;
 	private String PROFILE_NAME = "miaas1";
 
-	private final static Logger LOGGER = Logger.getLogger(AWSInstanceState.class.getName());
+	private final static Logger LOGGER = Logger
+			.getLogger(AWSInstanceState.class.getName());
 
-	public AWSInstanceState() 
-	{
+	public AWSInstanceState() {
 		credentials = getCredentials();
 		amazonEC2 = getAmazonEC2Client(credentials);
 		setAmazonEC2ClientRegion(Regions.US_WEST_2);
 	}
 
-	protected BasicAWSCredentials getCredentials()
-	{
-		//return new ProfileCredentialsProvider("/miaas/src/main/java/com/sjsu/miaas/AWSServices/",PROFILE_NAME).getCredentials();
-		//return new EnvironmentVariableCredentialsProvider().getCredentials();
-		//return new PropertiesCredentials(
-		        // AWSInstanceState.class.getResourceAsStream("credentials"));
-		 BasicAWSCredentials awsCredentials = new BasicAWSCredentials("xxxx", "xxxx");
-		 return awsCredentials;
+	protected BasicAWSCredentials getCredentials() {
+		// return new
+		// ProfileCredentialsProvider("/miaas/src/main/java/com/sjsu/miaas/AWSServices/",PROFILE_NAME).getCredentials();
+		// return new EnvironmentVariableCredentialsProvider().getCredentials();
+		// return new PropertiesCredentials(
+		// AWSInstanceState.class.getResourceAsStream("credentials"));
+		BasicAWSCredentials awsCredentials = new BasicAWSCredentials(
+				"aaa",
+				"jnkI");
+		return awsCredentials;
 	}
 
-	protected AmazonEC2Client getAmazonEC2Client(AWSCredentials credential)
-	{
+	protected AmazonEC2Client getAmazonEC2Client(AWSCredentials credential) {
 		return new AmazonEC2Client(credentials);
 	}
 
-	protected void setAmazonEC2ClientRegion(Regions region)
-	{	
+	protected void setAmazonEC2ClientRegion(Regions region) {
 		amazonEC2.setRegion(Region.getRegion(region));
 	}
 
@@ -67,7 +64,7 @@ public class AWSInstanceState {
 
 		List<Reservation> reservations = describeInstancesRequest
 				.getReservations();
-		
+
 		Set<Instance> instances = new HashSet<Instance>();
 		// add all instances to a Set.
 		for (Reservation reservation : reservations) {
@@ -78,7 +75,6 @@ public class AWSInstanceState {
 
 		for (Instance ins : instances) {
 
-			
 			idr.add(ins);
 
 		}
@@ -139,7 +135,6 @@ public class AWSInstanceState {
 				idr.add(ins);
 
 		}
-		
 
 		return idr;
 

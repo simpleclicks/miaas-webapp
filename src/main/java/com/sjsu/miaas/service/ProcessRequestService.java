@@ -1,9 +1,7 @@
 package com.sjsu.miaas.service;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -14,14 +12,6 @@ import java.net.URL;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-
-import net.minidev.json.parser.JSONParser;
-import net.minidev.json.parser.ParseException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,19 +21,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import scala.util.parsing.json.JSON;
-
+import com.amazonaws.services.ec2.model.Instance;
 import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sjsu.miaas.AWSServices.AWSInstanceAction;
 import com.sjsu.miaas.domain.AmazonInstance;
 import com.sjsu.miaas.domain.Device;
 import com.sjsu.miaas.domain.Request;
 import com.sjsu.miaas.repository.AmazonInstanceRepository;
 import com.sjsu.miaas.repository.DeviceRepository;
-import com.sjsu.miaas.repository.UserRepository;
-import com.sjsu.miaas.web.rest.AmazonInstanceResource;
 
 @Service
 @Transactional
@@ -82,7 +69,10 @@ public class ProcessRequestService {
 		}
     	
     	if(resrcQuantity.compareTo(new BigDecimal(0))>0){
-    		//create a new instance and assign emulators on the new instance.
+    		AWSInstanceAction aia = new AWSInstanceAction();
+    		AmazonInstance i = aia.CreateInstance();
+    		amaInstanceRepository.save(i);
+    		assignDevicesOnAmazonInstance(req, i, resrcQuantity);
     	}
     	}
     	catch(Exception e){

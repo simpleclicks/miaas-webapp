@@ -1,6 +1,6 @@
 'use strict';
 
-miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest) {
+miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest, Device) {
 
         $scope.requests = resolvedRequest;
         //$scope.users = resolvedUser;
@@ -27,9 +27,13 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         $scope.delete = function (id) {
             Request.delete({id: id},
                 function () {
-                    $scope.requests = Request.query();
+                    $scope.requests = UserRequest.query();
                 });
         };
+
+        $scope.processRowSelect = function (req){
+
+        }
 
         $scope.clear = function () {
             $scope.request = {requestType: null, requestStartDate: null, requestEndDate: null, resourceQuantity: null, resourceType: null, resourceVersion: null, resourceMemory: null, resourceBackup: null, id: null};

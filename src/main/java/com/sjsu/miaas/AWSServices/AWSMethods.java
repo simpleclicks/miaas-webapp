@@ -62,7 +62,7 @@ public class AWSMethods {
 		//stopAWSInstance("i-ba25f4b0");
 //		LOGGER.log(Level.INFO, "Stopping running instances : "+stopAWSInstance(arrayListOfRunningInstances));
 
-		Instance aws1 = awsInstanceAction.CreateInstance();
+		AmazonInstance aws1 = awsInstanceAction.CreateInstance();
 		System.out.println(aws1);
 	}
 

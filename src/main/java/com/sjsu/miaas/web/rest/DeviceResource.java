@@ -3,6 +3,7 @@ package com.sjsu.miaas.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sjsu.miaas.domain.Device;
 import com.sjsu.miaas.repository.DeviceRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -48,6 +51,18 @@ public class DeviceResource {
     public List<Device> getAll() {
         log.debug("REST request to get all Devices");
         return deviceRepository.findAll();
+    }
+    
+    /**
+     * GET  /rest/devices -> get all the devices.
+     */
+    @RequestMapping(value = "/rest/requestdevices/{requestId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<Device> getAllRequestDevices(@PathVariable BigInteger requestId) {
+        log.debug("REST request to get all Devices");
+        return deviceRepository.getDevicesByRequestId(requestId);
     }
 
     /**

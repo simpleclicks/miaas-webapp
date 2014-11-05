@@ -1,5 +1,6 @@
 package com.sjsu.miaas.AWSServices;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -87,7 +88,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 		return bRet;
 	}
 
-	public Instance CreateInstance() throws InterruptedException {
+	public AmazonInstance CreateInstance() throws InterruptedException {
 		Instance aws = new Instance();
 		RunInstancesRequest rir = new RunInstancesRequest()
 				.withInstanceType("g2.2xlarge").withKeyName("miaas")
@@ -125,8 +126,15 @@ public class AWSInstanceAction extends AWSInstanceState {
 		//until that you keep on checking.
 		// once done, describe instances and return the instance with the specified instance id 
 		// in newInstance.
-		
-		return newInst;
+		AmazonInstance newDbObj = new AmazonInstance();
+		newDbObj.setInstanceId(newInst.getInstanceId());
+		newDbObj.setInstanceImageId(newInst.getImageId());
+		newDbObj.setInstanceRegion(newInst.getPlacement().getAvailabilityZone());
+		newDbObj.setInstanceStatus(newInst.getState().getName());
+		newDbObj.setInstanceType(newInst.getInstanceType());
+		newDbObj.setAvailableResources(new BigDecimal(10));
+		//amazonInstRepo.save(newDbObj);
+		return newDbObj;
 	}
 
 }
