@@ -20,6 +20,7 @@ import com.amazonaws.services.cloudwatch.model.Dimension;
 import com.amazonaws.services.cloudwatch.model.GetMetricStatisticsRequest;
 import com.amazonaws.services.cloudwatch.model.GetMetricStatisticsResult;
 import com.amazonaws.services.ec2.model.AssociateAddressRequest;
+import com.amazonaws.services.ec2.model.AssociateAddressResult;
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.ec2.model.Instance;
@@ -135,10 +136,11 @@ public class AWSInstanceAction extends AWSInstanceState {
 			is = newInst.getState();
 			System.out.println(is.toString());
 		}
-		//put a thread which checks that the state of the instance is entered running.
-		//until that you keep on checking.
-		// once done, describe instances and return the instance with the specified instance id 
-		// in newInstance.
+		
+		AssociateAddressRequest req = new AssociateAddressRequest();
+		req.setInstanceId(newInst.getInstanceId());
+		AssociateAddressResult res = amazonEC2.associateAddress(req);
+		
 		AmazonInstance newDbObj = new AmazonInstance();
 		newDbObj.setInstanceId(newInst.getInstanceId());
 		newDbObj.setInstanceImageId(newInst.getImageId());

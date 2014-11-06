@@ -2,31 +2,35 @@
 
 miaasApp.controller('NetworkController', function ($scope, Network, resolvedAmazonInstance) {
 
-    $scope.devices = resolvedDevice;
-    $scope.amazonInstances = resolvedAmazonInstance;
+    var g1 = new JustGage({
+        id: "gauge1",
+        value: 67,
+        min: 0,
+        max: 100,
+        title: "Visitors"
+    });
 
-    $scope.create = function () {
-        Device.save($scope.device,
-            function () {
-                $scope.devices = Device.query();
-                $('#saveDeviceModal').modal('hide');
-                $scope.clear();
-            });
-    };
+    var g2 = new JustGage({
+        id: "gauge2",
+        value: 67,
+        min: 0,
+        max: 100,
+        title: "Visitors"
+    });
 
-    $scope.update = function (id) {
-        $scope.device = Device.get({id: id});
-        $('#saveDeviceModal').modal('show');
-    };
+    var g3 = new JustGage({
+        id: "gauge3",
+        value: 67,
+        min: 0,
+        max: 100,
+        title: "Visitors"
+    });
 
-    $scope.delete = function (id) {
-        Device.delete({id: id},
-            function () {
-                $scope.devices = Device.query();
-            });
-    };
-
-    $scope.clear = function () {
-        $scope.device = {deviceId: null, deviceImageName: null, deviceStatus: null, deviceType: null, deviceVersion: null, deviceMemory: null, id: null};
-    };
+    var g4 = new JustGage({
+        id: "gauge4",
+        value: 67,
+        min: 0,
+        max: 100,
+        title: "Visitors"
+    });
 });
