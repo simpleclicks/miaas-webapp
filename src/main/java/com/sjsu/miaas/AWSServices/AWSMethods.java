@@ -1,6 +1,7 @@
 package com.sjsu.miaas.AWSServices;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,8 +63,11 @@ public class AWSMethods {
 		//stopAWSInstance("i-ba25f4b0");
 //		LOGGER.log(Level.INFO, "Stopping running instances : "+stopAWSInstance(arrayListOfRunningInstances));
 
-		AmazonInstance aws1 = awsInstanceAction.CreateInstance();
-		System.out.println(aws1);
+	//	AmazonInstance aws1 = awsInstanceAction.CreateInstance();
+	//	System.out.println(aws1);
+		
+		List<Double> monitor = awsInstanceAction.monitorInstance("");
+		System.out.println(monitor);
 	}
 
 	public static void main(String args[]) throws Exception {

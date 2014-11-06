@@ -40,8 +40,8 @@ public class AWSInstanceState {
 		// return new PropertiesCredentials(
 		// AWSInstanceState.class.getResourceAsStream("credentials"));
 		BasicAWSCredentials awsCredentials = new BasicAWSCredentials(
-				"aaa",
-				"jnkI");
+				"aaaa",
+				"aaaa");
 		return awsCredentials;
 	}
 

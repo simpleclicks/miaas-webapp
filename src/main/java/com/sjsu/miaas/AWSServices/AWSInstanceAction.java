@@ -1,13 +1,24 @@
 package com.sjsu.miaas.AWSServices;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.cloudwatch.AmazonCloudWatchClient;
+import com.amazonaws.services.cloudwatch.model.Datapoint;
+import com.amazonaws.services.cloudwatch.model.Dimension;
+import com.amazonaws.services.cloudwatch.model.GetMetricStatisticsRequest;
+import com.amazonaws.services.cloudwatch.model.GetMetricStatisticsResult;
 import com.amazonaws.services.ec2.model.AssociateAddressRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
@@ -23,6 +34,8 @@ import com.sjsu.miaas.repository.AmazonInstanceRepository;
 
 public class AWSInstanceAction extends AWSInstanceState {
 
+	private final static Logger log = Logger.getLogger(AWSInstanceAction.class.getName());
+	
 	AmazonInstance ama = new AmazonInstance();
 
 	@Inject
@@ -137,4 +150,47 @@ public class AWSInstanceAction extends AWSInstanceState {
 		return newDbObj;
 	}
 
+	public List<Double> monitorInstance(String instanceId) {
+		   try {
+			   AWSInstanceState awi = new AWSInstanceState();
+			   BasicAWSCredentials bas = awi.getCredentials();
+		       AmazonCloudWatchClient cw = new AmazonCloudWatchClient(bas) ;
+		       cw.setRegion(Region.getRegion(Regions.US_WEST_2));
+		       long offsetInMilliseconds = 1000 * 60 * 60 * 24;
+		       GetMetricStatisticsRequest request = new GetMetricStatisticsRequest()
+		               .withStartTime(new Date(new Date().getTime() - offsetInMilliseconds))
+		               .withNamespace("AWS/EC2")
+		               .withPeriod(60 * 60)
+		               .withDimensions(new Dimension().withName("InstanceId").withValue(instanceId))
+		               .withMetricName("CPUUtilization")
+		               .withStatistics("Average", "Maximum")
+		               .withEndTime(new Date());
+		       GetMetricStatisticsResult getMetricStatisticsResult = cw.getMetricStatistics(request);
+		       System.out.println(getMetricStatisticsResult.toString());
+		       double avgCPUUtilization = 0;
+		       List dataPoint = getMetricStatisticsResult.getDatapoints();
+		       List<Double> avgcpulist = new ArrayList<Double>();
+		       
+		       for (Object aDataPoint : dataPoint) {
+		           Datapoint dp = (Datapoint) aDataPoint;
+		           avgCPUUtilization = dp.getAverage();
+		           avgcpulist.add(avgCPUUtilization);
+		           System.out.println(instanceId + " instance's average CPU utilization : " + dp.getAverage());
+		       }
+
+		       return avgcpulist;
+
+		   } catch (AmazonServiceException ase) {
+		       log.severe("Caught an AmazonServiceException, which means the request was made  "
+		               + "to Amazon EC2, but was rejected with an error response for some reason.");
+		       log.severe("Error Message:    " + ase.getMessage());
+		       log.severe("HTTP Status Code: " + ase.getStatusCode());
+		       log.severe("AWS Error Code:   " + ase.getErrorCode());
+		       log.severe("Error Type:       " + ase.getErrorType());
+		       log.severe("Request ID:       " + ase.getRequestId());
+
+		   }
+		return null;
+		   
+		}
 }
