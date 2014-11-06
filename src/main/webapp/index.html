@@ -19,7 +19,7 @@
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div class="development"></div>
+        <!--<div class="development"></div>-->
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
@@ -33,18 +33,25 @@
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="authenticated">
                     <ul class="nav navbar-nav nav-pills navbar-right">
+                        <!--<li>-->
+                            <!--<a href="#">-->
+                                <!--<span class="glyphicon glyphicon-home"></span>-->
+                                <!--<span>Home</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
                         <li>
-                            <a href="#">
+                            <a href="#/account">
                                 <span class="glyphicon glyphicon-home"></span>
-                                <span translate="global.menu.home">Home</span>
+                                <span>Account</span>
                             </a>
                         </li>
+
                         <li ng-switch-when="true" class="dropdown pointer">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                                 <span>
                                     <span class="glyphicon glyphicon-th-list"></span>
-                                    <span class="hidden-tablet" translate="global.menu.entities.main">
-                                        Entities
+                                    <span class="hidden-tablet">
+                                        Account
                                     </span>
                                     <b class="caret"></b>
                                 </span>
@@ -53,7 +60,7 @@
                                 <li ng-switch-when="true"><a href="#/amazoninstance"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;amazoninstance</a></li>
                                 <li ng-switch-when="true"><a href="#/device"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;device</a></li>
                                 <li ng-switch-when="true"><a href="#/request"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;request</a></li>
-
+                                <li ng-switch-when="true"><a href="#/requestdevicemapping"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;requestdevicemapping</a></li>
                                 <!-- JHipster will add entities to the menu here -->
                             </ul>
                         </li>
@@ -61,8 +68,8 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                                 <span>
                                     <span class="glyphicon glyphicon-user"></span>
-                                    <span class="hidden-tablet" translate="global.menu.account.main">
-                                        Account
+                                    <span class="hidden-tablet">
+                                        Profile
                                     </span>
                                     <b class="caret"></b>
                                 </span>
@@ -104,20 +111,20 @@
                                     &#xA0;<span translate="global.menu.account.apidocs">API Docs</span></a></li>
                             </ul>
                         </li>
-                        <li class="dropdown pointer" ng-controller="LanguageController">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                                <span>
-                                    <span class="glyphicon glyphicon-flag"></span>
-                                    <span class="hidden-tablet" translate="global.menu.language">Language</span>
-                                    <b class="caret"></b>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li active-menu="{{key}}" ng-repeat="(key, language) in languages">
-                                    <a href="javascript:;" ng-click="changeLanguage(key)">{{language}}</a>
-                                </li>
-                            </ul>
-                        </li>
+                        <!--<li class="dropdown pointer" ng-controller="LanguageController">-->
+                            <!--<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">-->
+                                <!--<span>-->
+                                    <!--<span class="glyphicon glyphicon-flag"></span>-->
+                                    <!--<span class="hidden-tablet" translate="global.menu.language">Language</span>-->
+                                    <!--<b class="caret"></b>-->
+                                <!--</span>-->
+                            <!--</a>-->
+                            <!--<ul class="dropdown-menu">-->
+                                <!--<li active-menu="{{key}}" ng-repeat="(key, language) in languages">-->
+                                    <!--<a href="javascript:;" ng-click="changeLanguage(key)">{{language}}</a>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
                     </ul>
                 </div>
             </div>
@@ -126,7 +133,7 @@
             <div class="well" ng-view=""></div>
 
             <div class="footer">
-                <p translate="footer">This is your footer</p>
+                <!--<p translate="footer">This is your footer</p>-->
             </div>
         </div>
 

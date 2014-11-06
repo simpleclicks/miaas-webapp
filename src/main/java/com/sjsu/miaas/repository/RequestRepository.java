@@ -16,4 +16,7 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 	@Query("select r from Request r where r.user_login = ?1")
     List<Request> getRequestsByUserId(String login_name);
 	
+	@Query("select r from Request r where r.requestStatus = ?1")
+    List<Request> getRequestsByStatus(String status);
+	
 }

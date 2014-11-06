@@ -1,6 +1,7 @@
 target
 node
 node_modules
+bower_components
 .idea
 *.iml
 .classpath
@@ -15,3 +16,5 @@ src/main/webapp/dist
 build
 
 pom.xml.bak
+
+src/main/webapp/bower_components/angular-cookies/.bower.json

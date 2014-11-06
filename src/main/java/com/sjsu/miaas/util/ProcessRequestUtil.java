@@ -24,19 +24,21 @@ public class ProcessRequestUtil {
 	@Inject
 	private RequestRepository requestRepository;
 
-	@Scheduled(fixedRate = 15000)
+	@Scheduled(fixedRate = 150000)
 	public void startRequestStartProcessor() {
 		try {
-			while (true) {
-				List<Request> reqs = requestRepository.findAll();
-				for (Request request : reqs) {
-					if (LocalDate.now().isAfter(request.getRequestStartDate())
-							|| LocalDate.now().isEqual(
-									request.getRequestStartDate())) {
-						requestService.processRequest(request);
-						System.out.println("Processing request "
-								+ request.toString());
-					}
+
+			List<Request> reqs = requestRepository
+					.getRequestsByStatus("Inactive");
+			for (Request request : reqs) {
+				if (LocalDate.now().isAfter(request.getRequestStartDate())
+						|| LocalDate.now().isEqual(
+								request.getRequestStartDate())) {
+					requestService.processRequest(request);
+					request.setRequestStatus("Active");
+					requestRepository.save(request);
+					System.out.println("Processing request "
+							+ request.toString());
 				}
 			}
 		} catch (IOException e) {
@@ -45,8 +47,18 @@ public class ProcessRequestUtil {
 		}
 	}
 
+	@Scheduled(fixedRate = 150000)
 	public void startRequestEndProcessor() {
-
+		List<Request> reqs = requestRepository.getRequestsByStatus("Active");
+		for (Request request : reqs) {
+			if (LocalDate.now().isAfter(request.getRequestEndDate())
+					|| LocalDate.now().isEqual(request.getRequestEndDate())) {
+				requestService.processRequestEnd(request);
+				request.setRequestStatus("Expired");
+				requestRepository.save(request);
+				System.out.println("Processing request " + request.toString());
+			}
+		}
 	}
 
 }

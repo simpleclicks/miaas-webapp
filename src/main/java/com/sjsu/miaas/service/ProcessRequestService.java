@@ -55,12 +55,14 @@ public class ProcessRequestService {
 			if(amazonInstance.getAvailableResources().compareTo(resrcQuantity) >= 0){
 				assignDevicesOnAmazonInstance(req, amazonInstance,
 						resrcQuantity);
+				//mockDevicesonInstance(req);
 				break;
 			} 
 			else if(amazonInstance.getAvailableResources().compareTo(new BigDecimal(0)) > 0){
 				BigDecimal assignResrcs = amazonInstance.getAvailableResources();
 				assignDevicesOnAmazonInstance(req, amazonInstance,
 						assignResrcs);
+				//mockDevicesonInstance(req);
 				resrcQuantity = resrcQuantity.subtract(assignResrcs);
 				if(resrcQuantity.compareTo(new BigDecimal(0)) == 0) {
 					break;
@@ -69,10 +71,12 @@ public class ProcessRequestService {
 		}
     	
     	if(resrcQuantity.compareTo(new BigDecimal(0))>0){
-    		AWSInstanceAction aia = new AWSInstanceAction();
-    		AmazonInstance i = aia.CreateInstance();
-    		amaInstanceRepository.save(i);
+    		//AWSInstanceAction aia = new AWSInstanceAction();
+    		//AmazonInstance i = aia.CreateInstance();
+    		//amaInstanceRepository.save(i);
+    		AmazonInstance i = amaInstanceRepository.getAmazonInstancebyId("i-54f5c05b");
     		assignDevicesOnAmazonInstance(req, i, resrcQuantity);
+    		//mockDevicesonInstance(req);
     	}
     	}
     	catch(Exception e){
@@ -87,7 +91,8 @@ public class ProcessRequestService {
 			AmazonInstance amazonInstance, BigDecimal resrcQuantity)
 			throws MalformedURLException, IOException, ProtocolException,
 			JSONException {
-		JSONArray devices = sendRequestToAmazonInstance(req);
+		//JSONArray devices = sendAssignRequestToAmazonInstance(req);
+		JSONArray devices = mockDevicesonInstance(req);
 		if(devices!=null){
 			for(int i=0;i<devices.length();i++){
 				JSONObject dev = devices.getJSONObject(i);
@@ -121,7 +126,7 @@ public class ProcessRequestService {
     	return devices;
     }
     
-	private JSONArray sendRequestToAmazonInstance(Request req)
+	private JSONArray sendAssignRequestToAmazonInstance(Request req)
 			throws MalformedURLException, IOException, ProtocolException {
 		ObjectMapper mapper = new ObjectMapper();
     	String data = null;
@@ -186,6 +191,10 @@ public class ProcessRequestService {
 
 		httpConnection.disconnect();
 		return devices;
+	}
+	
+	public JSONObject processRequestEnd(Request request) {
+		return null;
 	}
 
 }

@@ -59,8 +59,27 @@ public class Request implements Serializable {
 
     @Column(name = "user_login", insertable=false, updatable=false)
     private String user_login;
+    
+    @Column(name = "request_status")
+    private String requestStatus;
 
-    public void setUser_login(String user_login) {
+    public String getRequestStatus() {
+		return requestStatus;
+	}
+
+	public void setRequestStatus(String requestStatus) {
+		this.requestStatus = requestStatus;
+	}
+
+	public Set<Device> getDevices() {
+		return devices;
+	}
+
+	public void setDevices(Set<Device> devices) {
+		this.devices = devices;
+	}
+
+	public void setUser_login(String user_login) {
 		this.user_login = user_login;
 	}
 

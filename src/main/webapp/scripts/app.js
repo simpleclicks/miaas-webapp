@@ -101,6 +101,18 @@ miaasApp
                         authorizedRoles: [USER_ROLES.all]
                     }
                 })
+                .when('/account', {
+                    templateUrl: 'views/account.html',
+                    controller: 'RequestController',
+                    resolve:{
+                        resolvedRequest: ['UserRequest', function (UserRequest) {
+                            return UserRequest.query();
+                        }]
+                    },
+                    access: {
+                        authorizedRoles: [USER_ROLES.all]
+                    }
+                })
                 .when('/docs', {
                     templateUrl: 'views/docs.html',
                     access: {
