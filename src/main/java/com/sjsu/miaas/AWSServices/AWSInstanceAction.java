@@ -19,9 +19,13 @@ import com.amazonaws.services.cloudwatch.model.Datapoint;
 import com.amazonaws.services.cloudwatch.model.Dimension;
 import com.amazonaws.services.cloudwatch.model.GetMetricStatisticsRequest;
 import com.amazonaws.services.cloudwatch.model.GetMetricStatisticsResult;
+import com.amazonaws.services.ec2.model.AllocateAddressRequest;
+import com.amazonaws.services.ec2.model.AllocateAddressResult;
 import com.amazonaws.services.ec2.model.AssociateAddressRequest;
+import com.amazonaws.services.ec2.model.AssociateAddressResult;
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
+import com.amazonaws.services.ec2.model.DomainType;
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.InstanceState;
 import com.amazonaws.services.ec2.model.Reservation;
@@ -112,6 +116,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 		System.out.println(newInstance);
 		InstanceState is = run.getReservation().getInstances().get(0).getState();
 		System.out.println(is.toString());
+		//String ipaddress = run.getReservation().getInstances().get(0).getPublicIpAddress();
 		Instance newInst = null;
 		while(!is.toString().contains("running")){
 			DescribeInstancesResult dir = amazonEC2.describeInstances();
@@ -139,6 +144,16 @@ public class AWSInstanceAction extends AWSInstanceState {
 		//until that you keep on checking.
 		// once done, describe instances and return the instance with the specified instance id 
 		// in newInstance.
+		//String ipaddress = newInst.getPublicIpAddress();
+		//System.out.println(ipaddress);
+		AllocateAddressRequest awr = new AllocateAddressRequest().withDomain(DomainType.Vpc);
+		AllocateAddressResult aar = amazonEC2.allocateAddress(awr);
+		
+		AssociateAddressRequest assor = new AssociateAddressRequest(newInst.getInstanceId(),aar.getPublicIp());
+		amazonEC2.associateAddress(assor);
+		
+		
+		
 		AmazonInstance newDbObj = new AmazonInstance();
 		newDbObj.setInstanceId(newInst.getInstanceId());
 		newDbObj.setInstanceImageId(newInst.getImageId());
