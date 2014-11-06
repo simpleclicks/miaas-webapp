@@ -43,6 +43,7 @@ public class RequestResource {
     @Timed
     public void create(@RequestBody Request request) {
         log.debug("REST request to save Request : {}", request);
+        request.setRequestStatus("Inactive");
         requestRepository.save(request);
 //        try {
 //			requestService.processRequest(request);

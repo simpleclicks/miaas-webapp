@@ -66,10 +66,10 @@ public class AWSMethods {
 		System.out.println(aws1);
 	}
 
-	public static void main(String args[]) throws Exception {
-		AWSMethods awsMethods = new AWSMethods();
-		awsMethods.execute();
-
-	}
+//	public static void main(String args[]) throws Exception {
+//		AWSMethods awsMethods = new AWSMethods();
+//		awsMethods.execute();
+//
+//	}
 
 }
