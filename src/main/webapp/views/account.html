@@ -7,18 +7,18 @@
         padding: 0;
     }
     /*body {*/
-        /*background: url(images/noise_light-grey.jpg);*/
-        /*font-family: 'Helvetica Neue', arial, sans-serif;*/
-        /*font-weight: 200;*/
+    /*background: url(images/noise_light-grey.jpg);*/
+    /*font-family: 'Helvetica Neue', arial, sans-serif;*/
+    /*font-weight: 200;*/
     /*}*/
 
     /*h1 {*/
-        /*font-family: 'Oswald', sans-serif;*/
-        /*font-size: 4em;*/
-        /*font-weight: 400;*/
-        /*margin: 0 0 20px;*/
-        /*text-align: center;*/
-        /*text-shadow: 1px 1px 0 #fff, 2px 2px 0 #bbb;*/
+    /*font-family: 'Oswald', sans-serif;*/
+    /*font-size: 4em;*/
+    /*font-weight: 400;*/
+    /*margin: 0 0 20px;*/
+    /*text-align: center;*/
+    /*text-shadow: 1px 1px 0 #fff, 2px 2px 0 #bbb;*/
     /*}*/
     hr {
         border-top: 1px solid #ccc;
@@ -239,13 +239,13 @@
                                         <div class="form-group">
                                             <label>requestStartDate</label>
                                             <input type="date" class="form-control"
-                                                   ng-model="request.requestStartDate">
+                                                   ng-model="request.requestStartDate" required>
                                         </div>
 
                                         <div class="form-group">
                                             <label>requestEndDate</label>
                                             <input type="date" class="form-control"
-                                                   ng-model="request.requestEndDate">
+                                                   ng-model="request.requestEndDate" required>
                                         </div>
 
                                         <div class="form-group">
@@ -309,7 +309,6 @@
                             </thead>
                             <tbody>
                             <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Active'">
-
                                 <td>{{request.requestType}}</td>
                                 <td>{{request.requestStartDate}}</td>
                                 <td>{{request.requestEndDate}}</td>
@@ -342,7 +341,6 @@
                             </thead>
                             <tbody>
                             <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Inactive'" >
-
                                 <td>{{request.requestType}}</td>
                                 <td>{{request.requestStartDate}}</td>
                                 <td>{{request.requestEndDate}}</td>
@@ -350,26 +348,66 @@
                                 <td>{{request.resourceType}}</td>
                                 <td>{{request.resourceVersion}}</td>
                                 <td>{{request.requestStatus}}</td>
-
                             </tr>
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
 
+            <div role="tabpanel" class="tab-pane" id="billing">
+                <h3>Current Bills</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Active'" >
+                            <td>{{request.requestType}}</td>
+                            <td>{{request.requestStartDate}}</td>
+                            <td>{{request.requestEndDate}}</td>
+                            <td>{{request.resourceQuantity}}</td>
+                            <td>{{request.resourcePrice}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
 
-            </div>
-            <div role="tabpanel" class="tab-pane" id="billing">
-                <h3>Current Bill</h3>
-                <p>$3.4 million</p>
                 <hr>
 
                 <h3>Previous Bills</h3>
-                <p>$8.4 million</p>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Inactive'" >
+                            <td>{{request.requestType}}</td>
+                            <td>{{request.requestStartDate}}</td>
+                            <td>{{request.requestEndDate}}</td>
+                            <td>{{request.resourceQuantity}}</td>
+                            <td>{{request.resourcePrice}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
-
-
 
     </div>
 </div>
