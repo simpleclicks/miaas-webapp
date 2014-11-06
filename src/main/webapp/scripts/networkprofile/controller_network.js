@@ -1,36 +1,37 @@
 'use strict';
 
-miaasApp.controller('NetworkController', function ($scope, Network, resolvedAmazonInstance) {
+miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstance,resolvedAmazonInstance, $window) {
 
-    var g1 = new JustGage({
-        id: "gauge1",
-        value: 67,
-        min: 0,
-        max: 100,
-        title: "Visitors"
+    $scope.amazonInstance = resolvedAmazonInstance;
+
+    angular.element(document).ready(function () {
+        var gauges = $window.document.getElementsByClassName("gauge");
+        //console.log(gauges);
+        for(var i=0; i<gauges.length; i++)
+        {
+            alert(gauges[i].innerHTML);
+        }
     });
 
-    var g2 = new JustGage({
-        id: "gauge2",
-        value: 67,
-        min: 0,
-        max: 100,
-        title: "Visitors"
+    angular.element($window.document.getElementsByClassName("gauge")).ready(function(){
+
     });
 
-    var g3 = new JustGage({
-        id: "gauge3",
-        value: 67,
-        min: 0,
-        max: 100,
-        title: "Visitors"
+    $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+        var gauges = $window.document.getElementsByClassName("gauge");
+        //console.log(gauges);
+        var guageVars = [];
+        for(var i=0; i<gauges.length; i++)
+        {
+            console.log(gauges[i].id);
+            guageVars[i] = new JustGage({
+                id: gauges[i].id,
+                value: 20,
+                min: 0,
+                max: 100,
+                title: "CPU Usage"
+            });
+        }
     });
 
-    var g4 = new JustGage({
-        id: "gauge4",
-        value: 67,
-        min: 0,
-        max: 100,
-        title: "Visitors"
-    });
 });
