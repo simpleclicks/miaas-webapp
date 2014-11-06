@@ -65,10 +65,10 @@
         }
     },
     "main": {
-        "title": "Welcome, Java Hipster!",
+        "title": "Welcome to MIAAS!",
         "subtitle": "This is your homepage",
         "logged": {
-            "message": "You are logged in as user \"{{username}}\"."
+            "message": "You are logged in as user \"{{username}}\""
         },
         "question": "If you have any question on JHipster:",
         "link": {

@@ -104,7 +104,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="requestRow" ng-click="processRowSelect(request)" ng-repeat="request in requests">
+                <tr ng-repeat="request in requests">
                     <td>{{request.id}}</td>
                     <td>{{request.requestType}}</td>
                     <td>{{request.requestStartDate}}</td>
@@ -117,14 +117,14 @@
                     <td>{{request.user.login}}</td>
                     <td>
                         <button type="submit"
+                                ng-click="update(request.id)"
+                                class="btn">
+                            <span class="glyphicon glyphicon-pencil"></span> Edit
+                        </button>
+                        <button type="submit"
                                 ng-click="delete(request.id)"
                                 class="btn btn-danger">
                             <span class="glyphicon glyphicon-remove-circle"></span> Delete
-                        </button>
-                        <button type="submit"
-                                ng-click="processRowSelect(request)"
-                                class="btn">
-                            <span class="glyphicon glyphicon-remove-circle"></span> Expand
                         </button>
                     </td>
                 </tr>
