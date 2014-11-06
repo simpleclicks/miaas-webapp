@@ -28,4 +28,9 @@
             <column name="available_resources" type="bigint"/>
         </addColumn>
     </changeSet>
+    <changeSet id="2014110502327" author="sheetal">
+        <addColumn tableName="T_AMAZONINSTANCE">
+            <column name="public_dns_name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

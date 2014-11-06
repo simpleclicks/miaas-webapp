@@ -140,6 +140,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 			is = newInst.getState();
 			System.out.println(is.toString());
 		}
+<<<<<<< HEAD
 		//put a thread which checks that the state of the instance is entered running.
 		//until that you keep on checking.
 		// once done, describe instances and return the instance with the specified instance id 
@@ -153,6 +154,12 @@ public class AWSInstanceAction extends AWSInstanceState {
 		amazonEC2.associateAddress(assor);
 		
 		
+=======
+		
+		AssociateAddressRequest req = new AssociateAddressRequest();
+		req.setInstanceId(newInst.getInstanceId());
+		AssociateAddressResult res = amazonEC2.associateAddress(req);
+>>>>>>> origin
 		
 		AmazonInstance newDbObj = new AmazonInstance();
 		newDbObj.setInstanceId(newInst.getInstanceId());

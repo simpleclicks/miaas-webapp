@@ -1,6 +1,7 @@
 'use strict';
 
-miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest) {
+miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest, RequestDevices) {
+        var resourcePricePerDay = 5;
 
         $scope.preDefRequestType = [
             { value: 'Android', text: 'Android' },
@@ -30,12 +31,14 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         $scope.requests = resolvedRequest;
         //$scope.users = resolvedUser;
         $scope.users = $rootScope.account.login;
+
         $scope.create = function () {
             var userobj = {
                 login : $scope.users
             };
             $scope.request.user = userobj;
-            console.log($scope.request);
+            //console.log($scope.request);
+            //$scope.request['resourcePrice'] = calculatePrice($scope.request.startDate, $scope.request.endDate, resourcePricePerDay);
             Request.save($scope.request,
                 function () {
                     $scope.requests = UserRequest.query();
@@ -55,6 +58,26 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
                     $scope.requests = Request.query();
                 });
         };
+
+        $scope.calculatePrice = function(startDate, endDate, rate) {
+            var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+            var firstDate = new Date(endDate);
+            var secondDate = new Date(startDate);
+
+            var days = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+
+            return days*rate;
+        };
+
+        $scope.deviceView = function(req){
+            $scope.selectedReqId = req.id;
+            //$scope.requestDevices = RequestDevices.getDevicesForReq(req.id);
+            //console.log($scope.requestDevices);
+
+            RequestDevices.getDevicesForReq(req.id).then(function(data) {
+                $scope.requestDevices = data;
+            });
+        }
 
         $scope.clear = function () {
             $scope.request = {requestType: null, requestStartDate: null, requestEndDate: null, resourceQuantity: null, resourceType: null, resourceVersion: null, resourceMemory: null, resourceBackup: null, id: null};

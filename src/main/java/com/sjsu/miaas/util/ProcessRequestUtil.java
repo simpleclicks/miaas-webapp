@@ -24,7 +24,7 @@ public class ProcessRequestUtil {
 	@Inject
 	private RequestRepository requestRepository;
 
-	@Scheduled(fixedRate = 150000)
+	@Scheduled(fixedRate = 5000)
 	public void startRequestStartProcessor() {
 		try {
 

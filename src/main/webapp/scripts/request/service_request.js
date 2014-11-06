@@ -13,3 +13,14 @@ miaasApp.factory('UserRequest',function ($resource, $rootScope) {
         'query': { method: 'GET', isArray: true}
     });
 });
+
+miaasApp.factory('RequestDevices', function ($http) {
+    return {
+        getDevicesForReq: function(reqid) {
+            var promise = $http.get('app/rest/requestdevices/'+reqid).then(function (response) {
+                return response.data;
+            });
+            return promise;
+        }
+    };
+});
