@@ -71,10 +71,10 @@ public class ProcessRequestService {
 		}
     	
     	if(resrcQuantity.compareTo(new BigDecimal(0))>0){
-    		//AWSInstanceAction aia = new AWSInstanceAction();
-    		//AmazonInstance i = aia.CreateInstance();
-    		//amaInstanceRepository.save(i);
-    		AmazonInstance i = amaInstanceRepository.getAmazonInstancebyId("i-54f5c05b");
+    		AWSInstanceAction aia = new AWSInstanceAction();
+    		AmazonInstance i = aia.CreateInstance();
+    		amaInstanceRepository.save(i);
+    		//AmazonInstance i = amaInstanceRepository.getAmazonInstancebyId("i-54f5c05b");
     		assignDevicesOnAmazonInstance(req, i, resrcQuantity);
     		//mockDevicesonInstance(req);
     	}
@@ -91,8 +91,8 @@ public class ProcessRequestService {
 			AmazonInstance amazonInstance, BigDecimal resrcQuantity)
 			throws MalformedURLException, IOException, ProtocolException,
 			JSONException {
-		//JSONArray devices = sendAssignRequestToAmazonInstance(req);
-		JSONArray devices = mockDevicesonInstance(req);
+		JSONArray devices = sendAssignRequestToAmazonInstance(req, amazonInstance);
+		//JSONArray devices = mockDevicesonInstance(req);
 		if(devices!=null){
 			for(int i=0;i<devices.length();i++){
 				JSONObject dev = devices.getJSONObject(i);
@@ -126,7 +126,7 @@ public class ProcessRequestService {
     	return devices;
     }
     
-	private JSONArray sendAssignRequestToAmazonInstance(Request req)
+	private JSONArray sendAssignRequestToAmazonInstance(Request req, AmazonInstance ainst)
 			throws MalformedURLException, IOException, ProtocolException {
 		ObjectMapper mapper = new ObjectMapper();
     	String data = null;
@@ -153,7 +153,7 @@ public class ProcessRequestService {
      
     	}
     	
-    	URL targetUrl = new URL("http://ec2-54-187-12-86.us-west-2.compute.amazonaws.com:8080/simpleapp/webapi/androidcontrol/assign");
+    	URL targetUrl = new URL(ainst.getPublicDnsName() + ":8080/simpleapp/webapi/androidcontrol/assign");
 
 		HttpURLConnection httpConnection = (HttpURLConnection) targetUrl.openConnection();
 		httpConnection.setDoOutput(true);

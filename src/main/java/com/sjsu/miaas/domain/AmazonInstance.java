@@ -36,7 +36,18 @@ public class AmazonInstance implements Serializable {
     @Column(name = "instance_status")
     private String instanceStatus;
     
-    @Column(name = "available_resources")
+    @Column(name = "public_dns_name")
+    private String publicDnsName;
+    
+    public String getPublicDnsName() {
+		return publicDnsName;
+	}
+
+	public void setPublicDnsName(String publicDnsName) {
+		this.publicDnsName = publicDnsName;
+	}
+
+	@Column(name = "available_resources")
     private BigDecimal availableResources;
 
     public BigDecimal getAvailableResources() {

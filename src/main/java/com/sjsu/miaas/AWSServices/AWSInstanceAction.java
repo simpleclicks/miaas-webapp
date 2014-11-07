@@ -105,9 +105,9 @@ public class AWSInstanceAction extends AWSInstanceState {
 	public AmazonInstance CreateInstance() throws InterruptedException {
 		Instance aws = new Instance();
 		RunInstancesRequest rir = new RunInstancesRequest()
-				.withInstanceType("g2.2xlarge").withKeyName("miaas")
-				.withImageId("ami-213d7511").withMinCount(1).withMaxCount(1)
-				.withSecurityGroupIds("sg-e7bad882");
+				.withInstanceType("g2.2xlarge").withKeyName("webserver1")
+				.withImageId("ami-15e3ab25").withMinCount(1).withMaxCount(1)
+				.withSecurityGroupIds("sg-45791720");
 		RunInstancesResult run = amazonEC2.runInstances(rir);
 		String newInstance = run.getReservation().getInstances().get(0).getInstanceId();
 		System.out.println(newInstance);
@@ -148,6 +148,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 		newDbObj.setInstanceStatus(newInst.getState().getName());
 		newDbObj.setInstanceType(newInst.getInstanceType());
 		newDbObj.setAvailableResources(new BigDecimal(10));
+		newDbObj.setPublicDnsName(newInst.getPublicDnsName());
 		//amazonInstRepo.save(newDbObj);
 		return newDbObj;
 	}
