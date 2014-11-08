@@ -1,6 +1,6 @@
 'use strict';
 
-miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest) {
+miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest, RequestDevices) {
 
         $scope.preDefRequestType = [
             { value: 'Android', text: 'Android' },
@@ -55,6 +55,18 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
                     $scope.requests = Request.query();
                 });
         };
+
+
+
+        $scope.deviceView = function(req){
+            $scope.selectedReqId = req.id;
+            //$scope.requestDevices = RequestDevices.getDevicesForReq(req.id);
+            //console.log($scope.requestDevices);
+
+            RequestDevices.getDevicesForReq(req.id).then(function(data) {
+                $scope.requestDevices = data;
+            });
+        }
 
         $scope.clear = function () {
             $scope.request = {requestType: null, requestStartDate: null, requestEndDate: null, resourceQuantity: null, resourceType: null, resourceVersion: null, resourceMemory: null, resourceBackup: null, id: null};

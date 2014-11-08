@@ -113,6 +113,18 @@ miaasApp
                         authorizedRoles: [USER_ROLES.all]
                     }
                 })
+                .when('/network', {
+                    templateUrl: 'views/networkprofile.html',
+                    controller: 'NetworkController',
+                    resolve:{
+                        resolvedAmazonInstance: ['AmazonInstance', function (AmazonInstance) {
+                            return AmazonInstance.query();
+                        }]
+                    },
+                    access: {
+                        authorizedRoles: [USER_ROLES.admin]
+                    }
+                })
                 .when('/docs', {
                     templateUrl: 'views/docs.html',
                     access: {
