@@ -8,7 +8,9 @@ import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.amazonaws.services.cloudwatch.model.Datapoint;
 import com.amazonaws.services.ec2.model.Instance;
+import com.google.gson.JsonArray;
 import com.sjsu.miaas.domain.AmazonInstance;
 
 @Service
@@ -63,11 +65,15 @@ public class AWSMethods {
 		//stopAWSInstance("i-ba25f4b0");
 //		LOGGER.log(Level.INFO, "Stopping running instances : "+stopAWSInstance(arrayListOfRunningInstances));
 
-		AmazonInstance aws1 = awsInstanceAction.CreateInstance();
-		System.out.println(aws1);
+		//AmazonInstance aws1 = awsInstanceAction.CreateInstance();
+		//System.out.println(aws1);
 		
-	//	List<Double> monitor = awsInstanceAction.monitorInstance("");
-	//	System.out.println(monitor);
+	//List<Datapoint> monitor = awsInstanceAction.monitorInstance("i-3284b63d");
+		//System.out.println(monitor);
+		
+		ArrayList<AWSMetric> awm11 = new ArrayList<AWSMetric>();
+			awm11 =	awsInstanceAction.getallmonitoring();
+		System.out.println(awm11.toString());
 	}
 
 	public static void main(String args[]) throws Exception {

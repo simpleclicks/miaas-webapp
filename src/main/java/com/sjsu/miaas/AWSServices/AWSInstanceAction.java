@@ -1,10 +1,12 @@
 package com.sjsu.miaas.AWSServices;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -33,13 +35,17 @@ import com.amazonaws.services.ec2.model.RunInstancesRequest;
 import com.amazonaws.services.ec2.model.RunInstancesResult;
 import com.amazonaws.services.ec2.model.StartInstancesRequest;
 import com.amazonaws.services.ec2.model.StopInstancesRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.sjsu.miaas.domain.AmazonInstance;
 import com.sjsu.miaas.repository.AmazonInstanceRepository;
 
 public class AWSInstanceAction extends AWSInstanceState {
 
-	private final static Logger log = Logger.getLogger(AWSInstanceAction.class.getName());
-	
+	private final static Logger log = Logger.getLogger(AWSInstanceAction.class
+			.getName());
+
 	AmazonInstance ama = new AmazonInstance();
 
 	@Inject
@@ -108,31 +114,34 @@ public class AWSInstanceAction extends AWSInstanceState {
 	public AmazonInstance CreateInstance() throws InterruptedException {
 		Instance aws = new Instance();
 		RunInstancesRequest rir = new RunInstancesRequest()
-				.withInstanceType("g2.2xlarge").withKeyName("miaas")
-				.withImageId("ami-213d7511").withMinCount(1).withMaxCount(1)
-				.withSecurityGroupIds("sg-e7bad882");
+		.withInstanceType("g2.2xlarge").withKeyName("webserver1")
+		.withImageId("ami-15e3ab25").withMinCount(1).withMaxCount(1)
+		.withSecurityGroupIds("sg-e7bad882");
 		RunInstancesResult run = amazonEC2.runInstances(rir);
-		String newInstance = run.getReservation().getInstances().get(0).getInstanceId();
+		String newInstance = run.getReservation().getInstances().get(0)
+				.getInstanceId();
 		System.out.println(newInstance);
-		InstanceState is = run.getReservation().getInstances().get(0).getState();
+		InstanceState is = run.getReservation().getInstances().get(0)
+				.getState();
 		System.out.println(is.toString());
-		//String ipaddress = run.getReservation().getInstances().get(0).getPublicIpAddress();
+		// String ipaddress =
+		// run.getReservation().getInstances().get(0).getPublicIpAddress();
 		Instance newInst = null;
-		while(!is.toString().contains("running")){
+		while (!is.toString().contains("running")) {
 			DescribeInstancesResult dir = amazonEC2.describeInstances();
 			List<Reservation> reservations = dir.getReservations();
 			Set<Instance> instances = new HashSet<Instance>();
-			for (Reservation reservation : reservations){
+			for (Reservation reservation : reservations) {
 				instances.addAll(reservation.getInstances());
-				
+
 			}
 			ArrayList<Instance> idr = new ArrayList<Instance>();
-			
-			for(Instance ins : instances){
-				if(ins.getInstanceId().contains(newInstance)){
+
+			for (Instance ins : instances) {
+				if (ins.getInstanceId().contains(newInstance)) {
 					newInst = ins;
 					break;
-				}			
+				}
 			}
 			is = newInst.getState();
 			System.out.println("Entered:");
@@ -140,27 +149,26 @@ public class AWSInstanceAction extends AWSInstanceState {
 			is = newInst.getState();
 			System.out.println(is.toString());
 		}
-<<<<<<< HEAD
-		//put a thread which checks that the state of the instance is entered running.
-		//until that you keep on checking.
-		// once done, describe instances and return the instance with the specified instance id 
+		// put a thread which checks that the state of the instance is entered
+		// running.
+		// until that you keep on checking.
+		// once done, describe instances and return the instance with the
+		// specified instance id
 		// in newInstance.
-		//String ipaddress = newInst.getPublicIpAddress();
-		//System.out.println(ipaddress);
-		AllocateAddressRequest awr = new AllocateAddressRequest().withDomain(DomainType.Vpc);
+		// String ipaddress = newInst.getPublicIpAddress();
+		// System.out.println(ipaddress);
+		AllocateAddressRequest awr = new AllocateAddressRequest()
+		.withDomain(DomainType.Vpc);
 		AllocateAddressResult aar = amazonEC2.allocateAddress(awr);
-		
-		AssociateAddressRequest assor = new AssociateAddressRequest(newInst.getInstanceId(),aar.getPublicIp());
+
+		AssociateAddressRequest assor = new AssociateAddressRequest(
+				newInst.getInstanceId(), aar.getPublicIp());
 		amazonEC2.associateAddress(assor);
-		
-		
-=======
-		
+
 		AssociateAddressRequest req = new AssociateAddressRequest();
 		req.setInstanceId(newInst.getInstanceId());
 		AssociateAddressResult res = amazonEC2.associateAddress(req);
->>>>>>> origin
-		
+
 		AmazonInstance newDbObj = new AmazonInstance();
 		newDbObj.setInstanceId(newInst.getInstanceId());
 		newDbObj.setInstanceImageId(newInst.getImageId());
@@ -168,51 +176,167 @@ public class AWSInstanceAction extends AWSInstanceState {
 		newDbObj.setInstanceStatus(newInst.getState().getName());
 		newDbObj.setInstanceType(newInst.getInstanceType());
 		newDbObj.setAvailableResources(new BigDecimal(10));
-		//amazonInstRepo.save(newDbObj);
+		// amazonInstRepo.save(newDbObj);
 		return newDbObj;
 	}
 
-	public List<Double> monitorInstance(String instanceId) {
-		   try {
-			   AWSInstanceState awi = new AWSInstanceState();
-			   BasicAWSCredentials bas = awi.getCredentials();
-		       AmazonCloudWatchClient cw = new AmazonCloudWatchClient(bas) ;
-		       cw.setRegion(Region.getRegion(Regions.US_WEST_2));
-		       long offsetInMilliseconds = 1000 * 60 * 60 * 24;
-		       GetMetricStatisticsRequest request = new GetMetricStatisticsRequest()
-		               .withStartTime(new Date(new Date().getTime() - offsetInMilliseconds))
-		               .withNamespace("AWS/EC2")
-		               .withPeriod(60 * 60)
-		               .withDimensions(new Dimension().withName("InstanceId").withValue(instanceId))
-		               .withMetricName("CPUUtilization")
-		               .withStatistics("Average", "Maximum")
-		               .withEndTime(new Date());
-		       GetMetricStatisticsResult getMetricStatisticsResult = cw.getMetricStatistics(request);
-		       System.out.println(getMetricStatisticsResult.toString());
-		       double avgCPUUtilization = 0;
-		       List dataPoint = getMetricStatisticsResult.getDatapoints();
-		       List<Double> avgcpulist = new ArrayList<Double>();
-		       
-		       for (Object aDataPoint : dataPoint) {
-		           Datapoint dp = (Datapoint) aDataPoint;
-		           avgCPUUtilization = dp.getAverage();
-		           avgcpulist.add(avgCPUUtilization);
-		           System.out.println(instanceId + " instance's average CPU utilization : " + dp.getAverage());
-		       }
+	public List<Datapoint> monitorInstance(String instanceId) {
+		try {
+			AWSInstanceState awi = new AWSInstanceState();
+			BasicAWSCredentials bas = awi.getCredentials();
+			AmazonCloudWatchClient cw = new AmazonCloudWatchClient(bas);
+			cw.setRegion(Region.getRegion(Regions.US_WEST_2));
+			long offsetInMilliseconds = 1000 * 60 * 60 * 24;
+			GetMetricStatisticsRequest request = new GetMetricStatisticsRequest()
+			.withStartTime(
+					new Date(new Date().getTime()
+							- offsetInMilliseconds))
+							.withNamespace("AWS/EC2")
+							.withPeriod(60 * 60)
+							.withDimensions(
+									new Dimension().withName("InstanceId").withValue(
+											instanceId))
+											.withMetricName("CPUUtilization")
+											.withStatistics("Average", "Maximum")
+											.withEndTime(new Date());
+			GetMetricStatisticsResult getMetricStatisticsResult = cw
+					.getMetricStatistics(request);
+			System.out.println(getMetricStatisticsResult.toString());
+			double avgCPUUtilization = 0;
+			List<Datapoint> dataPoint = new ArrayList<Datapoint>();
+			dataPoint = getMetricStatisticsResult.getDatapoints();
+			List<Double> avgcpulist = new ArrayList<Double>();
 
-		       return avgcpulist;
+			/*
+			 * for (Object aDataPoint : dataPoint) { Datapoint dp = (Datapoint)
+			 * aDataPoint; avgCPUUtilization = dp.getAverage();
+			 * avgcpulist.add(avgCPUUtilization); System.out.println(instanceId
+			 * + " instance's average CPU utilization : " + dp.getAverage()); }
+			 */
 
-		   } catch (AmazonServiceException ase) {
-		       log.severe("Caught an AmazonServiceException, which means the request was made  "
-		               + "to Amazon EC2, but was rejected with an error response for some reason.");
-		       log.severe("Error Message:    " + ase.getMessage());
-		       log.severe("HTTP Status Code: " + ase.getStatusCode());
-		       log.severe("AWS Error Code:   " + ase.getErrorCode());
-		       log.severe("Error Type:       " + ase.getErrorType());
-		       log.severe("Request ID:       " + ase.getRequestId());
+			return dataPoint;
 
-		   }
-		return null;
-		   
+		} catch (AmazonServiceException ase) {
+			log.severe("Caught an AmazonServiceException, which means the request was made  "
+					+ "to Amazon EC2, but was rejected with an error response for some reason.");
+			log.severe("Error Message:    " + ase.getMessage());
+			log.severe("HTTP Status Code: " + ase.getStatusCode());
+			log.severe("AWS Error Code:   " + ase.getErrorCode());
+			log.severe("Error Type:       " + ase.getErrorType());
+			log.severe("Request ID:       " + ase.getRequestId());
+
 		}
+		return null;
+
+	}
+
+	public ArrayList<AWSMetric> getallmonitoring() {
+		AWSInstanceState awi = new AWSInstanceState();
+		BasicAWSCredentials bas = awi.getCredentials();
+		AmazonCloudWatchClient cw = new AmazonCloudWatchClient(bas);
+		cw.setRegion(Region.getRegion(Regions.US_WEST_2));
+		long offsetInMilliseconds = 1000 * 60 * 60 * 24;
+
+		DescribeInstancesResult dir = amazonEC2.describeInstances();
+
+		List<Reservation> reservations = dir.getReservations();
+
+		Set<Instance> instances = new HashSet<Instance>();
+
+		for (Reservation reservation : reservations) {
+			instances.addAll(reservation.getInstances());
+		}
+
+		ArrayList<AWSMetric> awsMetric = new ArrayList<AWSMetric>();
+
+		AWSMetric awm1 = new AWSMetric();
+		
+		ArrayList<String> inst = new ArrayList<String>();
+
+		for (Instance ins : instances) 
+		{
+			inst.add(ins.getInstanceId());
+		}
+
+//		for (int i = 0; i < inst.size(); i++) 
+//		{
+//			
+//			awm1.instanceID = inst.get(i);
+//			//awsMetric.add(awm1);
+//		}
+		
+		System.out.println("i have the size to be the size is: "
+				+ awsMetric.size());
+		int size = awsMetric.size();
+		for (int j = 0; j < inst.size(); j++) {
+			awm1.instanceID = inst.get(j);
+			String InstanceID = inst.get(j);
+			GetMetricStatisticsRequest request = new GetMetricStatisticsRequest()
+			.withStartTime(
+					new Date(new Date().getTime()
+							- offsetInMilliseconds))
+							.withNamespace("AWS/EC2")
+							.withPeriod(60 * 60)
+							.withDimensions(
+									new Dimension().withName("InstanceId").withValue(
+											InstanceID))
+											.withMetricName("CPUUtilization").withStatistics("Average")
+											.withEndTime(new Date());
+			GetMetricStatisticsResult getMetricStatisticsResult = cw
+					.getMetricStatistics(request);
+			// double avgCPUUtilization = 0;
+			List<Datapoint> dataPoint = new ArrayList<Datapoint>();
+			dataPoint = getMetricStatisticsResult.getDatapoints();
+			List<Double> avgcpulist = new ArrayList<Double>();
+			for (Object aDataPoint : dataPoint) {
+				Datapoint dp = (Datapoint) aDataPoint;
+				awm1.CPUUtilization = dp.getAverage();
+				System.out
+				.println("what is the value here :" + dp.getAverage());
+				System.out.println("here" + awm1.CPUUtilization);
+				// avgCPUUtilization = dp.getAverage();
+				// avgcpulist.add(avgCPUUtilization);
+
+				System.out.println(InstanceID
+						+ " instance's average CPU utilization : "
+						+ dp.getAverage());
+			}
+			GetMetricStatisticsRequest request1 = new GetMetricStatisticsRequest()
+			.withStartTime(
+					new Date(new Date().getTime()
+							- offsetInMilliseconds))
+							.withNamespace("AWS/EC2")
+							.withPeriod(60 * 60 * 60)
+							.withDimensions(
+									new Dimension().withName("InstanceId").withValue(
+											InstanceID))
+											.withMetricName("DiskWriteBytes").withStatistics("Average")
+											.withEndTime(new Date());
+			GetMetricStatisticsResult getMetricStatisticsResult1 = cw
+					.getMetricStatistics(request1);
+			// double avgCPUUtilization = 0;
+			List<Datapoint> dataPoint1 = new ArrayList<Datapoint>();
+			dataPoint1 = getMetricStatisticsResult1.getDatapoints();
+			System.out.println("whats here: " +dataPoint1.toString());
+			for (Object aDataPoint1 : dataPoint1) {
+				Datapoint dp1 = (Datapoint) aDataPoint1;
+						double db1 = dp1.getAverage();	
+						System.out.println("value" +db1);
+				awm1.DiskWriteBytes = db1;
+				//System.out.println("The disk write byte is: " +awm1.DiskWriteBytes);
+
+			}
+			awsMetric.add(j, awm1);
+			//System.out.println("The size of the list is" + awsMetric.size());
+		}
+
+		//System.out.println(awsMetric.get(0).instanceID.toString());
+		Gson gson = new GsonBuilder().create();
+		// String aws1 = gson.toJson(awsMetric);
+		JsonArray js = gson.toJsonTree(awsMetric).getAsJsonArray();
+
+		return awsMetric;
+
+	}
+
 }
