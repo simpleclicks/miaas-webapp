@@ -49,9 +49,12 @@ public class ProcessRequestService {
     	
     	List<AmazonInstance> allInstances = amaInstanceRepository.findAll();
     	BigDecimal resrcQuantity = new BigDecimal(req.getResourceQuantity().toString());
+    	
+    	
+    	
     	try{
     	for (AmazonInstance amazonInstance : allInstances) {
-    		
+    		System.out.println(amazonInstance.getAvailableResources().toString());
 			if(amazonInstance.getAvailableResources().compareTo(resrcQuantity) >= 0){
 				assignDevicesOnAmazonInstance(req, amazonInstance,
 						resrcQuantity);
@@ -70,14 +73,15 @@ public class ProcessRequestService {
 			}
 		}
     	
-    	if(resrcQuantity.compareTo(new BigDecimal(0))>0){
-    		AWSInstanceAction aia = new AWSInstanceAction();
-    		AmazonInstance i = aia.CreateInstance();
-    		amaInstanceRepository.save(i);
-    		//AmazonInstance i = amaInstanceRepository.getAmazonInstancebyId("i-54f5c05b");
-    		assignDevicesOnAmazonInstance(req, i, resrcQuantity);
-    		//mockDevicesonInstance(req);
-    	}
+//    	if(resrcQuantity.compareTo(new BigDecimal(0))>0){
+//    		AWSInstanceAction aia = new AWSInstanceAction();
+//    		AmazonInstance i = aia.CreateInstance();
+//    		//initializeInstance(i);
+//    		amaInstanceRepository.save(i);
+//    		//AmazonInstance i = amaInstanceRepository.getAmazonInstancebyId("i-54f5c05b");
+//    		assignDevicesOnAmazonInstance(req, i, resrcQuantity);
+//    		//mockDevicesonInstance(req);
+//    	}
     	}
     	catch(Exception e){
     		e.printStackTrace();
@@ -85,6 +89,45 @@ public class ProcessRequestService {
     	
     	//sendRequestToAmazonInstance(req);
 
+	}
+
+	private void initializeInstance(AmazonInstance i) throws IOException, InterruptedException {
+		
+		Thread.sleep(10000);
+		
+		URL targetUrl = new URL("http://" +i.getPublicDnsName() + ":8080/simpleapp/webapi/androidcontrol/initialize");
+
+		HttpURLConnection httpConnection = (HttpURLConnection) targetUrl.openConnection();
+		httpConnection.setDoOutput(true);
+		httpConnection.setRequestMethod("GET");
+		
+
+		//String input = "{\"id\":1,\"firstName\":\"Liam\",\"age\":22,\"lastName\":\"Marco\"}";
+
+		OutputStream outputStream = httpConnection.getOutputStream();
+		//outputStream.write(data.getBytes());
+		outputStream.flush();
+		InputStream is = httpConnection.getInputStream();
+		StringBuffer sb = new StringBuffer();
+		 //JSONArray devices = null;
+		if (httpConnection.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : "
+				+ httpConnection.getResponseCode());
+		}
+		else {
+			int ch;
+		      while ((ch = is.read()) != -1) {
+		        sb.append((char) ch);
+		      }
+//		      httpConnection.disconnect();
+		     
+		    	System.out.println(sb.toString());
+				//devices = new JSONArray(sb.toString());
+		    	
+		      
+		}
+
+		httpConnection.disconnect();
 	}
 
 	private void assignDevicesOnAmazonInstance(Request req,
@@ -153,7 +196,7 @@ public class ProcessRequestService {
      
     	}
     	
-    	URL targetUrl = new URL(ainst.getPublicDnsName() + ":8080/simpleapp/webapi/androidcontrol/assign");
+    	URL targetUrl = new URL("http://" +ainst.getPublicDnsName() + ":8080/simpleapp/webapi/androidcontrol/assign");
 
 		HttpURLConnection httpConnection = (HttpURLConnection) targetUrl.openConnection();
 		httpConnection.setDoOutput(true);

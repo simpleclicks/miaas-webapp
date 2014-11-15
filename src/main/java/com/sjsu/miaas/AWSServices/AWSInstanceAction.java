@@ -108,7 +108,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 	public AmazonInstance CreateInstance() throws InterruptedException {
 		Instance aws = new Instance();
 		RunInstancesRequest rir = new RunInstancesRequest()
-				.withInstanceType("g2.2xlarge").withKeyName("webserver1")
+				.withInstanceType("g2.2xlarge").withKeyName("miaas")
 				.withImageId("ami-15e3ab25").withMinCount(1).withMaxCount(1)
 				.withSecurityGroupIds("sg-45791720");
 		RunInstancesResult run = amazonEC2.runInstances(rir);
@@ -140,26 +140,24 @@ public class AWSInstanceAction extends AWSInstanceState {
 			is = newInst.getState();
 			System.out.println(is.toString());
 		}
-<<<<<<< HEAD
+
 		//put a thread which checks that the state of the instance is entered running.
 		//until that you keep on checking.
 		// once done, describe instances and return the instance with the specified instance id 
 		// in newInstance.
 		//String ipaddress = newInst.getPublicIpAddress();
 		//System.out.println(ipaddress);
-		AllocateAddressRequest awr = new AllocateAddressRequest().withDomain(DomainType.Vpc);
-		AllocateAddressResult aar = amazonEC2.allocateAddress(awr);
-		
-		AssociateAddressRequest assor = new AssociateAddressRequest(newInst.getInstanceId(),aar.getPublicIp());
-		amazonEC2.associateAddress(assor);
-		
-		
-=======
-		
-		AssociateAddressRequest req = new AssociateAddressRequest();
-		req.setInstanceId(newInst.getInstanceId());
-		AssociateAddressResult res = amazonEC2.associateAddress(req);
->>>>>>> origin
+//		AllocateAddressRequest awr = new AllocateAddressRequest().withDomain(DomainType.Vpc);
+//		AllocateAddressResult aar = amazonEC2.allocateAddress(awr);
+//		
+//		AssociateAddressRequest assor = new AssociateAddressRequest(newInst.getInstanceId(),aar.getPublicIp());
+//		amazonEC2.associateAddress(assor);
+//		
+//		
+//		AssociateAddressRequest req = new AssociateAddressRequest();
+//		req.setInstanceId(newInst.getInstanceId());
+//		AssociateAddressResult res = amazonEC2.associateAddress(req);
+
 		
 		AmazonInstance newDbObj = new AmazonInstance();
 		newDbObj.setInstanceId(newInst.getInstanceId());
