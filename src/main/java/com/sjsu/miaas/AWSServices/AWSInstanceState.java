@@ -39,9 +39,8 @@ public class AWSInstanceState {
 		// return new EnvironmentVariableCredentialsProvider().getCredentials();
 		// return new PropertiesCredentials(
 		// AWSInstanceState.class.getResourceAsStream("credentials"));
-		BasicAWSCredentials awsCredentials = new BasicAWSCredentials(
-				"AKIAJSUT2UKGH5EBDXJA",
-				"Ou1nETXoP/+UGX6MeM4BSToDZ12yS79m9cyPZLep");
+		BasicAWSCredentials awsCredentials = new BasicAWSCredentials("aaa","aaa");
+
 		return awsCredentials;
 	}
 
