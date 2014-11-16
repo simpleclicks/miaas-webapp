@@ -73,15 +73,15 @@ public class ProcessRequestService {
 			}
 		}
     	
-//    	if(resrcQuantity.compareTo(new BigDecimal(0))>0){
-//    		AWSInstanceAction aia = new AWSInstanceAction();
-//    		AmazonInstance i = aia.CreateInstance();
-//    		//initializeInstance(i);
-//    		amaInstanceRepository.save(i);
-//    		//AmazonInstance i = amaInstanceRepository.getAmazonInstancebyId("i-54f5c05b");
-//    		assignDevicesOnAmazonInstance(req, i, resrcQuantity);
-//    		//mockDevicesonInstance(req);
-//    	}
+    	if(resrcQuantity.compareTo(new BigDecimal(0))>0){
+    		AWSInstanceAction aia = new AWSInstanceAction();
+    		AmazonInstance i = aia.CreateInstance();
+    		initializeInstance(i);
+    		amaInstanceRepository.save(i);
+    		//AmazonInstance i = amaInstanceRepository.getAmazonInstancebyId("i-54f5c05b");
+    		assignDevicesOnAmazonInstance(req, i, resrcQuantity);
+    		//mockDevicesonInstance(req);
+    	}
     	}
     	catch(Exception e){
     		e.printStackTrace();

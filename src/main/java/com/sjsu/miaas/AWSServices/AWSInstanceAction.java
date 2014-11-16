@@ -125,8 +125,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 		InstanceState is = run.getReservation().getInstances().get(0)
 				.getState();
 		System.out.println(is.toString());
-		// String ipaddress =
-		// run.getReservation().getInstances().get(0).getPublicIpAddress();
+		
 		Instance newInst = null;
 		while (!is.toString().contains("running")) {
 			DescribeInstancesResult dir = amazonEC2.describeInstances();
@@ -150,47 +149,6 @@ public class AWSInstanceAction extends AWSInstanceState {
 			is = newInst.getState();
 			System.out.println(is.toString());
 		}
-
-
-		//put a thread which checks that the state of the instance is entered running.
-		//until that you keep on checking.
-		// once done, describe instances and return the instance with the specified instance id 
-		// in newInstance.
-		//String ipaddress = newInst.getPublicIpAddress();
-		//System.out.println(ipaddress);
-//		AllocateAddressRequest awr = new AllocateAddressRequest().withDomain(DomainType.Vpc);
-//		AllocateAddressResult aar = amazonEC2.allocateAddress(awr);
-//		
-//		AssociateAddressRequest assor = new AssociateAddressRequest(newInst.getInstanceId(),aar.getPublicIp());
-//		amazonEC2.associateAddress(assor);
-//		
-//		
-//		AssociateAddressRequest req = new AssociateAddressRequest();
-//		req.setInstanceId(newInst.getInstanceId());
-//		AssociateAddressResult res = amazonEC2.associateAddress(req);
-
-		
-
-		// put a thread which checks that the state of the instance is entered
-		// running.
-		// until that you keep on checking.
-		// once done, describe instances and return the instance with the
-		// specified instance id
-		// in newInstance.
-		// String ipaddress = newInst.getPublicIpAddress();
-		// System.out.println(ipaddress);
-		AllocateAddressRequest awr = new AllocateAddressRequest()
-		.withDomain(DomainType.Vpc);
-		AllocateAddressResult aar = amazonEC2.allocateAddress(awr);
-
-		AssociateAddressRequest assor = new AssociateAddressRequest(
-				newInst.getInstanceId(), aar.getPublicIp());
-		amazonEC2.associateAddress(assor);
-
-		AssociateAddressRequest req = new AssociateAddressRequest();
-		req.setInstanceId(newInst.getInstanceId());
-		AssociateAddressResult res = amazonEC2.associateAddress(req);
-
 
 		AmazonInstance newDbObj = new AmazonInstance();
 		newDbObj.setInstanceId(newInst.getInstanceId());
@@ -230,13 +188,6 @@ public class AWSInstanceAction extends AWSInstanceState {
 			List<Datapoint> dataPoint = new ArrayList<Datapoint>();
 			dataPoint = getMetricStatisticsResult.getDatapoints();
 			List<Double> avgcpulist = new ArrayList<Double>();
-
-			/*
-			 * for (Object aDataPoint : dataPoint) { Datapoint dp = (Datapoint)
-			 * aDataPoint; avgCPUUtilization = dp.getAverage();
-			 * avgcpulist.add(avgCPUUtilization); System.out.println(instanceId
-			 * + " instance's average CPU utilization : " + dp.getAverage()); }
-			 */
 
 			return dataPoint;
 
@@ -282,17 +233,12 @@ public class AWSInstanceAction extends AWSInstanceState {
 			inst.add(ins.getInstanceId());
 		}
 
-//		for (int i = 0; i < inst.size(); i++) 
-//		{
-//			
-//			awm1.instanceID = inst.get(i);
-//			//awsMetric.add(awm1);
-//		}
 		
 		System.out.println("i have the size to be the size is: "
 				+ awsMetric.size());
 		int size = awsMetric.size();
 		for (int j = 0; j < inst.size(); j++) {
+			awm1 = new AWSMetric();
 			awm1.instanceID = inst.get(j);
 			String InstanceID = inst.get(j);
 			GetMetricStatisticsRequest request = new GetMetricStatisticsRequest()

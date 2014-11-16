@@ -44,8 +44,19 @@ public class Request implements Serializable {
 
     @Column(name = "resource_quantity")
     private Integer resourceQuantity;
+    
+    @Column(name = "request_price")
+    private Integer requestPrice;
 
-    @Column(name = "resource_type")
+    public Integer getRequestPrice() {
+		return requestPrice;
+	}
+
+	public void setRequestPrice(Integer requestPrice) {
+		this.requestPrice = requestPrice;
+	}
+
+	@Column(name = "resource_type")
     private String resourceType;
 
     @Column(name = "resource_version")

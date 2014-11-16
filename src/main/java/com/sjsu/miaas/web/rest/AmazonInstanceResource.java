@@ -1,8 +1,11 @@
 package com.sjsu.miaas.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.sjsu.miaas.AWSServices.AWSMetric;
 import com.sjsu.miaas.domain.AmazonInstance;
 import com.sjsu.miaas.repository.AmazonInstanceRepository;
+import com.sjsu.miaas.service.AmazonInstanceService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.List;
 
 /**
@@ -25,6 +29,9 @@ public class AmazonInstanceResource {
 
     @Inject
     private AmazonInstanceRepository amazoninstanceRepository;
+    
+    @Inject
+    private AmazonInstanceService amazinInstService;
 
     /**
      * POST  /rest/amazoninstances -> Create a new amazoninstance.
@@ -64,6 +71,22 @@ public class AmazonInstanceResource {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(amazoninstance, HttpStatus.OK);
+    }
+    
+    /**
+     * GET  /rest/amazoninstances/:id -> get the "id" amazoninstance.
+     */
+    @RequestMapping(value = "/rest/amazoninstances/monitor",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<AWSMetric>> getInstanceMetrics(HttpServletResponse response) {
+        log.debug("REST request to get AmazonInstance metrics : {}");
+        List<AWSMetric> awsMetrics = amazinInstService.getAmazonMetrics();
+        if (awsMetrics == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(awsMetrics, HttpStatus.OK);
     }
 
     /**

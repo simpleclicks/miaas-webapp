@@ -1,10 +1,21 @@
 package com.sjsu.miaas.AWSServices;
 
+import java.math.BigDecimal;
+
 public class AWSMetric {
 	
 	String instanceID = null;
 	double CPUUtilization = 0;
 	double DiskWriteBytes;
+	BigDecimal availableResources;
+
+	public BigDecimal getAvailableResources() {
+		return availableResources;
+	}
+
+	public void setAvailableResources(BigDecimal availableResources) {
+		this.availableResources = availableResources;
+	}
 
 	public AWSMetric()
 	{
