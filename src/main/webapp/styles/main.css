@@ -100,3 +100,15 @@ ul#strength {
     width:20px;
 }
 /* end Password strength bar style */
+
+.itemWrapper{
+    width: 100%;
+}
+
+.gauge{
+    float:left;
+}
+
+.gaugeResrcs{
+    float:left;
+}

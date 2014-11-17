@@ -3,7 +3,7 @@
  */
 
 miaasApp.factory('Network', function ($resource) {
-    return $resource('app/rest/devices/:id', {}, {
+    return $resource('app/rest/amazoninstances/monitor', {}, {
         'query': { method: 'GET', isArray: true},
         'get': { method: 'GET'}
     });
