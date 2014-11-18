@@ -6,3 +6,15 @@ miaasApp.factory('Device', function ($resource) {
             'get': { method: 'GET'}
         });
     });
+
+miaasApp.factory('Emulator', function ($http) {
+
+    return {
+        startDeviceEmulator: function(devid) {
+            var promise = $http.get('app/rest/start/device/'+devid).then(function (response) {
+                return response.data;
+            });
+            return promise;
+        }
+    };
+});

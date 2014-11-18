@@ -193,11 +193,11 @@
                                                             <p>Device Name : {{device.deviceId}}</p>
                                                             <p>Device Memory : {{device.deviceMemory}}</p>
                                                             <p>Device Version : {{device.deviceVersion}}</p>
-                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#saveRequestModal" ng-click="clear()">
+                                                            <button class="btn btn-primary" ng-click="startDevice(device.deviceId)">
                                                                 <span class="glyphicon glyphicon-play"></span> Start
                                                             </button>
 
-                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#saveRequestModal" ng-click="clear()">
+                                                            <button class="btn btn-primary" ng-click="clear()">
                                                                 <span class="glyphicon glyphicon-stop"></span> Stop
                                                             </button>
                                                         </li>

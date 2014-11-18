@@ -1,6 +1,6 @@
 'use strict';
 
-miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest, RequestDevices) {
+miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest, RequestDevices, Emulator) {
     var resourcePricePerDay = 5;
 
     $scope.preDefRequestType = [
@@ -78,7 +78,13 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         RequestDevices.getDevicesForReq(req.id).then(function (data) {
             $scope.requestDevices = data;
         });
-    }
+    };
+
+    $scope.startDevice = function (devId) {
+        Emulator.startDeviceEmulator(devId).then(function (data){
+           console.log(data);
+        });
+    };
 
     $scope.clear = function () {
         $scope.request = {requestType: null, requestStartDate: null, requestEndDate: null, resourceQuantity: null, resourceType: null, resourceVersion: null, resourceMemory: null, resourceBackup: null, id: null};
