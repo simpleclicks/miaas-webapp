@@ -93,7 +93,7 @@ public class ProcessRequestService {
 
 	private void initializeInstance(AmazonInstance i) throws IOException, InterruptedException {
 		
-		Thread.sleep(10000);
+		Thread.sleep(30000);
 		
 		URL targetUrl = new URL("http://" +i.getPublicDnsName() + ":8080/simpleapp/webapi/androidcontrol/initialize");
 
@@ -104,9 +104,9 @@ public class ProcessRequestService {
 
 		//String input = "{\"id\":1,\"firstName\":\"Liam\",\"age\":22,\"lastName\":\"Marco\"}";
 
-		OutputStream outputStream = httpConnection.getOutputStream();
+		//OutputStream outputStream = httpConnection.getOutputStream();
 		//outputStream.write(data.getBytes());
-		outputStream.flush();
+		//outputStream.flush();
 		InputStream is = httpConnection.getInputStream();
 		StringBuffer sb = new StringBuffer();
 		 //JSONArray devices = null;

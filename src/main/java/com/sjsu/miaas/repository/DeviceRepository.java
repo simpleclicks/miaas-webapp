@@ -16,4 +16,7 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
 	
 	@Query("select d from Device d where d.request_id = ?1")
     List<Device> getDevicesByRequestId(BigInteger requestId);
+	
+	@Query("select d from Device d where d.deviceId = ?1")
+    Device getDevicesByDeviceId(String deviceId);
 }
