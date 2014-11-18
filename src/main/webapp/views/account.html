@@ -193,6 +193,13 @@
                                                             <p>Device Name : {{device.deviceId}}</p>
                                                             <p>Device Memory : {{device.deviceMemory}}</p>
                                                             <p>Device Version : {{device.deviceVersion}}</p>
+                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#saveRequestModal" ng-click="clear()">
+                                                                <span class="glyphicon glyphicon-play"></span> Start
+                                                            </button>
+
+                                                            <button class="btn btn-primary" data-toggle="modal" data-target="#saveRequestModal" ng-click="clear()">
+                                                                <span class="glyphicon glyphicon-stop"></span> Stop
+                                                            </button>
                                                         </li>
                                                     </ul>
                                                 </div>
