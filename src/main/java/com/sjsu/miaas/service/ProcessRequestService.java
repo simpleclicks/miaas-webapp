@@ -62,6 +62,7 @@ public class ProcessRequestService {
 					assignDevicesOnAmazonInstance(req, amazonInstance,
 							resrcQuantity);
 					// mockDevicesonInstance(req);
+					System.out.println("Inside if Assigning " + resrcQuantity.toString() +" resources.");
 					resrcQuantity = resrcQuantity.subtract(assignResrcs);
 					break;
 				} else if (amazonInstance.getAvailableResources().compareTo(
@@ -71,22 +72,35 @@ public class ProcessRequestService {
 					assignDevicesOnAmazonInstance(req, amazonInstance,
 							assignResrcs);
 					// mockDevicesonInstance(req);
+					System.out.println("Inside else Assigning " + assignResrcs.toString() +" resources.");
 					resrcQuantity = resrcQuantity.subtract(assignResrcs);
 				}
 				if (resrcQuantity.compareTo(new BigDecimal(0)) == 0) {
 					break;
 				}
 			}
-
+			
+			int i = 0;
 			while (resrcQuantity.compareTo(new BigDecimal(0)) > 0) {
+				//i++;
+				System.out.println("create new instance Assigning " + resrcQuantity.toString() +" resources.");
 				AWSInstanceAction aia = new AWSInstanceAction();
-				AmazonInstance i = aia.CreateInstance();
-				initializeInstance(i);
-				amaInstanceRepository.save(i);
-				// //AmazonInstance i =
-				// amaInstanceRepository.getAmazonInstancebyId("i-54f5c05b");
-				assignDevicesOnAmazonInstance(req, i, resrcQuantity);
-				// mockDevicesonInstance(req);
+				AmazonInstance ai = aia.CreateInstance();
+				initializeInstance(ai);
+				amaInstanceRepository.save(ai);
+				BigDecimal ten = new BigDecimal(10);
+				if(resrcQuantity.compareTo(ten) > 0){
+					//ai.setAvailableResources(new BigDecimal(0));
+					assignDevicesOnAmazonInstance(req, ai, ten);
+					resrcQuantity = resrcQuantity.subtract(ten);
+				}
+				else{
+					//ai.setAvailableResources(ten.subtract(resrcQuantity));
+					assignDevicesOnAmazonInstance(req, ai, resrcQuantity);
+					resrcQuantity = new BigDecimal(0);
+				}
+				amaInstanceRepository.save(ai);
+
 			}
 
 		} catch (Exception e) {
@@ -100,7 +114,7 @@ public class ProcessRequestService {
 	private void initializeInstance(AmazonInstance i) throws IOException,
 			InterruptedException {
 
-		Thread.sleep(30000);
+		Thread.sleep(50000);
 
 		URL targetUrl = new URL("http://" + i.getPublicDnsName()
 				+ ":8080/simpleapp/webapi/androidcontrol/initialize");

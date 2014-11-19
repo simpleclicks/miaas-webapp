@@ -146,7 +146,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 			is = newInst.getState();
 			System.out.println("Entered:");
 			Thread.sleep(15000);
-			is = newInst.getState();
+			//is = newInst.getState();
 			System.out.println(is.toString());
 		}
 
@@ -156,7 +156,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 		newDbObj.setInstanceRegion(newInst.getPlacement().getAvailabilityZone());
 		newDbObj.setInstanceStatus(newInst.getState().getName());
 		newDbObj.setInstanceType(newInst.getInstanceType());
-		newDbObj.setAvailableResources(new BigDecimal(10));
+		newDbObj.setAvailableResources(new BigDecimal(20));
 
 		newDbObj.setPublicDnsName(newInst.getPublicDnsName());
 		return newDbObj;
