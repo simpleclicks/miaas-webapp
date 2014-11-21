@@ -115,7 +115,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 		Instance aws = new Instance();
 		RunInstancesRequest rir = new RunInstancesRequest()
 		.withInstanceType("g2.2xlarge").withKeyName("webserver1")
-		.withImageId("ami-15e3ab25").withMinCount(1).withMaxCount(1)
+		.withImageId("ami-996633a9").withMinCount(1).withMaxCount(1)
 		.withSecurityGroupIds("sg-e7bad882");
 
 		RunInstancesResult run = amazonEC2.runInstances(rir);
@@ -127,6 +127,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 		System.out.println(is.toString());
 		
 		Instance newInst = null;
+		DescribeInstancesRequest req = new DescribeInstancesRequest();
 		while (!is.toString().contains("running")) {
 			DescribeInstancesResult dir = amazonEC2.describeInstances();
 			List<Reservation> reservations = dir.getReservations();
