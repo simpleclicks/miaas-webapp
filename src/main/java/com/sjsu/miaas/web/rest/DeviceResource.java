@@ -4,8 +4,10 @@ import com.codahale.metrics.annotation.Timed;
 import com.sjsu.miaas.domain.Device;
 import com.sjsu.miaas.repository.DeviceRepository;
 import com.sjsu.miaas.service.StartEmulatorService;
+import com.sjsu.miaas.service.UserStatistics;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,9 @@ public class DeviceResource {
 
 	@Inject
 	private StartEmulatorService startEmulator; 
+	
+	@Inject
+	private UserStatistics userStat; 
 
 	/**
 	 * POST  /rest/devices -> Create a new device.
@@ -109,6 +114,7 @@ public class DeviceResource {
 		String result =null;
 		try {
 			result = startEmulator.start(id);
+			
 		} catch (MalformedURLException e) {
 
 			e.printStackTrace();
@@ -126,7 +132,29 @@ public class DeviceResource {
 
 	}
 
+	
+	@RequestMapping(value = "/rest/userStatistics/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public JSONObject getUserStatistics(@PathVariable String id) throws JSONException {
+		log.info("REST request to get user statistics : {}", id);
+		//        Device device = deviceRepository.findOne(id);
+		//        if (device == null) {
+		//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//        }else{
+		//        	
+		//        }
+		//        return new ResponseEntity<>(device, HttpStatus.OK);
+		JSONObject result = userStat.userData(id);
+		
+		return result;
+		
+	}
 
+	
+	
+	
 
 	/**
 	 * DELETE  /rest/devices/:id -> delete the "id" device.
