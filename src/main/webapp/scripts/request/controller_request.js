@@ -2,6 +2,83 @@
 
 miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest, RequestDevices, Emulator) {
     var resourcePricePerDay = 5;
+    $scope.requestTotalPrice = 0;
+    $scope.requests = resolvedRequest;
+    //$scope.users = resolvedUser;
+    $scope.users = $rootScope.account.login;
+
+    $('#myTab a[data-target="#request"]').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    $('#myTab a[data-target="#billing"]').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+        //$scope.requestTotalPrice = calculateBill();
+        $scope.showPie();
+    });
+
+    $scope.exampleData = [];
+
+    $scope.showPie = function(){
+        var j = 0;
+        for(var i=0;i<$scope.requests.length;i++){
+            $scope.exampleData[j] = {
+                key : $scope.requests[i].id,
+                y : $scope.requests[i].requestPrice
+            };
+            j++;
+        }
+        return $scope.exampleData;
+    };
+
+    $scope.calculateBill = function(){
+        var price = 0;
+        for(var i=0;i<$scope.requests.length;i++){
+            price += resolvedRequest[i].requestPrice;
+        }
+        console.log(price);
+        return price;
+    };
+
+    $(document).ready(function () {
+        $('.grid-nav li a').on('click', function (event) {
+            event.preventDefault();
+            $('.grid-container').fadeOut(500, function () {
+                $('#' + gridID).fadeIn(500);
+            });
+            var gridID = $(this).attr("data-id");
+
+            $('.grid-nav li a').removeClass("active");
+            $(this).addClass("active");
+        });
+
+
+    });
+
+
+//    $scope.exampleData = [
+//        { key: "One", y: 5 },
+//        { key: "Two", y: 2 },
+//        { key: "Three", y: 9 },
+//        { key: "Four", y: 7 },
+//        { key: "Five", y: 4 },
+//        { key: "Six", y: 3 },
+//        { key: "Seven", y: 9 }
+//    ];
+
+    $scope.xFunction = function(){
+        return function(d) {
+            return d.key;
+        };
+    };
+
+    $scope.yFunction = function(){
+        return function(d){
+            return d.y;
+        };
+    };
 
     $scope.preDefRequestType = [
         { value: 'Android', text: 'Android' },
@@ -27,10 +104,6 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         { value: '512', text: '512 mb' },
         { value: '1024', text: '1024 mb' }
     ];
-
-    $scope.requests = resolvedRequest;
-    //$scope.users = resolvedUser;
-    $scope.users = $rootScope.account.login;
 
     $scope.create = function () {
         var userobj = {
@@ -81,12 +154,20 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
     };
 
     $scope.startDevice = function (devId) {
-        Emulator.startDeviceEmulator(devId).then(function (data){
-           console.log(data);
+        Emulator.startDeviceEmulator(devId).then(function (data) {
+            console.log(data);
         });
     };
 
     $scope.clear = function () {
         $scope.request = {requestType: null, requestStartDate: null, requestEndDate: null, resourceQuantity: null, resourceType: null, resourceVersion: null, resourceMemory: null, resourceBackup: null, id: null};
     };
+
+    $scope.oneAtATime = true;
+
+    $scope.status = {
+        isFirstOpen: true,
+        isFirstDisabled: false
+    };
+
 });

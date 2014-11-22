@@ -3,7 +3,7 @@
 /* App Module */
 
 var miaasApp = angular.module('miaasApp', ['http-auth-interceptor', 'tmh.dynamicLocale',
-    'ngResource', 'ngRoute', 'ngCookies', 'miaasAppUtils', 'pascalprecht.translate', 'truncate']);
+    'ngResource', 'ngRoute', 'ngCookies', 'miaasAppUtils', 'pascalprecht.translate', 'truncate','nvd3ChartDirectives','ui.bootstrap']);
 
 miaasApp
     .config(function ($routeProvider, $httpProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {

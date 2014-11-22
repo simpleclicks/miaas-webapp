@@ -1,431 +1,263 @@
-<!--<link rel="stylesheet" type="text/css" href="css/style.css" />-->
-<!--<link rel="stylesheet" type="text/css" href="css/font-awesome.css" />-->
+<div class="row">
+<ul class="nav nav-tabs" role="tablist" id="myTab">
+    <li role="presentation" class="active"><a data-target="#request" href="" role="tab" data-toggle="tab">Request</a>
+    </li>
+    <li role="presentation"><a data-target="#billing" href="" role="tab" data-toggle="tab">Billing</a></li>
+</ul>
 
-<style type="text/css">
-    * {
-        margin: 0;
-        padding: 0;
-    }
-    /*body {*/
-    /*background: url(images/noise_light-grey.jpg);*/
-    /*font-family: 'Helvetica Neue', arial, sans-serif;*/
-    /*font-weight: 200;*/
-    /*}*/
+<div class="tab-content">
+<div role="tabpanel" class="tab-pane active" id="request">
+<div>
+<h3>Make a New Request</h3>
 
-    /*h1 {*/
-    /*font-family: 'Oswald', sans-serif;*/
-    /*font-size: 4em;*/
-    /*font-weight: 400;*/
-    /*margin: 0 0 20px;*/
-    /*text-align: center;*/
-    /*text-shadow: 1px 1px 0 #fff, 2px 2px 0 #bbb;*/
-    /*}*/
-    hr {
-        border-top: 1px solid #ccc;
-        border-bottom: 1px solid #fff;
-        margin: 25px 0;
-        clear: both;
-    }
-    .centered {
-        text-align: center;
-    }
-    .wrapper {
-        width: 100%;
-        padding: 30px 0;
-    }
-    .container1 {
-        width: auto;
-        margin: 0 auto;
-    }
-    ul.grid-nav {
-        list-style: none;
-        font-size: .85em;
-        font-weight: 200;
-        text-align: center;
-    }
-    ul.grid-nav li {
-        display: inline-block;
-    }
-    ul.grid-nav li a {
-        display: inline-block;
-        background: #999;
-        color: #fff;
-        padding: 10px 20px;
-        text-decoration: none;
-        border-radius: 4px;
-        -moz-border-radius: 4px;
-        -webkit-border-radius: 4px;
-    }
-    ul.grid-nav li a:hover {
-        background: #7b0;
-    }
-    ul.grid-nav li a.active {
-        background: #333;
-    }
-    .grid-container {
-        display: none;
-    }
-    /* ----- Image grids ----- */
-    ul.rig {
-        list-style: none;
-        font-size: 0px;
-        margin-left: -2.5%; /* should match li left margin */
-    }
-    ul.rig li {
-        display: inline-block;
-        padding: 10px;
-        margin: 0 0 2.5% 2.5%;
-        background: #fff;
-        border: 1px solid #ddd;
-        font-size: 16px;
-        font-size: 1rem;
-        vertical-align: top;
-        box-shadow: 0 0 5px #ddd;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-    }
-    ul.rig li img {
-        max-width: 50%;
-        height: auto;
-        margin: 0 0 10px;
-    }
-    ul.rig li h3 {
-        margin: 0 0 5px;
-    }
-    ul.rig li p {
-        font-size: .9em;
-        line-height: 1.5em;
-        color: #999;
-    }
-    /* class for 2 columns */
-    ul.rig.columns-2 li {
-        width: 47.5%; /* this value + 2.5 should = 50% */
-    }
-    /* class for 3 columns */
-    ul.rig.columns-3 li {
-        width: 30.83%; /* this value + 2.5 should = 33% */
-    }
-    /* class for 4 columns */
-    ul.rig.columns-4 li {
-        width: 22.5%; /* this value + 2.5 should = 25% */
-    }
+<button class="btn btn-primary" data-toggle="modal" data-target="#saveRequestModal" ng-click="clear()">
+    <span class="glyphicon glyphicon-flash"></span> New Request
+</button>
 
-    @media (max-width: 1199px) {
-        .container {
-            width: auto;
-            padding: 0 10px;
-        }
-    }
+<hr>
 
-    @media (max-width: 480px) {
-        ul.grid-nav li {
-            display: block;
-            margin: 0 0 5px;
-        }
-        ul.grid-nav li a {
-            display: block;
-        }
-        ul.rig {
-            margin-left: 0;
-        }
-        ul.rig li {
-            width: 100% !important; /* over-ride all li styles */
-            margin: 0 0 20px;
-        }
-    }
-</style>
+<div class="modal fade" id="deviceViewModal" tabindex="-1" role="dialog" aria-labelledby="myRequestLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="form" role="form" novalidate
+                  class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength">
 
-<div ng-cloak>
-    <div class="row">
-        <script>
-            $('#myTab a[data-target="#request"]').click(function (e) {
-                e.preventDefault()
-                $(this).tab('show')
-            });
-            $('#myTab a[data-target="#billing"]').click(function (e) {
-                e.preventDefault()
-                $(this).tab('show')
-            });
-        </script>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" id="myRequestLabel">Create or edit a Request</h4>
+                </div>
+                <div class="modal-body">
 
-        <div class="col-md-4">
+                    <div class="wrapper">
+                        <div class="container1">
 
-        </div>
+                            <div id="two-columns" class="grid-container" style="display:block;">
+                                <ul class="rig columns-3">
+                                    <li ng-repeat="device in requestDevices">
+                                        <img src="images/Nexus_5.png"/>
 
-        <ul class="nav nav-tabs" role="tablist" id="myTab">
-            <li role="presentation" class="active"><a data-target="#request" href="" role="tab" data-toggle="tab">Request</a></li>
-            <li role="presentation"><a data-target="#billing" href="" role="tab" data-toggle="tab">Billing</a></li>
-        </ul>
+                                        <p>Device Name : {{device.deviceId}}</p>
 
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="request">
-                <div>
-                    <h3>Make a New Request</h3>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#saveRequestModal" ng-click="clear()">
-                        <span class="glyphicon glyphicon-flash"></span> New Request
+                                        <p>Device Memory : {{device.deviceMemory}}</p>
+
+                                        <p>Device Version : {{device.deviceVersion}}</p>
+                                        <button class="btn btn-primary" ng-click="startDevice(device.deviceId)">
+                                            <span class="glyphicon glyphicon-play"></span> Start
+                                        </button>
+
+                                        <button class="btn btn-primary" ng-click="clear()">
+                                            <span class="glyphicon glyphicon-stop"></span> Stop
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--/.container-->
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
                     </button>
-
-                    <hr>
-
-                    <div class="modal fade" id="deviceViewModal" tabindex="-1" role="dialog" aria-labelledby="myRequestLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form name="form" role="form" novalidate
-                                      class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength">
-
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                                                ng-click="clear()">&times;</button>
-                                        <h4 class="modal-title" id="myRequestLabel">Create or edit a Request</h4>
-                                    </div>
-                                    <div class="modal-body">
-
-                                        <div class="wrapper">
-                                            <div class="container1">
-
-                                                <div id="two-columns" class="grid-container" style="display:block;">
-                                                    <ul class="rig columns-3">
-                                                        <li ng-repeat="device in requestDevices">
-                                                            <img src="images/Nexus_5.png" />
-
-                                                            <p>Device Name : {{device.deviceId}}</p>
-                                                            <p>Device Memory : {{device.deviceMemory}}</p>
-                                                            <p>Device Version : {{device.deviceVersion}}</p>
-                                                            <button class="btn btn-primary" ng-click="startDevice(device.deviceId)">
-                                                                <span class="glyphicon glyphicon-play"></span> Start
-                                                            </button>
-
-                                                            <button class="btn btn-primary" ng-click="clear()">
-                                                                <span class="glyphicon glyphicon-stop"></span> Stop
-                                                            </button>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!--/.container-->
-                                        </div>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
-                                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal fade" id="saveRequestModal" tabindex="-1" role="dialog" aria-labelledby="myRequestLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form name="form" role="form" novalidate
-                                      class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength"
-                                      ng-submit="create()">
-
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                                                ng-click="clear()">&times;</button>
-                                        <h4 class="modal-title" id="myRequestLabel">Create or edit a Request</h4>
-                                    </div>
-                                    <div class="modal-body">
-
-                                        <div class="form-group">
-                                            <label>resourceVersion</label>
-                                            <select class="form-control" ng-model="request.requestType" ng-options="obj.value as obj.text for obj in preDefRequestType">
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>requestStartDate</label>
-                                            <input type="date" class="form-control"
-                                                   ng-model="request.requestStartDate" required>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>requestEndDate</label>
-                                            <input type="date" class="form-control"
-                                                   ng-model="request.requestEndDate" required>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>resourceQuantity</label>
-                                            <input type="number" class="form-control"
-                                                   ng-model="request.resourceQuantity">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>resourceVersion</label>
-                                            <select class="form-control" ng-model="request.resourceType" ng-options="obj.value as obj.text for obj in preDefResourceType">
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>resourceVersion</label>
-                                            <select class="form-control" ng-model="request.resourceVersion" ng-options="obj.value as obj.text for obj in preDefResourceVersion">
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>resourceVersion</label>
-                                            <select class="form-control" ng-model="request.resourceMemory" ng-options="obj.value as obj.text for obj in preDefResourceMemory">
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>resourceBackup</label>
-                                            <input type="checkbox" class="form-control"
-                                                   ng-model="request.resourceBackup">
-                                        </div>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
-                                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                                        </button>
-                                        <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
-                                            <span class="glyphicon glyphicon-save"></span> Save
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3>Active Requests</h3>
-
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Type</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Quantity</th>
-                                <th>Type</th>
-                                <th>Version</th>
-                                <th>Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Active'">
-                                <td>{{request.requestType}}</td>
-                                <td>{{request.requestStartDate}}</td>
-                                <td>{{request.requestEndDate}}</td>
-                                <td>{{request.resourceQuantity}}</td>
-                                <td>{{request.resourceType}}</td>
-                                <td>{{request.resourceVersion}}</td>
-                                <td>{{request.requestStatus}}</td>
-                                <td><img src="images/right-arrow.png" data-toggle="modal" data-target="#deviceViewModal" ng-click="deviceView(request)"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <hr>
-
-                    <h3>Inactive Requests</h3>
-
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Type</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Quantity</th>
-                                <th>Type</th>
-                                <th>Version</th>
-                                <th>Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Inactive'" >
-                                <td>{{request.requestType}}</td>
-                                <td>{{request.requestStartDate}}</td>
-                                <td>{{request.requestEndDate}}</td>
-                                <td>{{request.resourceQuantity}}</td>
-                                <td>{{request.resourceType}}</td>
-                                <td>{{request.resourceVersion}}</td>
-                                <td>{{request.requestStatus}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
-            </div>
-
-            <div role="tabpanel" class="tab-pane" id="billing">
-                <h3>Current Bills</h3>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Active'" >
-                            <td>{{request.requestType}}</td>
-                            <td>{{request.requestStartDate}}</td>
-                            <td>{{request.requestEndDate}}</td>
-                            <td>{{request.resourceQuantity}}</td>
-                            <td>{{request.requestPrice}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <hr>
-
-                <h3>Previous Bills</h3>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Inactive'" >
-                            <td>{{request.requestType}}</td>
-                            <td>{{request.requestStartDate}}</td>
-                            <td>{{request.requestEndDate}}</td>
-                            <td>{{request.resourceQuantity}}</td>
-                            <td>{{request.requestPrice}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
+            </form>
         </div>
-
     </div>
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.grid-nav li a').on('click', function(event){
-            event.preventDefault();
-            $('.grid-container').fadeOut(500, function(){
-                $('#' + gridID).fadeIn(500);
-            });
-            var gridID = $(this).attr("data-id");
+<div class="modal fade" id="saveRequestModal" tabindex="-1" role="dialog" aria-labelledby="myRequestLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="form" role="form" novalidate
+                  class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength"
+                  ng-submit="create()">
 
-            $('.grid-nav li a').removeClass("active");
-            $(this).addClass("active");
-        });
-    });
-</script>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" id="myRequestLabel">Create or edit a Request</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Resource Version</label>
+                        <select class="form-control" ng-model="request.requestType"
+                                ng-options="obj.value as obj.text for obj in preDefRequestType">
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Request Start Date</label>
+                        <input type="date" class="form-control"
+                               ng-model="request.requestStartDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Request End Date</label>
+                        <input type="date" class="form-control"
+                               ng-model="request.requestEndDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Resource Quantity</label>
+                        <input type="number" class="form-control"
+                               ng-model="request.resourceQuantity">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Resource Type</label>
+                        <select class="form-control" ng-model="request.resourceType"
+                                ng-options="obj.value as obj.text for obj in preDefResourceType">
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Resource Version</label>
+                        <select class="form-control" ng-model="request.resourceVersion"
+                                ng-options="obj.value as obj.text for obj in preDefResourceVersion">
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Resource Memory</label>
+                        <select class="form-control" ng-model="request.resourceMemory"
+                                ng-options="obj.value as obj.text for obj in preDefResourceMemory">
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Resource Backup</label>
+                        <input type="checkbox" class="form-control"
+                               ng-model="request.resourceBackup">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                    </button>
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-save"></span> Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<h3>Active Requests</h3>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Quantity</th>
+            <th>Type</th>
+            <th>Version</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Active'">
+            <td>{{request.requestType}}</td>
+            <td>{{request.requestStartDate}}</td>
+            <td>{{request.requestEndDate}}</td>
+            <td>{{request.resourceQuantity}}</td>
+            <td>{{request.resourceType}}</td>
+            <td>{{request.resourceVersion}}</td>
+            <td>{{request.requestStatus}}</td>
+            <td><img src="images/right-arrow.png" data-toggle="modal" data-target="#deviceViewModal"
+                     ng-click="deviceView(request)"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<hr>
+
+<h3>Inactive Requests</h3>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Quantity</th>
+            <th>Type</th>
+            <th>Version</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Inactive'">
+            <td>{{request.requestType}}</td>
+            <td>{{request.requestStartDate}}</td>
+            <td>{{request.requestEndDate}}</td>
+            <td>{{request.resourceQuantity}}</td>
+            <td>{{request.resourceType}}</td>
+            <td>{{request.resourceVersion}}</td>
+            <td>{{request.requestStatus}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+
+<div role="tabpanel" class="tab-pane container-fluid" id="billing">
+
+    <div class="billWrapper row">
+        <div class="col-md-8 amount">
+            <h1>${{calculateBill()}}.00</h1>
+
+            <div class="progress progress-striped">
+                <div class="progress-bar progress-bar-success ng-binding" role="progressbar" aria-valuenow="{{calculateBill()}}"
+                aria-valuemin="0" aria-valuemax="{{calculateBill()}}" ng-style="{width : ( calculateBill() + '%' ) }">
+                $ + {{calculateBill()}}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-4 pricePie">
+            <nvd3-pie-chart
+                    data="showPie()"
+                    objectequality="true"
+                    id="exampleId"
+                    width="300"
+                    height="300"
+                    x="xFunction()"
+                    y="yFunction()"
+                    tooltips="true"
+                    showLabels="true">
+                <svg height="500px"></svg>
+            </nvd3-pie-chart>
+        </div>
+    </div>
+
+    <div class="allRequests">
+        <accordion close-others="oneAtATime">
+            <accordion-group ng-repeat="request in requests" heading="{{request.id}}" is-disabled="status.isFirstDisabled">
+                <label>Request Price : </label></label>{{request.requestPrice}} <br/>
+                <label>Request Version : </label></label>{{request.resourceVersion}} <br/>
+                <label>Request Memory : </label></label>{{request.resourceMemory}} <br/>
+            </accordion-group>
+        </accordion>
+
+    </div>
+
+</div>
+</div>
+
+</div>
+
+

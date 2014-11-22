@@ -4,13 +4,15 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
-        <meta charset="utf-8">
+        <meta http-equiv="content-type" content="text/html; charset=UTF8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>miaas</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css(.tmp) styles/main.css -->
+
+        <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css"/>
         <link rel="stylesheet" href="styles/bootstrap.css">
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
@@ -162,14 +164,6 @@
         <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
         <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
         <script src="bower_components/angular-dynamic-locale/src/tmhDinamicLocale.js"></script>
-        <script src="scripts/http-auth-interceptor.js"></script>
-        <script src="scripts/truncate.js"></script>
-        <script src="scripts/utils.js"></script>
-        <script src="scripts/app.js"></script>
-        <script src="scripts/constants.js"></script>
-        <script src="scripts/controllers.js"></script>
-        <script src="scripts/services.js"></script>
-        <script src="scripts/directives.js"></script>
         <script src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/affix.js"></script>
         <script src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js"></script>
         <script src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/dropdown.js"></script>
@@ -184,6 +178,19 @@
         <script src="bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/tab.js"></script>
         <script src="bower_components/justgage-bower/justgage.js"></script>
         <script src="bower_components/raphael/raphael.js"></script>
+        <script src="bower_components/d3/d3.min.js" charset="utf-8"></script>
+        <script src="bower_components/nvd3/nv.d3.js"></script>
+        <script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="scripts/http-auth-interceptor.js"></script>
+        <script src="scripts/truncate.js"></script>
+        <script src="scripts/utils.js"></script>
+        <script src="scripts/app.js"></script>
+        <script src="scripts/constants.js"></script>
+        <script src="scripts/controllers.js"></script>
+        <script src="scripts/services.js"></script>
+        <script src="scripts/directives.js"></script>
         <script src="scripts/amazoninstance/router_amazoninstance.js"></script>
         <script src="scripts/amazoninstance/controller_amazoninstance.js"></script>
         <script src="scripts/amazoninstance/service_amazoninstance.js"></script>
