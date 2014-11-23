@@ -42,4 +42,14 @@
             <column name="request_price" type="integer"/>
         </addColumn>
     </changeSet>
+    <changeSet id="2014112301259" author="sheetal">
+        <addColumn tableName="T_REQUEST">
+            <column name="request_process_time" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2014112301301" author="sheetal">
+        <addColumn tableName="T_REQUEST">
+            <column name="request_created_time" type="timestamp"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

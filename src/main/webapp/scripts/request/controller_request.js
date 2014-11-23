@@ -25,7 +25,7 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         var j = 0;
         for(var i=0;i<$scope.requests.length;i++){
             $scope.exampleData[j] = {
-                key : "Request " + $scope.requests[i].id,
+                key : "Req. " + $scope.requests[i].id,
                 y : $scope.requests[i].requestPrice
             };
             j++;
@@ -115,7 +115,7 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         console.log(JSON.stringify($scope.request));
         Request.save($scope.request,
             function () {
-                $scope.requests = UserRequest.query();
+                $scope.requests = UserRequest.getRequestsForUser();
                 $('#saveRequestModal').modal('hide');
                 $scope.clear();
             });
@@ -142,6 +142,28 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         console.log(price);
         return price;
     };
+
+    $scope.randomStacked = function() {
+        $scope.requestTotalPrice = $scope.calculateBill();
+        $scope.stacked = [];
+        var types = ['success', 'info', 'warning', 'danger'];
+
+        for (var i = 0, n = $scope.requests.length; i < n; i++) {
+            var index = Math.floor((Math.random() * 4));
+            $scope.stacked.push({
+                value: $scope.requests[i].requestPrice,
+                type: types[index],
+                barWidth: { 'width': parseInt(($scope.requests[i].requestPrice / $scope.requestTotalPrice)*100) + "%"}
+            });
+        }
+        console.log($scope.stacked);
+    };
+
+    $scope.setWidth = function(bar){
+        return { width: bar.barWidth +'%' };
+    }
+
+    $scope.randomStacked();
 
     $scope.deviceView = function (req) {
         $scope.selectedReqId = req.id;

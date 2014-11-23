@@ -20,7 +20,10 @@
     "ng-chartistjs": "~1.1.0",
     "d3": "~3.4.13",
     "nvd3": "~1.1.15-beta",
-    "angularjs-nvd3-directives": "~0.0.7"
+    "angularjs-nvd3-directives": "~0.0.7",
+    "angular-bootstrap": "~0.12",
+    "raphael" : "2.1.1",
+    "justgage-bower" : "1.0.0"
   },
   "devDependencies": {
     "angular-mocks": "1.2.22",

@@ -216,38 +216,58 @@
 <div role="tabpanel" class="tab-pane container-fluid" id="billing">
 
     <div class="billWrapper row">
-        <div class="col-md-8 amount">
+        <div class="amount">
             <h2>Total Bill</h2>
+
             <h1>${{calculateBill()}}.00</h1>
 
             <div class="progress progress-striped">
-                <div class="progress-bar progress-bar-success ng-binding" role="progressbar" aria-valuenow="{{calculateBill()}}"
-                aria-valuemin="0" aria-valuemax="{{calculateBill()}}" ng-style="{width : ( calculateBill() + '%' ) }">
-                $ + {{calculateBill()}}
-                </div>
+                <progress>
+                    <bar ng-repeat="bar in stacked track by $index" role="progressbar" aria-valuemin="0"
+                         aria-valuemax="{{calculateBill()}}" ng-style="setWidth({{bar}})" aria-valuenow="{{bar.value}}" type="{{bar.type}}"><span>${{bar.value}}</span></bar>
+                </progress>
 
             </div>
         </div>
-
-        <div class="col-md-4 pricePie">
+    </div>
+    <div class="row billStats">
+        <div class="col-md-6 apiPie">
             <nvd3-pie-chart
                     data="showPie()"
                     objectequality="true"
-                    id="exampleId"
-                    width="300"
-                    height="300"
+                    id="exampleId1"
+                    width="350"
+                    height="350"
                     x="xFunction()"
                     y="yFunction()"
                     tooltips="true"
-                    showLabels="true">
-                <svg height="500px"></svg>
+                    showLegend="true"
+                    >
+                <svg height="200px"></svg>
             </nvd3-pie-chart>
         </div>
+        <div class="col-md-6 memPie">
+            <nvd3-pie-chart
+                    data="showPie()"
+                    objectequality="true"
+                    id="exampleId2"
+                    width="350"
+                    height="350"
+                    x="xFunction()"
+                    y="yFunction()"
+                    tooltips="true"
+                    showLegend="true"
+                    >
+                <svg height="200px"></svg>
+            </nvd3-pie-chart>
+        </div>
+
     </div>
 
     <div class="allRequests">
         <accordion close-others="oneAtATime">
-            <accordion-group ng-repeat="request in requests" heading="Request {{request.id}}" is-disabled="status.isFirstDisabled">
+            <accordion-group ng-repeat="request in requests" heading="Request {{request.id}}"
+                             is-disabled="status.isFirstDisabled">
                 <label>Request Price : </label></label>{{request.requestPrice}} <br/>
                 <label>Request Version : </label></label>{{request.resourceVersion}} <br/>
                 <label>Request Memory : </label></label>{{request.resourceMemory}} <br/>

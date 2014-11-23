@@ -49,24 +49,24 @@
                             </a>
                         </li>
 
-                        <li ng-switch-when="true" class="dropdown pointer">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                                <span>
-                                    <span class="glyphicon glyphicon-th-list"></span>
-                                    <span class="hidden-tablet">
-                                        Account
-                                    </span>
-                                    <b class="caret"></b>
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu" ng-controller="MenuController">
-                                <li ng-switch-when="true"><a href="#/amazoninstance"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;amazoninstance</a></li>
-                                <li ng-switch-when="true"><a href="#/device"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;device</a></li>
-                                <li ng-switch-when="true"><a href="#/request"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;request</a></li>
-                                <li ng-switch-when="true"><a href="#/requestdevicemapping"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;requestdevicemapping</a></li>
-                                <!-- JHipster will add entities to the menu here -->
-                            </ul>
-                        </li>
+                        <!--<li ng-switch-when="true" class="dropdown pointer">-->
+                            <!--<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">-->
+                                <!--<span>-->
+                                    <!--<span class="glyphicon glyphicon-th-list"></span>-->
+                                    <!--<span class="hidden-tablet">-->
+                                        <!--Account-->
+                                    <!--</span>-->
+                                    <!--<b class="caret"></b>-->
+                                <!--</span>-->
+                            <!--</a>-->
+                            <!--<ul class="dropdown-menu" ng-controller="MenuController">-->
+                                <!--<li ng-switch-when="true"><a href="#/amazoninstance"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;amazoninstance</a></li>-->
+                                <!--<li ng-switch-when="true"><a href="#/device"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;device</a></li>-->
+                                <!--<li ng-switch-when="true"><a href="#/request"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;request</a></li>-->
+                                <!--<li ng-switch-when="true"><a href="#/requestdevicemapping"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;requestdevicemapping</a></li>-->
+                                <!--&lt;!&ndash; JHipster will add entities to the menu here &ndash;&gt;-->
+                            <!--</ul>-->
+                        <!--</li>-->
                         <li class="dropdown pointer">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                                 <span>
@@ -203,6 +203,9 @@
         <script src="scripts/request/service_request.js"></script>
         <script src="scripts/networkprofile/controller_network.js"></script>
         <script src="scripts/networkprofile/service_network.js"></script>
+        <script src="scripts/userstats/controller_userstats.js"></script>
+        <script src="scripts/userstats/routes_userstats.js"></script>
+        <script src="scripts/userstats/service_userstats.js"></script>
         <!-- endbuild -->
 </body>
 </html>

@@ -113,18 +113,6 @@ miaasApp
                         authorizedRoles: [USER_ROLES.all]
                     }
                 })
-                .when('/userstats', {
-                    templateUrl: 'views/userStatistics.html',
-                    controller: 'UserStatsController',
-                    resolve:{
-                        resolvedStats: ['UserStats', function (UserStats) {
-                            return UserRequest.getRequestsForUser();
-                        }]
-                    },
-                    access: {
-                        authorizedRoles: [USER_ROLES.all]
-                    }
-                })
                 .when('/network', {
                     templateUrl: 'views/networkprofile.html',
                     controller: 'NetworkController',
