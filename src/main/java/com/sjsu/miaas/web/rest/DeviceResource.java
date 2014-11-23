@@ -3,8 +3,10 @@ package com.sjsu.miaas.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.sjsu.miaas.domain.Device;
 import com.sjsu.miaas.repository.DeviceRepository;
+import com.sjsu.miaas.service.NetworkAdminService;
 import com.sjsu.miaas.service.StartEmulatorService;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,9 @@ public class DeviceResource {
 
 	@Inject
 	private StartEmulatorService startEmulator; 
+	
+	@Inject
+	private NetworkAdminService netAdminServ;
 
 	/**
 	 * POST  /rest/devices -> Create a new device.
@@ -139,4 +144,22 @@ public class DeviceResource {
 		log.debug("REST request to delete Device : {}", id);
 		deviceRepository.delete(id);
 	}
+	
+	/**
+	 * Return the total price of all the android api instances
+	 * Returnall  /rest/getpriceAll
+	 * @throws JSONException 
+	 */
+	@RequestMapping(value = "/rest/getpriceAll",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public String getpriceAll() throws JSONException{
+		log.info("REST request to get all the network statistics of API Instances: ");
+		
+		String result = netAdminServ.getSumofRequestPrice();
+		return result;
+		
+	}
+	
 }
