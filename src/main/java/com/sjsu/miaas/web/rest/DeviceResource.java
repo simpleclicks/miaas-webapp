@@ -137,7 +137,7 @@ public class DeviceResource {
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public JSONObject getUserStatistics(@PathVariable String id) throws JSONException {
+	public String getUserStatistics(@PathVariable String id) throws JSONException {
 		log.info("REST request to get user statistics : {}", id);
 		//        Device device = deviceRepository.findOne(id);
 		//        if (device == null) {
@@ -148,7 +148,7 @@ public class DeviceResource {
 		//        return new ResponseEntity<>(device, HttpStatus.OK);
 		JSONObject result = userStat.userData(id);
 		
-		return result;
+		return result.toString();
 		
 	}
 

@@ -2,6 +2,7 @@ package com.sjsu.miaas.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -42,20 +43,20 @@ public class UserStatistics {
 				apiMap.put(tempApi, request.getRequestPrice());
 			}
 			if(memoryMap.containsKey(tempMem)){
-				apiMap.put(tempMem, memoryMap.get(tempMem)+request.getRequestPrice());
+				memoryMap.put(tempMem, memoryMap.get(tempMem)+request.getRequestPrice());
 			}else{
-				apiMap.put(tempMem, request.getRequestPrice());
+				memoryMap.put(tempMem, request.getRequestPrice());
 			}
 		}	
 		
 		userData.put("userId", id);
-		for (HashMap.Entry<String, Integer> entry : apiMap.entrySet()) {
+		for (Entry<String, Integer> entry : apiMap.entrySet()) {
 		    String key = entry.getKey();
 		    int value = entry.getValue();
 		    api.put(key, value);
 		}
 		userData.put("api", api);
-		for (HashMap.Entry<String, Integer> entry : memoryMap.entrySet()) {
+		for (Entry<String, Integer> entry : memoryMap.entrySet()) {
 		    String key = entry.getKey();
 		    int value = entry.getValue();
 		    memory.put(key, value);
