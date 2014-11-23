@@ -223,8 +223,8 @@
 
             <div class="progress progress-striped">
                 <progress>
-                    <bar ng-repeat="bar in stacked track by $index" role="progressbar" aria-valuemin="0"
-                         aria-valuemax="{{calculateBill()}}" ng-style="setWidth({{bar}})" aria-valuenow="{{bar.value}}" type="{{bar.type}}"><span>${{bar.value}}</span></bar>
+                    <bar ng-repeat="bar in stacked track by $index" role="progressbar"
+                         value="bar.value" type="{{bar.type}}" style="border-right: 1px solid #000000"><span>${{bar.displayText}}</span></bar>
                 </progress>
 
             </div>

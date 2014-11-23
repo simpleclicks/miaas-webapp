@@ -125,5 +125,6 @@ ul#strength {
 
 .amount{
     float: left;
+    width:100%;
 }
 

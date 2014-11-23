@@ -150,10 +150,11 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
 
         for (var i = 0, n = $scope.requests.length; i < n; i++) {
             var index = Math.floor((Math.random() * 4));
+            var price = Math.floor(($scope.requests[i].requestPrice / $scope.requestTotalPrice)*100);
             $scope.stacked.push({
-                value: $scope.requests[i].requestPrice,
-                type: types[index],
-                barWidth: { 'width': parseInt(($scope.requests[i].requestPrice / $scope.requestTotalPrice)*100) + "%"}
+                value: price,
+                displayText: $scope.requests[i].requestPrice,
+                type: types[index]
             });
         }
         console.log($scope.stacked);
