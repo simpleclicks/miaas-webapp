@@ -31,6 +31,7 @@ import com.sjsu.miaas.domain.Device;
 import com.sjsu.miaas.domain.Request;
 import com.sjsu.miaas.repository.AmazonInstanceRepository;
 import com.sjsu.miaas.repository.DeviceRepository;
+import com.sjsu.miaas.repository.RequestRepository;
 
 @Service
 @Transactional
@@ -41,6 +42,9 @@ public class ProcessRequestService {
 
 	@Inject
 	private AmazonInstanceRepository amaInstanceRepository;
+	
+	@Inject
+	private RequestRepository reqRepo;
 
 	@Inject
 	private DeviceRepository devRepository;
@@ -114,7 +118,7 @@ public class ProcessRequestService {
 	private void initializeInstance(AmazonInstance i) throws IOException,
 			InterruptedException {
 
-		Thread.sleep(50000);
+		Thread.sleep(90000);
 
 		URL targetUrl = new URL("http://" + i.getPublicDnsName()
 				+ ":8080/simpleapp/webapi/androidcontrol/initialize");
@@ -258,6 +262,8 @@ public class ProcessRequestService {
 	}
 
 	public JSONObject processRequestEnd(Request request) {
+		request.setRequestStatus("Expired");
+		reqRepo.save(request);
 		return null;
 	}
 

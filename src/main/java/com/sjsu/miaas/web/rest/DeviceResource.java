@@ -5,9 +5,11 @@ import com.sjsu.miaas.domain.Device;
 import com.sjsu.miaas.repository.DeviceRepository;
 import com.sjsu.miaas.service.NetworkAdminService;
 import com.sjsu.miaas.service.StartEmulatorService;
+import com.sjsu.miaas.service.UserStatistics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -40,7 +42,11 @@ public class DeviceResource {
 	private StartEmulatorService startEmulator; 
 	
 	@Inject
+//<<<<<<< HEAD
 	private NetworkAdminService netAdminServ;
+//=======
+	private UserStatistics userStat; 
+//>>>>>>> origin
 
 	/**
 	 * POST  /rest/devices -> Create a new device.
@@ -114,6 +120,7 @@ public class DeviceResource {
 		String result =null;
 		try {
 			result = startEmulator.start(id);
+			
 		} catch (MalformedURLException e) {
 
 			e.printStackTrace();
@@ -131,7 +138,29 @@ public class DeviceResource {
 
 	}
 
+	
+	@RequestMapping(value = "/rest/userStatistics/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public String getUserStatistics(@PathVariable String id) throws JSONException {
+		log.info("REST request to get user statistics : {}", id);
+		//        Device device = deviceRepository.findOne(id);
+		//        if (device == null) {
+		//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//        }else{
+		//        	
+		//        }
+		//        return new ResponseEntity<>(device, HttpStatus.OK);
+		JSONObject result = userStat.userData(id);
+		
+		return result.toString();
+		
+	}
 
+	
+	
+	
 
 	/**
 	 * DELETE  /rest/devices/:id -> delete the "id" device.

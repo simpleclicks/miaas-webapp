@@ -21,7 +21,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "T_REQUEST")
-public class Request implements Serializable {
+public class Request implements Serializable, Comparable<Request> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -225,4 +225,26 @@ public class Request implements Serializable {
                 ", resourceBackup='" + resourceBackup + "'" +
                 '}';
     }
+
+	@Override
+	public int compareTo(Request o) {
+		if(this.getRequestPrice()==o.getRequestPrice()){
+			return 0;
+		}
+		else if(this.getRequestPrice() > o.getRequestPrice()){
+			return -1;
+		}
+		else 
+			return 1;
+	}
+	
+//	public class RequestComparator implements Comparable<Request>{
+//
+//		@Override
+//		public int compareTo(Request o) {
+//			// TODO Auto-generated method stub
+//			return 0;
+//		}
+//		
+//	}
 }

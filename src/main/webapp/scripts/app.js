@@ -3,7 +3,7 @@
 /* App Module */
 
 var miaasApp = angular.module('miaasApp', ['http-auth-interceptor', 'tmh.dynamicLocale',
-    'ngResource', 'ngRoute', 'ngCookies', 'miaasAppUtils', 'pascalprecht.translate', 'truncate']);
+    'ngResource', 'ngRoute', 'ngCookies', 'miaasAppUtils', 'pascalprecht.translate', 'truncate','nvd3ChartDirectives','ui.bootstrap']);
 
 miaasApp
     .config(function ($routeProvider, $httpProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {
@@ -106,7 +106,19 @@ miaasApp
                     controller: 'RequestController',
                     resolve:{
                         resolvedRequest: ['UserRequest', function (UserRequest) {
-                            return UserRequest.query();
+                            return UserRequest.getRequestsForUser();
+                        }]
+                    },
+                    access: {
+                        authorizedRoles: [USER_ROLES.all]
+                    }
+                })
+                .when('/userstats', {
+                    templateUrl: 'views/userStatistics.html',
+                    controller: 'UserStatsController',
+                    resolve:{
+                        resolvedStats: ['UserStats', function (UserStats) {
+                            return UserRequest.getRequestsForUser();
                         }]
                     },
                     access: {

@@ -7,11 +7,19 @@ miaasApp.factory('Request', function ($resource) {
         });
     });
 
-miaasApp.factory('UserRequest',function ($resource, $rootScope) {
-    var userid = $rootScope.account.login;
-    return $resource('app/rest/userrequests/' + userid, {}, {
-        'query': { method: 'GET', isArray: true}
-    });
+miaasApp.factory('UserRequest',function ($http, $resource, $rootScope, Session) {
+    return {
+      getRequestsForUser : function(){
+          var promise = $http.get('app/rest/userrequests/'+ Session.login).then(function (response) {
+              return response.data;
+          });
+          return promise;
+      }
+    };
+//    var userid = $rootScope.account.login;
+//    return $resource('app/rest/userrequests/' + userid, {}, {
+//        'query': { method: 'GET', isArray: true}
+//    });
 });
 
 miaasApp.factory('RequestDevices', function ($http) {

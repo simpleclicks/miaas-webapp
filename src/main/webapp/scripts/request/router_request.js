@@ -8,7 +8,7 @@ miaasApp
                     controller: 'RequestController',
                     resolve:{
                         resolvedRequest: ['UserRequest', function (UserRequest) {
-                            return UserRequest.query();
+                            return UserRequest.getRequestsForUser();
                         }]
                     },
                     access: {

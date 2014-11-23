@@ -2,6 +2,7 @@ package com.sjsu.miaas.util;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import javax.inject.Inject;
 
@@ -23,14 +24,19 @@ public class ProcessRequestUtil {
 
 	@Inject
 	private RequestRepository requestRepository;
+	
+	@Inject 
+	RequestPriorityUtil requestPriorityUtil;
 
-	@Scheduled(fixedRate = 10000)
+	@Scheduled(fixedRate = 360000)
 	public void startRequestStartProcessor() {
 		try {
-
-			List<Request> reqs = requestRepository
-					.getRequestsByStatus("Inactive");
-			for (Request request : reqs) {
+			//RequestPriorityUtil rpu = new RequestPriorityUtil();
+			PriorityQueue<Request> reqs = new PriorityQueue<Request>();
+			reqs = requestPriorityUtil.setRequestPriority();
+			
+			while(!reqs.isEmpty()) {
+				Request request = reqs.remove();
 				if (LocalDate.now().isAfter(request.getRequestStartDate())
 						|| LocalDate.now().isEqual(
 								request.getRequestStartDate())) {
@@ -41,7 +47,7 @@ public class ProcessRequestUtil {
 							+ request.toString());
 				}
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
