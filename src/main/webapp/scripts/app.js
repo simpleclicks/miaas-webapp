@@ -106,7 +106,19 @@ miaasApp
                     controller: 'RequestController',
                     resolve:{
                         resolvedRequest: ['UserRequest', function (UserRequest) {
-                            return UserRequest.query();
+                            return UserRequest.getRequestsForUser();
+                        }]
+                    },
+                    access: {
+                        authorizedRoles: [USER_ROLES.all]
+                    }
+                })
+                .when('/userstats', {
+                    templateUrl: 'views/userStatistics.html',
+                    controller: 'UserStatsController',
+                    resolve:{
+                        resolvedStats: ['UserStats', function (UserStats) {
+                            return UserRequest.getRequestsForUser();
                         }]
                     },
                     access: {

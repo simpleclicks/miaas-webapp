@@ -217,6 +217,7 @@
 
     <div class="billWrapper row">
         <div class="col-md-8 amount">
+            <h2>Total Bill</h2>
             <h1>${{calculateBill()}}.00</h1>
 
             <div class="progress progress-striped">
@@ -246,7 +247,7 @@
 
     <div class="allRequests">
         <accordion close-others="oneAtATime">
-            <accordion-group ng-repeat="request in requests" heading="{{request.id}}" is-disabled="status.isFirstDisabled">
+            <accordion-group ng-repeat="request in requests" heading="Request {{request.id}}" is-disabled="status.isFirstDisabled">
                 <label>Request Price : </label></label>{{request.requestPrice}} <br/>
                 <label>Request Version : </label></label>{{request.resourceVersion}} <br/>
                 <label>Request Memory : </label></label>{{request.resourceMemory}} <br/>

@@ -1,6 +1,6 @@
 'use strict';
 
-miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest, RequestDevices, Emulator) {
+miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest, RequestDevices, Emulator, Session) {
     var resourcePricePerDay = 5;
     $scope.requestTotalPrice = 0;
     $scope.requests = resolvedRequest;
@@ -25,7 +25,7 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         var j = 0;
         for(var i=0;i<$scope.requests.length;i++){
             $scope.exampleData[j] = {
-                key : $scope.requests[i].id,
+                key : "Request " + $scope.requests[i].id,
                 y : $scope.requests[i].requestPrice
             };
             j++;
