@@ -1,6 +1,7 @@
 package com.sjsu.miaas.util;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -42,6 +43,8 @@ public class ProcessRequestUtil {
 								request.getRequestStartDate())) {
 					requestService.processRequest(request);
 					request.setRequestStatus("Active");
+					 java.util.Date date= new java.util.Date();
+					request.setRequestProcessTime(new Timestamp(date.getTime()));
 					requestRepository.save(request);
 					System.out.println("Processing request "
 							+ request.toString());

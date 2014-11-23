@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -43,7 +44,9 @@ public class RequestResource {
     @Timed
     public void create(@RequestBody Request request) {
         log.debug("REST request to save Request : {}", request);
+        java.util.Date date= new java.util.Date();
         request.setRequestStatus("Inactive");
+        request.setRequestCreatedTime(new Timestamp(date.getTime()));
         requestRepository.save(request);
 //        try {
 //			requestService.processRequest(request);
