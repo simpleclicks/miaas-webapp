@@ -13,6 +13,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -74,6 +75,29 @@ public class Request implements Serializable, Comparable<Request> {
     @Column(name = "request_status")
     private String requestStatus;
 
+    @Column(name = "request_process_time")
+    private Timestamp requestProcessTime;
+
+    public Timestamp getRequestProcessTime() {
+		return requestProcessTime;
+	}
+
+	public void setRequestProcessTime(Timestamp requestProcessTime) {
+		this.requestProcessTime = requestProcessTime;
+	}
+    
+	@Column(name = "request_created_time")
+    private Timestamp requestCreatedTime;
+
+    public Timestamp getRequestCreatedTime() {
+		return requestCreatedTime;
+	}
+
+	public void setRequestCreatedTime(Timestamp requestCreatedTime) {
+		this.requestCreatedTime = requestCreatedTime;
+	}
+    
+    
     public String getRequestStatus() {
 		return requestStatus;
 	}
