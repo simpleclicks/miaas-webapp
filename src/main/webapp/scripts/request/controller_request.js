@@ -1,6 +1,6 @@
 'use strict';
 
-miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, resolvedStat, Request, UserRequest, RequestDevices, Emulator, Session) {
+miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, resolvedStat, Request, UserRequest, UserStatistics, RequestDevices, Emulator, Session) {
     var resourcePricePerDay = 5;
     $scope.requestTotalPrice = 0;
     $scope.requests = resolvedRequest;
@@ -79,7 +79,7 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
     $scope.calculateBill = function(){
         var price = 0;
         for(var i=0;i<$scope.requests.length;i++){
-            price += resolvedRequest[i].requestPrice;
+            price += $scope.requests[i].requestPrice;
         }
         console.log(price);
         return price;
@@ -157,7 +157,13 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         console.log(JSON.stringify($scope.request));
         Request.save($scope.request,
             function () {
-                $scope.requests = UserRequest.getRequestsForUser();
+                UserRequest.getRequestsForUser().then(function(data) {
+                    $scope.requests = data;
+                });
+                UserStatistics.getStatsForUser().then(function(data){
+                    $scope.calculateBill();
+                    $scope.userStats = data;
+                })
                 $('#saveRequestModal').modal('hide');
                 $scope.clear();
             });
