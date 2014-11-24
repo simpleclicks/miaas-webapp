@@ -297,13 +297,66 @@ public class AWSInstanceAction extends AWSInstanceState {
 				//System.out.println("The disk write byte is: " +awm1.DiskWriteBytes);
 
 			}
+			//
+			GetMetricStatisticsRequest request2 = new GetMetricStatisticsRequest()
+			.withStartTime(
+					new Date(new Date().getTime()
+							- offsetInMilliseconds))
+							.withNamespace("AWS/EC2")
+							.withPeriod(60 * 60 * 60)
+							.withDimensions(
+									new Dimension().withName("InstanceId").withValue(
+											InstanceID))
+											.withMetricName("NetworkIn").withStatistics("Average")
+											.withEndTime(new Date());
+			GetMetricStatisticsResult getMetricStatisticsResult2 = cw
+					.getMetricStatistics(request2);
+			
+			List<Datapoint> dataPoint2 = new ArrayList<Datapoint>();
+			dataPoint2 = getMetricStatisticsResult2.getDatapoints();
+			System.out.println("whats here: " +dataPoint2.toString());
+			for (Object aDataPoint2 : dataPoint2) {
+				Datapoint dp2 = (Datapoint) aDataPoint2;
+						double db2 = dp2.getAverage();	
+						System.out.println("value" +db2);
+				awm1.NetworkIn = db2;
+				
+			}
+			//
+			GetMetricStatisticsRequest request3 = new GetMetricStatisticsRequest()
+			.withStartTime(
+					new Date(new Date().getTime()
+							- offsetInMilliseconds))
+							.withNamespace("AWS/EC2")
+							.withPeriod(60 * 60 * 60)
+							.withDimensions(
+									new Dimension().withName("InstanceId").withValue(
+											InstanceID))
+											.withMetricName("NetworkOut").withStatistics("Average")
+											.withEndTime(new Date());
+			GetMetricStatisticsResult getMetricStatisticsResult3 = cw
+					.getMetricStatistics(request3);
+			
+			List<Datapoint> dataPoint3 = new ArrayList<Datapoint>();
+			dataPoint3 = getMetricStatisticsResult3.getDatapoints();
+			System.out.println("whats here: " +dataPoint3.toString());
+			for (Object aDataPoint3 : dataPoint3) {
+				Datapoint dp3 = (Datapoint) aDataPoint3;
+						double db3 = dp3.getAverage();	
+						System.out.println("value" +db3);
+				awm1.NetworkOut = db3;
+				
+			}
+			
+			//
 			awsMetric.add(j, awm1);
 			//System.out.println("The size of the list is" + awsMetric.size());
 		}
 
 		//System.out.println(awsMetric.get(0).instanceID.toString());
 		Gson gson = new GsonBuilder().create();
-		// String aws1 = gson.toJson(awsMetric);
+		 String aws1 = gson.toJson(awsMetric);
+		// System.out.println("The values are :" +aws1);
 		JsonArray js = gson.toJsonTree(awsMetric).getAsJsonArray();
 
 		return awsMetric;

@@ -71,7 +71,7 @@ public class NetworkAdminService {
 		Gson gson = new GsonBuilder().create();
 		String re1 = gson.toJson(r1);
 		
-		return new JSONObject(re1).toString();
+		return re1;
 				
 	}
 	

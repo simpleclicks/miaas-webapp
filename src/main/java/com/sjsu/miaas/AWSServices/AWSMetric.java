@@ -7,6 +7,8 @@ public class AWSMetric {
 	String instanceID = null;
 	double CPUUtilization = 0;
 	double DiskWriteBytes;
+	double NetworkIn;
+	double NetworkOut;
 	BigDecimal availableResources;
 
 	public BigDecimal getAvailableResources() {
@@ -22,10 +24,12 @@ public class AWSMetric {
 		
 	}
 
-	public AWSMetric(String instanceID, double CPUUtilization)
+	public AWSMetric(String instanceID, double CPUUtilization,double NetworkIn, double NetworkOut)
 	{
 		this.instanceID = instanceID;
 		this.CPUUtilization = CPUUtilization;
+		this.NetworkIn = NetworkIn;
+		this.NetworkOut = NetworkOut;
 	}
 	
 	
@@ -43,5 +47,21 @@ public class AWSMetric {
 
 	public void setCPUUtilization(double CPUUtilization) {
 		this.CPUUtilization = CPUUtilization;
+	}
+	
+	public double getNetworkIn(){
+		return NetworkIn;
+	}
+	
+	public double getNetworkOut(){
+		return NetworkOut;
+	}
+	
+	public void setNetworkIn(double NetworkIn){
+		this.NetworkIn = NetworkIn;
+	}
+	
+	public void setNetworkOut(double NetworkOut){
+		this.NetworkOut=NetworkOut;
 	}
 }
