@@ -1,6 +1,6 @@
 'use strict';
 
-miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstance,resolvedAmazonInstance, $window) {
+miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstance,resolvedAmazonInstance, resolvedStats, $window) {
 
     $scope.amazonInstance = resolvedAmazonInstance;
 
@@ -11,6 +11,16 @@ miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstan
         {
             alert(gauges[i].innerHTML);
         }
+    });
+
+    $('#myTab a[data-target="#ec2"]').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    $('#myTab a[data-target="#requestStats"]').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
     });
 
     angular.element($window.document.getElementsByClassName("gauge")).ready(function(){
@@ -44,11 +54,68 @@ miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstan
                 id: gaugesRscrs[i].id,
                 value: gaugesRscrs[i].attributes['data-avlblRescrc'].value,
                 min: 0,
-                max: 10,
+                max: 20,
                 title: "Available Resources"
             });
         }
 
     });
+
+    $scope.adminStats = resolvedStats;
+
+    $scope.memPieData = [];
+
+    $scope.apiPieData = [];
+
+    $scope.showMemPie = function(){
+        var k = 0;
+        for(var m in $scope.adminStats.memory){
+            $scope.memPieData[k] = {
+                key : m + " mb",
+                y : parseInt($scope.adminStats.memory[m])
+            };
+            k++;
+        }
+
+        return $scope.memPieData;
+    };
+
+    $scope.showApiPie = function(){
+        var j = 0;
+
+        for(var a in $scope.adminStats.api){
+            $scope.apiPieData[j] = {
+                key : "API " + a,
+                y : parseInt($scope.adminStats.api[a])
+            };
+            j++;
+        }
+
+        return $scope.apiPieData;
+    };
+
+    $scope.xFunction = function(){
+        return function(d) {
+            return d.key;
+        };
+    };
+
+    $scope.yFunction = function(){
+        return function(d){
+            return d.y;
+        };
+    };
+
+    $scope.x1Function = function(){
+        return function(d) {
+            return d.key;
+        };
+    };
+
+    $scope.y1Function = function(){
+        return function(d){
+            return d.y;
+        };
+    };
 
 });

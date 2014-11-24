@@ -10,7 +10,7 @@ spring:
         databaseName: 
         serverName: 
         username: root
-        password: 
+        password: root
         cachePrepStmts: true
         prepStmtCacheSize: 250
         prepStmtCacheSqlLimit: 2048
@@ -31,7 +31,14 @@ spring:
             hibernate.generate_statistics: true
 
     mail:
-        baseUrl: http://localhost:8080
+        host: localhost
+        port: 2500
+        user: 
+        password: 
+        protocol: smtp
+        tls: false
+        auth: false
+        from: me@localhost
 
     thymeleaf:
         mode: XHTML

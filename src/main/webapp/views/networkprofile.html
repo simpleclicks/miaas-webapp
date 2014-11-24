@@ -1,14 +1,70 @@
+<div class="row">
+    <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li role="presentation" class="active"><a data-target="#ec2" href="" role="tab"
+                                                  data-toggle="tab">Request</a></li>
+        <li role="presentation"><a data-target="#requestStats" href="" role="tab" data-toggle="tab">Request Stats</a></li>
+    </ul>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="ec2">
+            <div>
+                <h1 style="text-align: center;margin-bottom: 25px">Network Dashboard</h1>
 
-<div>
-    <h1 style="text-align: center;margin-bottom: 25px">Network Dashboard</h1>
-    <div class="amazoninstances">
-        <div on-finish-render="ngRepeatFinished" ng-repeat="ai in amazonInstance" class="gauges">
-            <div class="container_12 itemWrapper">
-                <h2 style="text-align: center;margin-bottom: 15px">{{ai.instanceid}}</h2>
-                <div class="gauge grid_4" data-cpuUtil="{{ai.cpuutilization}}" style="width:200px" id="cpu{{ai.instanceid}}"></div>
-                <div class="gaugeResrcs grid_4" data-avlblRescrc="{{ai.availableResources}}" style="width:200px" id="res{{ai.instanceid}}"></div>
+                <div class="amazoninstances">
+                    <div on-finish-render="ngRepeatFinished" ng-repeat="ai in amazonInstance" class="gauges">
+                        <div class="container_12 itemWrapper">
+                            <h2 style="text-align: center;margin-bottom: 15px">{{ai.instanceid}}</h2>
+
+                            <div class="gauge grid_4" data-cpuUtil="{{ai.cpuutilization}}" style="width:200px"
+                                 id="cpu{{ai.instanceid}}"></div>
+                            <div class="gaugeResrcs grid_4" data-avlblRescrc="{{ai.availableResources}}"
+                                 style="width:200px"
+                                 id="res{{ai.instanceid}}"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <div role="tabpanel" class="tab-pane" id="requestStats">
+            <div>
+                <h1 style="text-align: center;margin-bottom: 25px">Request Stats</h1>
+                <div class="billStats">
+                    <div class="col-md-6 apiPie">
+                        <h3>API Version</h3>
+                        <nvd3-pie-chart
+                                data="showApiPie()"
+                                objectequality="true"
+                                id="exampleId1"
+                                width="350"
+                                height="350"
+                                x="xFunction()"
+                                y="yFunction()"
+                                tooltips="true"
+                                showLegend="true"
+                                >
+                            <svg height="200px"></svg>
+                        </nvd3-pie-chart>
+                        <p>This graph shows distribution of the expenditure by API version of the resources.</p>
+                    </div>
+                    <div class="col-md-6 memPie">
+                        <h3>Memory</h3>
+                        <nvd3-pie-chart
+                                data="showMemPie()"
+                                objectequality="true"
+                                id="exampleId2"
+                                width="350"
+                                height="350"
+                                x="x1Function()"
+                                y="y1Function()"
+                                tooltips="true"
+                                showLegend="true"
+                                >
+                            <svg height="200px"></svg>
+                        </nvd3-pie-chart>
+                        <p>This graph shows distribution of the expenditure by memory of the resources.</p>
+                    </div>
 
+                </div>
+            </div>
+        </div>
     </div>
 </div>

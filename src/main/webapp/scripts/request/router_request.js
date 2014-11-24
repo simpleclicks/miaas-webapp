@@ -9,6 +9,9 @@ miaasApp
                     resolve:{
                         resolvedRequest: ['UserRequest', function (UserRequest) {
                             return UserRequest.getRequestsForUser();
+                        }],
+                        resolvedStat : ['UserStatistics', function(UserStatistics){
+                            return UserStatistics.getStatsForUser();
                         }]
                     },
                     access: {

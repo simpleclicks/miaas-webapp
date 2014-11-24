@@ -107,18 +107,9 @@ miaasApp
                     resolve:{
                         resolvedRequest: ['UserRequest', function (UserRequest) {
                             return UserRequest.getRequestsForUser();
-                        }]
-                    },
-                    access: {
-                        authorizedRoles: [USER_ROLES.all]
-                    }
-                })
-                .when('/userstats', {
-                    templateUrl: 'views/userStatistics.html',
-                    controller: 'UserStatsController',
-                    resolve:{
-                        resolvedStats: ['UserStats', function (UserStats) {
-                            return UserRequest.getRequestsForUser();
+                        }],
+                        resolvedStat : ['UserStatistics', function(UserStatistics){
+                            return UserStatistics.getStatsForUser();
                         }]
                     },
                     access: {
@@ -131,6 +122,9 @@ miaasApp
                     resolve:{
                         resolvedAmazonInstance: ['Network', function (Network) {
                             return Network.query();
+                        }],
+                        resolvedStats : ['AdminStatistics', function(AdminStatistics){
+                            return AdminStatistics.getStatsForAdmin();
                         }]
                     },
                     access: {

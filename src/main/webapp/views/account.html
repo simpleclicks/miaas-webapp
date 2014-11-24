@@ -1,8 +1,8 @@
 <div class="row">
 <ul class="nav nav-tabs" role="tablist" id="myTab">
-    <li role="presentation" class="active"><a data-target="#request" href="" role="tab" data-toggle="tab">Request</a>
-    </li>
+    <li role="presentation" class="active"><a data-target="#request" href="" role="tab" data-toggle="tab">Request</a></li>
     <li role="presentation"><a data-target="#billing" href="" role="tab" data-toggle="tab">Billing</a></li>
+    <li role="presentation"><a data-target="#devices" href="" role="tab" data-toggle="tab">Devices</a></li>
 </ul>
 
 <div class="tab-content">
@@ -15,58 +15,6 @@
 </button>
 
 <hr>
-
-<div class="modal fade" id="deviceViewModal" tabindex="-1" role="dialog" aria-labelledby="myRequestLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form name="form" role="form" novalidate
-                  class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                            ng-click="clear()">&times;</button>
-                    <h4 class="modal-title" id="myRequestLabel">Create or edit a Request</h4>
-                </div>
-                <div class="modal-body">
-
-                    <div class="wrapper">
-                        <div class="container1">
-
-                            <div id="two-columns" class="grid-container" style="display:block;">
-                                <ul class="rig columns-3">
-                                    <li ng-repeat="device in requestDevices">
-                                        <img src="images/Nexus_5.png"/>
-
-                                        <p>Device Name : {{device.deviceId}}</p>
-
-                                        <p>Device Memory : {{device.deviceMemory}}</p>
-
-                                        <p>Device Version : {{device.deviceVersion}}</p>
-                                        <button class="btn btn-primary" ng-click="startDevice(device.deviceId)">
-                                            <span class="glyphicon glyphicon-play"></span> Start
-                                        </button>
-
-                                        <button class="btn btn-primary" ng-click="clear()">
-                                            <span class="glyphicon glyphicon-stop"></span> Stop
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!--/.container-->
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
-                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="saveRequestModal" tabindex="-1" role="dialog" aria-labelledby="myRequestLabel"
      aria-hidden="true">
@@ -215,39 +163,67 @@
 
 <div role="tabpanel" class="tab-pane container-fluid" id="billing">
 
-    <div class="billWrapper row">
-        <div class="col-md-8 amount">
-            <h2>Total Bill</h2>
+    <div class="billWrapper">
+        <div class="amount">
+            <h2 class="totalAmt">Total Spent</h2>
+            <p>Welcome to the MIAAS Account Billing console. Your current balance appears below. The accompanying bar shows distribution of the costs per request.</p>
             <h1>${{calculateBill()}}.00</h1>
 
             <div class="progress progress-striped">
-                <div class="progress-bar progress-bar-success ng-binding" role="progressbar" aria-valuenow="{{calculateBill()}}"
-                aria-valuemin="0" aria-valuemax="{{calculateBill()}}" ng-style="{width : ( calculateBill() + '%' ) }">
-                $ + {{calculateBill()}}
-                </div>
+                <progress>
+                    <bar ng-repeat="bar in stacked track by $index" role="progressbar"
+                         value="bar.value" type="{{bar.type}}" style="border-right: 1px solid #000000"><span>${{bar.displayText}}</span></bar>
+                </progress>
 
             </div>
         </div>
-
-        <div class="col-md-4 pricePie">
+    </div>
+    <div class="billStats">
+        <div class="col-md-6 apiPie">
+            <h3>API Version</h3>
             <nvd3-pie-chart
-                    data="showPie()"
+                    data="showApiPie()"
                     objectequality="true"
-                    id="exampleId"
-                    width="300"
-                    height="300"
+                    id="exampleId1"
+                    width="350"
+                    height="350"
                     x="xFunction()"
                     y="yFunction()"
                     tooltips="true"
-                    showLabels="true">
-                <svg height="500px"></svg>
+                    showLegend="true"
+                    >
+                <svg height="200px"></svg>
             </nvd3-pie-chart>
+            <p>This graph shows distribution of the expenditure by API version of the resources.</p>
         </div>
+        <div class="col-md-6 memPie">
+            <h3>Memory</h3>
+            <nvd3-pie-chart
+                    data="showMemPie()"
+                    objectequality="true"
+                    id="exampleId2"
+                    width="350"
+                    height="350"
+                    x="x1Function()"
+                    y="y1Function()"
+                    tooltips="true"
+                    showLegend="true"
+                    >
+                <svg height="200px"></svg>
+            </nvd3-pie-chart>
+            <p>This graph shows distribution of the expenditure by memory of the resources.</p>
+        </div>
+
     </div>
+
+    <br>
+    <br>
+    <br>
 
     <div class="allRequests">
         <accordion close-others="oneAtATime">
-            <accordion-group ng-repeat="request in requests" heading="Request {{request.id}}" is-disabled="status.isFirstDisabled">
+            <accordion-group ng-repeat="request in requests" heading="Request {{request.id}}"
+                             is-disabled="status.isFirstDisabled">
                 <label>Request Price : </label></label>{{request.requestPrice}} <br/>
                 <label>Request Version : </label></label>{{request.resourceVersion}} <br/>
                 <label>Request Memory : </label></label>{{request.resourceMemory}} <br/>
@@ -257,6 +233,56 @@
     </div>
 
 </div>
+
+<div role="tabpanel" class="tab-pane container-fluid" id="devices">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>API Version</th>
+                <th>Memory</th>
+                <th>Status</th>
+                <th>Toggle</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="request in activeDevices">
+                <td>{{request.deviceType}}</td>
+                <td>{{request.deviceVersion}}</td>
+                <td>{{request.deviceMemory}}</td>
+                <td ng-if="request.deviceStatus == 'running'"><div class="led-green"></div></td>
+                <td ng-if="request.deviceStatus == 'stopped'"><div class="led-red"></div></td>
+                <td ng-if="request.deviceStatus == 'starting'"><div class="led-yellow"></div></td>
+                <td ng-if="request.deviceStatus == 'running'">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
+                               id="deviceSwitch-{{$index}}"
+                               checked
+                               ng-click="deviceOnOff(request.deviceId, $event)" >
+                        <label class="onoffswitch-label" for="deviceSwitch-{{$index}}">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </td>
+                <td ng-if="request.deviceStatus == 'stopped'">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
+                               id="deviceSwitch-{{$index}}"
+                               ng-click="deviceOnOff(request.deviceId, $event)" >
+                        <label class="onoffswitch-label" for="deviceSwitch-{{$index}}">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 </div>
 
 </div>

@@ -54,13 +54,13 @@ public class UserServiceTest {
         assertThat(persistentTokenRepository.findByUser(admin)).hasSize(existingCount + 1);
     }
 
-    @Test
-    public void testFindNotActivatedUsersByCreationDateBefore() {
-        userService.removeNotActivatedUsers();
-        DateTime now = new DateTime();
-        List<User> users = userRepository.findNotActivatedUsersByCreationDateBefore(now.minusDays(3));
-        assertThat(users).isEmpty();
-    }
+//    @Test
+//    public void testFindNotActivatedUsersByCreationDateBefore() {
+//        userService.removeNotActivatedUsers();
+//        DateTime now = new DateTime();
+//        List<User> users = userRepository.findNotActivatedUsersByCreationDateBefore(now.minusDays(3));
+//        assertThat(users).isEmpty();
+//    }
 
     private void generateUserToken(User user, String tokenSeries, LocalDate localDate) {
         PersistentToken token = new PersistentToken();

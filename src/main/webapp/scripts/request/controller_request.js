@@ -1,11 +1,32 @@
 'use strict';
 
-miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest, RequestDevices, Emulator, Session) {
+miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, resolvedStat, Request, UserRequest, UserStatistics, RequestDevices, Emulator, Session) {
     var resourcePricePerDay = 5;
     $scope.requestTotalPrice = 0;
     $scope.requests = resolvedRequest;
-    //$scope.users = resolvedUser;
+    $scope.userStats = resolvedStat;
     $scope.users = $rootScope.account.login;
+    $scope.activeDevices = [];
+
+    $scope.refreshDeviceList = function (){
+        for(var i = 0 ; i < $scope.requests.length; i++){
+            if ($scope.requests[i].requestStatus === 'Active'){
+                RequestDevices.getDevicesForReq($scope.requests[i].id).then(function (data) {
+                    $scope.activeDevices = $scope.activeDevices.concat(data);
+                });
+            }
+        };
+    };
+
+    $scope.refreshDeviceList();
+
+    $scope.deviceOnOff = function (deviceId, $event){
+        $event.target.checked ? $scope.startDevice(deviceId) : $scope.stopDevice(deviceId);
+        $scope.activeDevices = [];
+        $scope.refreshDeviceList();
+    };
+
+    console.log($scope.userStats);
 
     $('#myTab a[data-target="#request"]').click(function (e) {
         e.preventDefault();
@@ -15,28 +36,50 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
     $('#myTab a[data-target="#billing"]').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
-        //$scope.requestTotalPrice = calculateBill();
-        $scope.showPie();
+    });
+
+    $('#myTab a[data-target="#devices"]').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
     });
 
     $scope.exampleData = [];
 
-    $scope.showPie = function(){
+    $scope.memPieData = [];
+
+    $scope.apiPieData = [];
+
+    $scope.showMemPie = function(){
+        var k = 0;
+        for(var m in $scope.userStats.memory){
+            $scope.memPieData[k] = {
+                key : m + " mb",
+                y : parseInt($scope.userStats.memory[m])
+            };
+            k++;
+        }
+
+        return $scope.memPieData;
+    };
+
+    $scope.showApiPie = function(){
         var j = 0;
-        for(var i=0;i<$scope.requests.length;i++){
-            $scope.exampleData[j] = {
-                key : "Request " + $scope.requests[i].id,
-                y : $scope.requests[i].requestPrice
+
+        for(var a in $scope.userStats.api){
+            $scope.apiPieData[j] = {
+                key : "API " + a,
+                y : parseInt($scope.userStats.api[a])
             };
             j++;
         }
-        return $scope.exampleData;
+
+        return $scope.apiPieData;
     };
 
     $scope.calculateBill = function(){
         var price = 0;
         for(var i=0;i<$scope.requests.length;i++){
-            price += resolvedRequest[i].requestPrice;
+            price += $scope.requests[i].requestPrice;
         }
         console.log(price);
         return price;
@@ -53,20 +96,7 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
             $('.grid-nav li a').removeClass("active");
             $(this).addClass("active");
         });
-
-
     });
-
-
-//    $scope.exampleData = [
-//        { key: "One", y: 5 },
-//        { key: "Two", y: 2 },
-//        { key: "Three", y: 9 },
-//        { key: "Four", y: 7 },
-//        { key: "Five", y: 4 },
-//        { key: "Six", y: 3 },
-//        { key: "Seven", y: 9 }
-//    ];
 
     $scope.xFunction = function(){
         return function(d) {
@@ -75,6 +105,18 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
     };
 
     $scope.yFunction = function(){
+        return function(d){
+            return d.y;
+        };
+    };
+
+    $scope.x1Function = function(){
+        return function(d) {
+            return d.key;
+        };
+    };
+
+    $scope.y1Function = function(){
         return function(d){
             return d.y;
         };
@@ -115,7 +157,13 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         console.log(JSON.stringify($scope.request));
         Request.save($scope.request,
             function () {
-                $scope.requests = UserRequest.query();
+                UserRequest.getRequestsForUser().then(function(data) {
+                    $scope.requests = data;
+                });
+                UserStatistics.getStatsForUser().then(function(data){
+                    $scope.calculateBill();
+                    $scope.userStats = data;
+                })
                 $('#saveRequestModal').modal('hide');
                 $scope.clear();
             });
@@ -143,10 +191,31 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         return price;
     };
 
+    $scope.randomStacked = function() {
+        $scope.requestTotalPrice = $scope.calculateBill();
+        $scope.stacked = [];
+        var types = ['success', 'info', 'warning', 'danger'];
+
+        for (var i = 0, n = $scope.requests.length; i < n; i++) {
+            var index = Math.floor((Math.random() * 4));
+            var price = Math.floor(($scope.requests[i].requestPrice / $scope.requestTotalPrice)*100);
+            $scope.stacked.push({
+                value: price,
+                displayText: $scope.requests[i].requestPrice,
+                type: types[index]
+            });
+        }
+        console.log($scope.stacked);
+    };
+
+    $scope.setWidth = function(bar){
+        return { width: bar.barWidth +'%' };
+    };
+
+    $scope.randomStacked();
+
     $scope.deviceView = function (req) {
         $scope.selectedReqId = req.id;
-        //$scope.requestDevices = RequestDevices.getDevicesForReq(req.id);
-        //console.log($scope.requestDevices);
 
         RequestDevices.getDevicesForReq(req.id).then(function (data) {
             $scope.requestDevices = data;
@@ -155,6 +224,12 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
 
     $scope.startDevice = function (devId) {
         Emulator.startDeviceEmulator(devId).then(function (data) {
+            console.log(data);
+        });
+    };
+
+    $scope.stopDevice = function (devId) {
+        Emulator.stopDeviceEmulator(devId).then(function (data) {
             console.log(data);
         });
     };

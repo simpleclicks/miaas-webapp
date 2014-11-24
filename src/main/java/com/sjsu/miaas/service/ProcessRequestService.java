@@ -167,7 +167,7 @@ public class ProcessRequestService {
 						.toString()));
 				d.setDeviceImageName(dev.getString("deviceImage"));
 				d.setDeviceMemory(String.valueOf(dev.getInt("deviceMemory")));
-				d.setDeviceStatus(dev.getString("deviceStatus"));
+				d.setDeviceStatus("stopped");
 				d.setDeviceType(dev.getString("deviceType"));
 				d.setDeviceVersion(String.valueOf(dev.getInt("deviceVersion")));
 				d.setRequest(req);
