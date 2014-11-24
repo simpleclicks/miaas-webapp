@@ -31,7 +31,14 @@ spring:
             hibernate.generate_statistics: true
 
     mail:
-        baseUrl: http://localhost:8080
+        host: localhost
+        port: 2500
+        user: 
+        password: 
+        protocol: smtp
+        tls: false
+        auth: false
+        from: me@localhost
 
     thymeleaf:
         mode: XHTML
