@@ -215,10 +215,10 @@
 
 <div role="tabpanel" class="tab-pane container-fluid" id="billing">
 
-    <div class="billWrapper row">
+    <div class="billWrapper">
         <div class="amount">
-            <h2>Total Bill</h2>
-
+            <h2 class="totalAmt">Total Spent</h2>
+            <p>Welcome to the MIAAS Account Billing console. Your current balance appears below. The accompanying bar shows distribution of the costs per request.</p>
             <h1>${{calculateBill()}}.00</h1>
 
             <div class="progress progress-striped">
@@ -230,10 +230,11 @@
             </div>
         </div>
     </div>
-    <div class="row billStats">
+    <div class="billStats">
         <div class="col-md-6 apiPie">
+            <h3>API Version</h3>
             <nvd3-pie-chart
-                    data="showPie()"
+                    data="showApiPie()"
                     objectequality="true"
                     id="exampleId1"
                     width="350"
@@ -245,24 +246,31 @@
                     >
                 <svg height="200px"></svg>
             </nvd3-pie-chart>
+            <p>This graph shows distribution of the expenditure by API version of the resources.</p>
         </div>
         <div class="col-md-6 memPie">
+            <h3>Memory</h3>
             <nvd3-pie-chart
-                    data="showPie()"
+                    data="showMemPie()"
                     objectequality="true"
                     id="exampleId2"
                     width="350"
                     height="350"
-                    x="xFunction()"
-                    y="yFunction()"
+                    x="x1Function()"
+                    y="y1Function()"
                     tooltips="true"
                     showLegend="true"
                     >
                 <svg height="200px"></svg>
             </nvd3-pie-chart>
+            <p>This graph shows distribution of the expenditure by memory of the resources.</p>
         </div>
 
     </div>
+
+    <br>
+    <br>
+    <br>
 
     <div class="allRequests">
         <accordion close-others="oneAtATime">

@@ -1,11 +1,14 @@
 'use strict';
 
-miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, Request, UserRequest, RequestDevices, Emulator, Session) {
+miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedRequest, resolvedStat, Request, UserRequest, RequestDevices, Emulator, Session) {
     var resourcePricePerDay = 5;
     $scope.requestTotalPrice = 0;
     $scope.requests = resolvedRequest;
     //$scope.users = resolvedUser;
+    $scope.userStats = resolvedStat;
     $scope.users = $rootScope.account.login;
+
+    console.log($scope.userStats);
 
     $('#myTab a[data-target="#request"]').click(function (e) {
         e.preventDefault();
@@ -16,21 +19,39 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         e.preventDefault();
         $(this).tab('show');
         //$scope.requestTotalPrice = calculateBill();
-        $scope.showPie();
     });
 
     $scope.exampleData = [];
 
-    $scope.showPie = function(){
+    $scope.memPieData = [];
+
+    $scope.apiPieData = [];
+
+    $scope.showMemPie = function(){
+        var k = 0;
+        for(var m in $scope.userStats.memory){
+            $scope.memPieData[k] = {
+                key : m + " mb",
+                y : parseInt($scope.userStats.memory[m])
+            };
+            k++;
+        }
+
+        return $scope.memPieData;
+    };
+
+    $scope.showApiPie = function(){
         var j = 0;
-        for(var i=0;i<$scope.requests.length;i++){
-            $scope.exampleData[j] = {
-                key : "Req. " + $scope.requests[i].id,
-                y : $scope.requests[i].requestPrice
+
+        for(var a in $scope.userStats.api){
+            $scope.apiPieData[j] = {
+                key : "API " + a,
+                y : parseInt($scope.userStats.api[a])
             };
             j++;
         }
-        return $scope.exampleData;
+
+        return $scope.apiPieData;
     };
 
     $scope.calculateBill = function(){
@@ -57,17 +78,6 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
 
     });
 
-
-//    $scope.exampleData = [
-//        { key: "One", y: 5 },
-//        { key: "Two", y: 2 },
-//        { key: "Three", y: 9 },
-//        { key: "Four", y: 7 },
-//        { key: "Five", y: 4 },
-//        { key: "Six", y: 3 },
-//        { key: "Seven", y: 9 }
-//    ];
-
     $scope.xFunction = function(){
         return function(d) {
             return d.key;
@@ -75,6 +85,18 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
     };
 
     $scope.yFunction = function(){
+        return function(d){
+            return d.y;
+        };
+    };
+
+    $scope.x1Function = function(){
+        return function(d) {
+            return d.key;
+        };
+    };
+
+    $scope.y1Function = function(){
         return function(d){
             return d.y;
         };
