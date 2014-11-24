@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("select u from User u where u.login = ?1")
     User getUserByLogin(String username);
     
-    @Query("select u from User u where u.activated = false and u.createdDate > ?1")
-    List<User> findNotActivatedUsersByCreationDateBefore(DateTime dateTime);
+//    @Query("select u from User u where u.activated = false and u.createdDate > ?1")
+//    List<User> findNotActivatedUsersByCreationDateBefore(DateTime dateTime);
 
 }
