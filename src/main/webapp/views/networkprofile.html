@@ -24,12 +24,47 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="tab-content">
         <div role="tabpanel" class="tab-pane" id="requestStats">
+            <div>
+                <h1 style="text-align: center;margin-bottom: 25px">Request Stats</h1>
+                <div class="billStats">
+                    <div class="col-md-6 apiPie">
+                        <h3>API Version</h3>
+                        <nvd3-pie-chart
+                                data="showApiPie()"
+                                objectequality="true"
+                                id="exampleId1"
+                                width="350"
+                                height="350"
+                                x="xFunction()"
+                                y="yFunction()"
+                                tooltips="true"
+                                showLegend="true"
+                                >
+                            <svg height="200px"></svg>
+                        </nvd3-pie-chart>
+                        <p>This graph shows distribution of the expenditure by API version of the resources.</p>
+                    </div>
+                    <div class="col-md-6 memPie">
+                        <h3>Memory</h3>
+                        <nvd3-pie-chart
+                                data="showMemPie()"
+                                objectequality="true"
+                                id="exampleId2"
+                                width="350"
+                                height="350"
+                                x="x1Function()"
+                                y="y1Function()"
+                                tooltips="true"
+                                showLegend="true"
+                                >
+                            <svg height="200px"></svg>
+                        </nvd3-pie-chart>
+                        <p>This graph shows distribution of the expenditure by memory of the resources.</p>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
-
-
 </div>

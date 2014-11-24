@@ -122,6 +122,9 @@ miaasApp
                     resolve:{
                         resolvedAmazonInstance: ['Network', function (Network) {
                             return Network.query();
+                        }],
+                        resolvedStats : ['AdminStatistics', function(AdminStatistics){
+                            return AdminStatistics.getStatsForAdmin();
                         }]
                     },
                     access: {

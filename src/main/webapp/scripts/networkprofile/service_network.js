@@ -8,3 +8,14 @@ miaasApp.factory('Network', function ($resource) {
         'get': { method: 'GET'}
     });
 });
+
+miaasApp.factory('AdminStatistics', function ($resource,$http) {
+    return {
+        getStatsForAdmin: function() {
+            var promise = $http.get('app/rest/getpriceAll').then(function (response) {
+                return response.data;
+            });
+            return promise;
+        }
+    };
+});
