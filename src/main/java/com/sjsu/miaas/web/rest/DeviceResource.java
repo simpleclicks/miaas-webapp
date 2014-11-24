@@ -42,11 +42,11 @@ public class DeviceResource {
 	private StartEmulatorService startEmulator; 
 	
 	@Inject
-//<<<<<<< HEAD
 	private NetworkAdminService netAdminServ;
-//=======
+
+	@Inject
 	private UserStatistics userStat; 
-//>>>>>>> origin
+
 
 	/**
 	 * POST  /rest/devices -> Create a new device.

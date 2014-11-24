@@ -65,13 +65,13 @@ public class NetworkAdminService {
 		for(Object[] obj : r2){
 			RequestObject r = new RequestObject();
 			r.setResourceVersion((String)obj[0]);
-			r.setResourcePrice((Integer)obj[1]);
+			r.setResourcePrice(((Long)obj[1]).intValue());
 			r1.add(r);
 		}
 		Gson gson = new GsonBuilder().create();
 		String re1 = gson.toJson(r1);
 		
-		return new JSONObject(re1).toString();
+		return re1;
 				
 	}
 	

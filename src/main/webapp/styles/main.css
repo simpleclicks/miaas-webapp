@@ -114,7 +114,6 @@ ul#strength {
 }
 
 .billWrapper{
-    width: 100%;
     height: 100%;
 }
 
@@ -213,4 +212,28 @@ ul#strength {
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px;
+}
+
+.totalAmt{
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.apiPie svg, .memPie svg {
+    text-align: center;
+    margin: auto;
+    height: 300px;
+}
+
+.apiPie, .memPie {
+    border-radius: 10px;
+    border: 1px solid #e3e3e3;
+    margin-bottom: 20px;
+}
+
+.apiPie h3, .memPie h3{
+    border-bottom: 1px solid #e3e3e3;
+}
+
+#billing{
+    margin : auto;
 }
