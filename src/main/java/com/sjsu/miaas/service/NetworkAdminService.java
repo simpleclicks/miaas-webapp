@@ -1,6 +1,7 @@
 package com.sjsu.miaas.service;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -13,6 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -58,20 +60,62 @@ public class NetworkAdminService {
 	private RequestRepository reqRepository;
 	
 	public String getSumofRequestPrice() throws JSONException{
-		List<RequestObject> r1 = new ArrayList<RequestObject>();
+//		List<RequestObject> r1 = new ArrayList<RequestObject>();
+//		
+//		List<Object[]> r2 = reqRepository.getPricebyRequestVersions();
+//		
+//		for(Object[] obj : r2){
+//			RequestObject r = new RequestObject();
+//			r.setResourceVersion((String)obj[0]);
+//			r.setResourcePrice(((Long)obj[1]).intValue());
+//			r1.add(r);
+//		}
+//		Gson gson = new GsonBuilder().create();
+//		String re1 = gson.toJson(r1);
+//		
+//		return re1;
 		
-		List<Object[]> r2 = reqRepository.getPricebyRequestVersions();
+		List<Request> reqs = reqRepository.findAll();
 		
-		for(Object[] obj : r2){
-			RequestObject r = new RequestObject();
-			r.setResourceVersion((String)obj[0]);
-			r.setResourcePrice(((Long)obj[1]).intValue());
-			r1.add(r);
+		
+		HashMap<String, Integer> apiMap = new HashMap<String, Integer>();
+		HashMap<String, Integer> memoryMap = new HashMap<String, Integer>();
+		JSONObject userData = new JSONObject();
+		JSONObject api = new JSONObject();
+		JSONObject memory = new JSONObject();
+		String tempApi = "api";
+		String tempMem = "mem";
+		for (Request request : reqs) {
+			tempApi = request.getResourceVersion();
+			tempMem = request.getResourceMemory();
+			if(apiMap.containsKey(tempApi)){
+				apiMap.put(tempApi, apiMap.get(tempApi)+request.getRequestPrice());
+			}else{
+				apiMap.put(tempApi, request.getRequestPrice());
+			}
+			if(memoryMap.containsKey(tempMem)){
+				memoryMap.put(tempMem, memoryMap.get(tempMem)+request.getRequestPrice());
+			}else{
+				memoryMap.put(tempMem, request.getRequestPrice());
+			}
+		}	
+		
+		for (Entry<String, Integer> entry : apiMap.entrySet()) {
+		    String key = entry.getKey();
+		    int value = entry.getValue();
+		    api.put(key, value);
 		}
-		Gson gson = new GsonBuilder().create();
-		String re1 = gson.toJson(r1);
+		userData.put("api", api);
+		for (Entry<String, Integer> entry : memoryMap.entrySet()) {
+		    String key = entry.getKey();
+		    int value = entry.getValue();
+		    memory.put(key, value);
+		}
+		userData.put("memory", memory);
 		
-		return re1;
+		return userData.toString();
+		
+		
 				
 	}
 	
