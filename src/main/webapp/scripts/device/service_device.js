@@ -15,6 +15,12 @@ miaasApp.factory('Emulator', function ($http) {
                 return response.data;
             });
             return promise;
+        },
+        stopDeviceEmulator: function(devid) {
+            var promise = $http.get('app/rest/stop/device/'+devid).then(function (response) {
+                return response.data;
+            });
+            return promise;
         }
     };
 });

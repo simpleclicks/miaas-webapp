@@ -6,6 +6,26 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
     $scope.requests = resolvedRequest;
     //$scope.users = resolvedUser;
     $scope.users = $rootScope.account.login;
+    $scope.activeDevices = [];
+
+    $scope.refreshDeviceList = function (){
+        for(var i = 0 ; i < $scope.requests.length; i++){
+            if ($scope.requests[i].requestStatus === 'Active'){
+                RequestDevices.getDevicesForReq($scope.requests[i].id).then(function (data) {
+                    $scope.activeDevices = $scope.activeDevices.concat(data);
+                });
+            }
+        };
+    };
+
+    $scope.refreshDeviceList();
+
+    $scope.deviceOnOff = function (deviceId, $event){
+        $event.target.checked ? $scope.startDevice(deviceId) : $scope.stopDevice(deviceId);
+        $scope.activeDevices = [];
+        $scope.refreshDeviceList();
+    };
+
 
     $('#myTab a[data-target="#request"]').click(function (e) {
         e.preventDefault();
@@ -15,8 +35,12 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
     $('#myTab a[data-target="#billing"]').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
-        //$scope.requestTotalPrice = calculateBill();
         $scope.showPie();
+    });
+
+    $('#myTab a[data-target="#devices"]').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
     });
 
     $scope.exampleData = [];
@@ -53,8 +77,6 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
             $('.grid-nav li a').removeClass("active");
             $(this).addClass("active");
         });
-
-
     });
 
 
@@ -162,7 +184,7 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
 
     $scope.setWidth = function(bar){
         return { width: bar.barWidth +'%' };
-    }
+    };
 
     $scope.randomStacked();
 
@@ -178,6 +200,12 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
 
     $scope.startDevice = function (devId) {
         Emulator.startDeviceEmulator(devId).then(function (data) {
+            console.log(data);
+        });
+    };
+
+    $scope.stopDevice = function (devId) {
+        Emulator.stopDeviceEmulator(devId).then(function (data) {
             console.log(data);
         });
     };
