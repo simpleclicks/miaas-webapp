@@ -13,6 +13,16 @@ miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstan
         }
     });
 
+    $('#myTab a[data-target="#ec2"]').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    $('#myTab a[data-target="#requestStats"]').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
     angular.element($window.document.getElementsByClassName("gauge")).ready(function(){
 
     });
@@ -44,7 +54,7 @@ miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstan
                 id: gaugesRscrs[i].id,
                 value: gaugesRscrs[i].attributes['data-avlblRescrc'].value,
                 min: 0,
-                max: 10,
+                max: 20,
                 title: "Available Resources"
             });
         }
