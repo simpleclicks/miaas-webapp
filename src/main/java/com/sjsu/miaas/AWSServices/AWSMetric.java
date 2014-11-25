@@ -10,6 +10,7 @@ public class AWSMetric {
 	double NetworkIn;
 	double NetworkOut;
 	BigDecimal availableResources;
+	double StatusCheckFailed;
 
 	public BigDecimal getAvailableResources() {
 		return availableResources;
@@ -24,12 +25,13 @@ public class AWSMetric {
 		
 	}
 
-	public AWSMetric(String instanceID, double CPUUtilization,double NetworkIn, double NetworkOut)
+	public AWSMetric(String instanceID, double CPUUtilization,double NetworkIn, double NetworkOut, double StatusCheckFailed)
 	{
 		this.instanceID = instanceID;
 		this.CPUUtilization = CPUUtilization;
 		this.NetworkIn = NetworkIn;
 		this.NetworkOut = NetworkOut;
+		this.StatusCheckFailed = StatusCheckFailed;
 	}
 	
 	
@@ -63,5 +65,13 @@ public class AWSMetric {
 	
 	public void setNetworkOut(double NetworkOut){
 		this.NetworkOut=NetworkOut;
+	}
+	
+	public double getStatusCheckFailed(){
+		return StatusCheckFailed;
+	}
+	
+	public void setStatusCheckFailed(double StatusCheckFailed){
+		this.StatusCheckFailed = StatusCheckFailed;
 	}
 }

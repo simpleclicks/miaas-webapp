@@ -347,6 +347,33 @@ public class AWSInstanceAction extends AWSInstanceState {
 				awm1.NetworkOut = db3;
 				
 			}
+			//
+			GetMetricStatisticsRequest request4 = new GetMetricStatisticsRequest()
+			.withStartTime(
+					new Date(new Date().getTime()
+							- offsetInMilliseconds))
+							.withNamespace("AWS/EC2")
+							.withPeriod(60 * 60 * 60)
+							.withDimensions(
+									new Dimension().withName("InstanceId").withValue(
+											InstanceID))
+											.withMetricName("StatusCheckFailed").withStatistics("Average")
+											.withEndTime(new Date());
+			GetMetricStatisticsResult getMetricStatisticsResult4 = cw
+					.getMetricStatistics(request4);
+			
+			List<Datapoint> dataPoint4 = new ArrayList<Datapoint>();
+			dataPoint4 = getMetricStatisticsResult4.getDatapoints();
+			System.out.println("whats here: " +dataPoint4.toString());
+			for (Object aDataPoint4 : dataPoint4) {
+				Datapoint dp4 = (Datapoint) aDataPoint4;
+						Double db4 = dp4.getAverage();	
+						System.out.println("value" +db4);
+				awm1.StatusCheckFailed = db4;
+				
+			}
+			
+			
 			
 			//
 			awsMetric.add(j, awm1);
@@ -356,7 +383,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 		//System.out.println(awsMetric.get(0).instanceID.toString());
 		Gson gson = new GsonBuilder().create();
 		 String aws1 = gson.toJson(awsMetric);
-		// System.out.println("The values are :" +aws1);
+		 System.out.println("The values are :" +aws1);
 		JsonArray js = gson.toJsonTree(awsMetric).getAsJsonArray();
 
 		return awsMetric;
