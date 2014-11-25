@@ -87,7 +87,7 @@ public class StartEmulatorService {
 		}
 		
 		if((sb.toString()).equalsIgnoreCase("launched")){
-			device.setDeviceStatus("Running");
+			device.setDeviceStatus("running");
 		}
 		httpConnection.disconnect();
 		return sb.toString();
