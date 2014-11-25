@@ -41,11 +41,12 @@ public class ProcessRequestUtil {
 				if (LocalDate.now().isAfter(request.getRequestStartDate())
 						|| LocalDate.now().isEqual(
 								request.getRequestStartDate())) {
-					requestService.processRequest(request);
+					//requestService.processRequest(request);
 					request.setRequestStatus("Active");
 					 java.util.Date date= new java.util.Date();
 					request.setRequestProcessTime(new Timestamp(date.getTime()));
 					requestRepository.save(request);
+					Thread.sleep(2000);
 					System.out.println("Processing request "
 							+ request.toString());
 				}

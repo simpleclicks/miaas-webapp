@@ -121,6 +121,7 @@ public class DeviceResource {
 		try {
 			result = startEmulator.start(id);
 			
+			
 		} catch (MalformedURLException e) {
 
 			e.printStackTrace();

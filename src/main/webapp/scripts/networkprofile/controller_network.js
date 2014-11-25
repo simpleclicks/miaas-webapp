@@ -1,6 +1,6 @@
 'use strict';
 
-miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstance,resolvedAmazonInstance, resolvedStats, $window) {
+miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstance,resolvedAmazonInstance, resolvedStats, resolvedRequest, $window) {
 
     $scope.amazonInstance = resolvedAmazonInstance;
 
@@ -63,9 +63,13 @@ miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstan
 
     $scope.adminStats = resolvedStats;
 
+    $scope.requests = resolvedRequest;
+
     $scope.memPieData = [];
 
     $scope.apiPieData = [];
+
+    $scope.reqData = [];
 
     $scope.showMemPie = function(){
         var k = 0;
@@ -92,6 +96,43 @@ miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstan
         }
 
         return $scope.apiPieData;
+    };
+
+    function compare(a,b) {
+        if (a.requestProcessTime < b.requestProcessTime)
+            return -1;
+        if (a.requestProcessTime > b.requestProcessTime)
+            return 1;
+        return 0;
+    }
+
+    //objs.sort(compare);
+
+    $scope.showRequestTime = function(){
+        var g = 0;
+        var vals = [];
+        $scope.requests.sort(compare);
+        for(var r = 0; r < $scope.requests.length; r++){
+            vals[g] = [$scope.requests[r].requestProcessTime, $scope.requests[r].requestPrice];
+            g++;
+        }
+        $scope.reqData = [
+            {
+                "key" : "Series 1",
+                "values" : vals
+            }
+        ];
+        //return $scope.reqData;
+    };
+    $scope.showRequestTime();
+
+    $scope.xAxisTickFormat = function(){
+        return function(d){
+            var date = new Date(d);
+            var y = date.getDate() + " " + date.getFullYear() + " " + date.getHours()+ ":" + date.getMinutes() + ":" + date.getSeconds();
+            //console.log(date.getMonth() + " " + date.getDay() + " " +date.getYear() + " " + date.getHours() + " " + date.getMinutes() + " " + date.getSeconds());
+            return y;
+        };
     };
 
     $scope.xFunction = function(){
