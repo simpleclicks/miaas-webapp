@@ -5,6 +5,7 @@ import com.sjsu.miaas.domain.Device;
 import com.sjsu.miaas.repository.DeviceRepository;
 import com.sjsu.miaas.service.NetworkAdminService;
 import com.sjsu.miaas.service.StartEmulatorService;
+import com.sjsu.miaas.service.StopEmulatorService;
 import com.sjsu.miaas.service.UserStatistics;
 
 import org.json.JSONArray;
@@ -39,7 +40,10 @@ public class DeviceResource {
 	private DeviceRepository deviceRepository;
 
 	@Inject
-	private StartEmulatorService startEmulator; 
+	private StartEmulatorService startEmulator;
+	
+	@Inject
+	private StopEmulatorService stopEmulator; 
 	
 	@Inject
 	private NetworkAdminService netAdminServ;
@@ -139,6 +143,47 @@ public class DeviceResource {
 
 	}
 
+	
+	/**
+	 * STOP Emulator  /rest/devices/:id -> emulator with the "id".
+	 */
+	@RequestMapping(value = "/rest/stop/device/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public String stop(@PathVariable String id) throws JSONException {
+		log.info("REST request to get Stop Emulator : {}", id);
+		//        Device device = deviceRepository.findOne(id);
+		//        if (device == null) {
+		//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		//        }else{
+		//        	
+		//        }
+		//        return new ResponseEntity<>(device, HttpStatus.OK);
+
+		String result =null;
+		try {
+			result = stopEmulator.stop(id);
+			
+			
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+		} catch (ProtocolException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		} catch (com.amazonaws.util.json.JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+
+	}
+
+	
 	
 	@RequestMapping(value = "/rest/userStatistics/{id}",
 			method = RequestMethod.GET,
