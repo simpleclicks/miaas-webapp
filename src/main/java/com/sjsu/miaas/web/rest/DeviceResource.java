@@ -191,22 +191,11 @@ public class DeviceResource {
 	@Timed
 	public String getUserStatistics(@PathVariable String id) throws JSONException {
 		log.info("REST request to get user statistics : {}", id);
-		//        Device device = deviceRepository.findOne(id);
-		//        if (device == null) {
-		//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		//        }else{
-		//        	
-		//        }
-		//        return new ResponseEntity<>(device, HttpStatus.OK);
 		JSONObject result = userStat.userData(id);
 		
 		return result.toString();
 		
 	}
-
-	
-	
-	
 
 	/**
 	 * DELETE  /rest/devices/:id -> delete the "id" device.

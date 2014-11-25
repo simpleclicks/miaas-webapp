@@ -123,28 +123,27 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
     };
 
     $scope.preDefRequestType = [
-        { value: 'Android', text: 'Android' },
-        { value: 'iOS', text: 'iOS' },
-        { value: 'Windows', text: 'Windows Phone' }
+        { value: 'Nexus 7', text: 'Nexus 7' },
+        { value: 'Nexus One', text: 'Nexus One' },
+        { value: 'Moto X', text: 'Moto X' },
+        { value: 'Samsung Galaxy S5', text: 'Samsung Galaxy S5' },
+        { value: 'HTC Hero', text: 'HTC Hero'}
     ];
 
     $scope.preDefResourceVersion = [
-        { value: '15', text: 'api15' },
-        { value: '16', text: 'api16' },
-        { value: '17', text: 'api17' },
-        { value: '18', text: 'api18' },
-        { value: '19', text: 'api19' },
-        { value: '20', text: 'api20' }
-    ];
-
-    $scope.preDefResourceType = [
-        { value: 'Device', text: 'Device' },
-        { value: 'Emulator', text: 'Emulator' }
+        { value: '18', text: 'Jellybean 4.3.x' },
+        { value: '19', text: 'KitKat 4.4.x' },
+        { value: '21', text: 'Lollipop 5.0' }
     ];
 
     $scope.preDefResourceMemory = [
         { value: '512', text: '512 mb' },
         { value: '1024', text: '1024 mb' }
+    ];
+
+    $scope.preDefResourceType = [
+        { value: 'Device', text: 'Device' },
+        { value: 'Emulator', text: 'Emulator' }
     ];
 
     $scope.create = function () {

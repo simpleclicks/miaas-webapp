@@ -10,16 +10,46 @@
                 <h1 style="text-align: center;margin-bottom: 25px">Network Dashboard</h1>
 
                 <div class="amazoninstances">
-                    <div on-finish-render="ngRepeatFinished" ng-repeat="ai in amazonInstance" class="gauges">
-                        <div class="container_12 itemWrapper">
-                            <h2 style="text-align: center;margin-bottom: 15px">{{ai.instanceid}}</h2>
+                    <!--<div on-finish-render="ngRepeatFinished" ng-repeat="ai in amazonInstance" class="gauges">-->
+                        <!--<div class="container_12 itemWrapper">-->
+                            <!--<h2 style="text-align: center;margin-bottom: 15px">{{ai.instanceid}}</h2>-->
 
-                            <div class="gauge grid_4" data-cpuUtil="{{ai.cpuutilization}}" style="width:200px"
-                                 id="cpu{{ai.instanceid}}"></div>
-                            <div class="gaugeResrcs grid_4" data-avlblRescrc="{{ai.availableResources}}"
-                                 style="width:200px"
-                                 id="res{{ai.instanceid}}"></div>
-                        </div>
+                            <!--<div class="gauge grid_4" data-cpuUtil="{{ai.cpuutilization}}" style="width:200px"-->
+                                 <!--id="cpu{{ai.instanceid}}"></div>-->
+                            <!--<div class="gaugeResrcs grid_4" data-avlblRescrc="{{ai.availableResources}}"-->
+                                 <!--style="width:200px"-->
+                                 <!--id="res{{ai.instanceid}}"></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="allRequests">
+                        <accordion close-others="oneAtATime">
+                            <accordion-group ng-repeat="ai in amazonInstance" heading="Hub {{ai.instanceid}}"
+                                             is-disabled="status.isFirstDisabled">
+                                <label>Hub CPU Utilization : </label>
+                                <div class="progress progress-striped">
+                                <div class="progress-bar progress-bar-success" role="progressbar"
+                                     aria-valuenow="{{ai.cpuutilization}}"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100"
+                                     style="width: {{ai.cpuutilization}}%">
+                                    <span style="color: #000000">{{ai.cpuutilization}}</span>
+                                </div>
+                                    </div>
+                                <label>Hub  Availability : </label>
+                                <div class="progress progress-striped">
+                                    <div class="progress-bar progress-bar-success" role="progressbar"
+                                         aria-valuenow="{{ai.availableResources}}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="20"
+                                         style="width: {{(ai.availableResources/20*100)}}%">
+                                        <span style="color: #000000">{{ai.availableResources}} / 20</span>
+                                    </div>
+                                </div>
+                                <label>Network In : </label> {{ai.networkIn}} bytes <br>
+                                <label>Network Out : </label> {{ai.networkOut}} bytes <br>
+                            </accordion-group>
+                        </accordion>
+
                     </div>
                 </div>
             </div>
@@ -68,7 +98,7 @@
                     <nvd3-line-chart
                             data="reqData"
                             id="toolTipExample"
-                            width="850"
+                            width="950"
                             height="350"
                             xAxisTickFormat="xAxisTickFormat()"
                             showXAxis="true"

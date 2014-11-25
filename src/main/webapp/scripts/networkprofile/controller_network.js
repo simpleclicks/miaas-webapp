@@ -141,6 +141,13 @@ miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstan
         };
     };
 
+    $scope.oneAtATime = true;
+
+    $scope.status = {
+        isFirstOpen: true,
+        isFirstDisabled: false
+    };
+
     $scope.yFunction = function(){
         return function(d){
             return d.y;
