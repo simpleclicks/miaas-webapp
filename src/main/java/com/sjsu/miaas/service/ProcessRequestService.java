@@ -168,8 +168,8 @@ public class ProcessRequestService {
 				d.setDeviceImageName(dev.getString("deviceImage"));
 				d.setDeviceMemory(String.valueOf(dev.getInt("deviceMemory")));
 				d.setDeviceStatus("stopped");
-				d.setDeviceType(dev.getString("deviceType"));
-				d.setDeviceVersion(String.valueOf(dev.getInt("deviceVersion")));
+				d.setDeviceType(req.getRequestType());
+				d.setDeviceVersion(req.getResourceVersion());
 				d.setRequest(req);
 				d.setRequest_id(new BigInteger(req.getId().toString()));
 				devRepository.save(d);

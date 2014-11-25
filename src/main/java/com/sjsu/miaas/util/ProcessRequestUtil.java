@@ -29,7 +29,7 @@ public class ProcessRequestUtil {
 	@Inject 
 	RequestPriorityUtil requestPriorityUtil;
 
-	@Scheduled(fixedRate = 360000)
+	@Scheduled(fixedRate = 120000)
 	public void startRequestStartProcessor() {
 		try {
 			//RequestPriorityUtil rpu = new RequestPriorityUtil();

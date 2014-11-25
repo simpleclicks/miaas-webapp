@@ -129,7 +129,7 @@ miaasApp.controller('NetworkController', function ($scope, Network, AmazonInstan
     $scope.xAxisTickFormat = function(){
         return function(d){
             var date = new Date(d);
-            var y = date.getDate() + " " + date.getFullYear() + " " + date.getHours()+ ":" + date.getMinutes() + ":" + date.getSeconds();
+            var y = date.getHours()+ ":" + date.getMinutes() + ":" + date.getSeconds();
             //console.log(date.getMonth() + " " + date.getDay() + " " +date.getYear() + " " + date.getHours() + " " + date.getMinutes() + " " + date.getSeconds());
             return y;
         };

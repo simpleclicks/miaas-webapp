@@ -47,6 +47,8 @@
                                 </div>
                                 <label>Network In : </label> {{ai.networkIn}} bytes <br>
                                 <label>Network Out : </label> {{ai.networkOut}} bytes <br>
+                                <label>Hub Status : </label><span ng-if="ai.statusCheckFailed == 0"><div class="led-green"></div></span>
+                                <div ng-if="ai.statusCheckFailed == 1"><div class="led-red"></div></div>
                             </accordion-group>
                         </accordion>
 

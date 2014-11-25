@@ -115,7 +115,7 @@ public class AWSInstanceAction extends AWSInstanceState {
 		Instance aws = new Instance();
 		RunInstancesRequest rir = new RunInstancesRequest()
 		.withInstanceType("g2.2xlarge").withKeyName("webserver1")
-		.withImageId("ami-996633a9").withMinCount(1).withMaxCount(1)
+		.withImageId("ami-8999cdb9").withMinCount(1).withMaxCount(1)
 		.withSecurityGroupIds("sg-e7bad882");
 
 		RunInstancesResult run = amazonEC2.runInstances(rir);
