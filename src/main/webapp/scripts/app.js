@@ -120,6 +120,9 @@ miaasApp
                     templateUrl: 'views/networkprofile.html',
                     controller: 'NetworkController',
                     resolve:{
+                        resolvedRequest: ['Request', function (Request) {
+                            return Request.query();
+                        }],
                         resolvedAmazonInstance: ['Network', function (Network) {
                             return Network.query();
                         }],
