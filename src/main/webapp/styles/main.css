@@ -237,3 +237,16 @@ ul#strength {
 #billing{
     margin : auto;
 }
+
+.sensors {
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+}
+
+.devices {
+    width: 100%;
+    table-layout: fixed;
+}

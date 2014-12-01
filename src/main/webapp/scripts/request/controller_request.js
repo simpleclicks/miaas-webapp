@@ -12,7 +12,39 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         for(var i = 0 ; i < $scope.requests.length; i++){
             if ($scope.requests[i].requestStatus === 'Active'){
                 RequestDevices.getDevicesForReq($scope.requests[i].id).then(function (data) {
-                    $scope.activeDevices = $scope.activeDevices.concat(data);
+                    for(var j = 0; j< data.length; j++){
+                        if(data[j].deviceType == "Samsung Galaxy S5"){
+                            data[j].manufacturer = "Samsung";
+                            data[j].gprs = "Yes";
+                            data[j].wifi = "Yes";
+                            data[j].sensors = "Accelerometer, gyro, proximity, compass, barometer, gesture, heart rate";
+                        }
+                        else if(data[j].deviceType == "Nexus 5"){
+                            data[j].manufacturer = "LG";
+                            data[j].gprs = "Yes";
+                            data[j].wifi = "Yes";
+                            data[j].sensors = "Accelerometer, gyro, proximity, compass, barometer";
+                        }
+                        else if(data[j].deviceType == "Nexus 7"){
+                            data[j].manufacturer = "ASUS";
+                            data[j].gprs = "Yes";
+                            data[j].wifi = "Yes";
+                            data[j].sensors = "Accelerometer, gyro, proximity, compass";
+                        }
+                        else if(data[j].deviceType == "Nexus One"){
+                            data[j].manufacturer = "HTC";
+                            data[j].gprs = "Yes";
+                            data[j].wifi = "Yes";
+                            data[j].sensors = "Accelerometer, proximity, compass";
+                        }
+                        else if(data[j].deviceType == "Moto X"){
+                            data[j].manufacturer = "Motorola";
+                            data[j].gprs = "Yes";
+                            data[j].wifi = "Yes";
+                            data[j].sensors = "Accelerometer, gyro, proximity, compass, barometer, temperature";
+                        }
+                        $scope.activeDevices = $scope.activeDevices.concat(data[j]);
+                    }
                 });
             }
         };
