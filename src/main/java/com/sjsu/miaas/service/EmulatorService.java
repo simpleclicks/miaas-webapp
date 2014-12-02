@@ -104,7 +104,7 @@ public class EmulatorService {
 		AmazonInstance amzInst = amaInstanceRepository.findOne(amzInsId.longValue());
 
 		//TODO change the targetUrl to the start app url
-		URL targetUrl = new URL("http://" +amzInst.getPublicDnsName() + ":8080/simpleapp/webapi/androidcontrol/getInstalledApp/appName");
+		URL targetUrl = new URL("http://" +amzInst.getPublicDnsName() + ":8080/simpleapp/webapi/androidcontrol/getInstalledApp/" + appName);
 //		URL targetUrl = new URL("http://ec2-54-148-4-92.us-west-2.compute.amazonaws.com:8080/simpleapp/webapi/androidcontrol/startemulator");
 		HttpURLConnection httpConnection = (HttpURLConnection) targetUrl.openConnection();
 		httpConnection.setDoOutput(true);
