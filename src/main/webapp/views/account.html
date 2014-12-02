@@ -1,164 +1,165 @@
 <div class="row">
 <ul class="nav nav-tabs" role="tablist" id="myTab">
-    <li role="presentation" class="active"><a data-target="#request" href="" role="tab" data-toggle="tab">Request</a></li>
+    <li role="presentation" class="active"><a data-target="#request" href="" role="tab" data-toggle="tab">Request</a>
+    </li>
     <li role="presentation"><a data-target="#billing" href="" role="tab" data-toggle="tab">Billing</a></li>
     <li role="presentation"><a data-target="#devices" href="" role="tab" data-toggle="tab">Devices</a></li>
 </ul>
 
 <div class="tab-content">
 <div role="tabpanel" class="tab-pane active" id="request">
-<div>
-<h3>Make a New Request</h3>
+    <div>
+        <h3>Make a New Request</h3>
 
-<button class="btn btn-primary" data-toggle="modal" data-target="#saveRequestModal" ng-click="clear()">
-    <span class="glyphicon glyphicon-flash"></span> New Request
-</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#saveRequestModal" ng-click="clear()">
+            <span class="glyphicon glyphicon-flash"></span> New Request
+        </button>
 
-<hr>
+        <hr>
 
-<div class="modal fade" id="saveRequestModal" tabindex="-1" role="dialog" aria-labelledby="myRequestLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form name="form" role="form" novalidate
-                  class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength"
-                  ng-submit="create()">
+        <div class="modal fade" id="saveRequestModal" tabindex="-1" role="dialog" aria-labelledby="myRequestLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form name="form" role="form" novalidate
+                          class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength"
+                          ng-submit="create()">
 
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                            ng-click="clear()">&times;</button>
-                    <h4 class="modal-title" id="myRequestLabel">Create or edit a Request</h4>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                    ng-click="clear()">&times;</button>
+                            <h4 class="modal-title" id="myRequestLabel">Create or edit a Request</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label>Request Device</label>
+                                <select class="form-control" ng-model="request.requestType"
+                                        ng-options="obj.value as obj.text for obj in preDefRequestType">
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Request Start Date</label>
+                                <input type="date" class="form-control"
+                                       ng-model="request.requestStartDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Request End Date</label>
+                                <input type="date" class="form-control"
+                                       ng-model="request.requestEndDate" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Resource Quantity</label>
+                                <input type="number" class="form-control"
+                                       ng-model="request.resourceQuantity">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Resource Type</label>
+                                <select class="form-control" ng-model="request.resourceType"
+                                        ng-options="obj.value as obj.text for obj in preDefResourceType">
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Resource Version</label>
+                                <select class="form-control" ng-model="request.resourceVersion"
+                                        ng-options="obj.value as obj.text for obj in preDefResourceVersion">
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Resource Memory</label>
+                                <select class="form-control" ng-model="request.resourceMemory"
+                                        ng-options="obj.value as obj.text for obj in preDefResourceMemory">
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Resource Backup</label>
+                                <input type="checkbox" class="form-control"
+                                       ng-model="request.resourceBackup">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                            </button>
+                            <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-save"></span> Save
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="modal-body">
+            </div>
+        </div>
 
-                    <div class="form-group">
-                        <label>Request Device</label>
-                        <select class="form-control" ng-model="request.requestType"
-                                ng-options="obj.value as obj.text for obj in preDefRequestType">
-                        </select>
-                    </div>
+        <h3>Active Requests</h3>
 
-                    <div class="form-group">
-                        <label>Request Start Date</label>
-                        <input type="date" class="form-control"
-                               ng-model="request.requestStartDate" required>
-                    </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Quantity</th>
+                    <th>Type</th>
+                    <th>Version</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Active'">
+                    <td>{{request.requestType}}</td>
+                    <td>{{request.requestStartDate}}</td>
+                    <td>{{request.requestEndDate}}</td>
+                    <td>{{request.resourceQuantity}}</td>
+                    <td>{{request.resourceType}}</td>
+                    <td>{{request.resourceVersion}}</td>
+                    <td>{{request.requestStatus}}</td>
+                    <td><img src="images/right-arrow.png" data-toggle="modal" data-target="#deviceViewModal"
+                             ng-click="deviceView(request)"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-                    <div class="form-group">
-                        <label>Request End Date</label>
-                        <input type="date" class="form-control"
-                               ng-model="request.requestEndDate" required>
-                    </div>
+        <hr>
 
-                    <div class="form-group">
-                        <label>Resource Quantity</label>
-                        <input type="number" class="form-control"
-                               ng-model="request.resourceQuantity">
-                    </div>
+        <h3>Inactive Requests</h3>
 
-                    <div class="form-group">
-                        <label>Resource Type</label>
-                        <select class="form-control" ng-model="request.resourceType"
-                                ng-options="obj.value as obj.text for obj in preDefResourceType">
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Resource Version</label>
-                        <select class="form-control" ng-model="request.resourceVersion"
-                                ng-options="obj.value as obj.text for obj in preDefResourceVersion">
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Resource Memory</label>
-                        <select class="form-control" ng-model="request.resourceMemory"
-                                ng-options="obj.value as obj.text for obj in preDefResourceMemory">
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Resource Backup</label>
-                        <input type="checkbox" class="form-control"
-                               ng-model="request.resourceBackup">
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
-                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                    </button>
-                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-save"></span> Save
-                    </button>
-                </div>
-            </form>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Quantity</th>
+                    <th>Type</th>
+                    <th>Version</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Inactive'">
+                    <td>{{request.requestType}}</td>
+                    <td>{{request.requestStartDate}}</td>
+                    <td>{{request.requestEndDate}}</td>
+                    <td>{{request.resourceQuantity}}</td>
+                    <td>{{request.resourceType}}</td>
+                    <td>{{request.resourceVersion}}</td>
+                    <td>{{request.requestStatus}}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-</div>
-
-<h3>Active Requests</h3>
-
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Type</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Quantity</th>
-            <th>Type</th>
-            <th>Version</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Active'">
-            <td>{{request.requestType}}</td>
-            <td>{{request.requestStartDate}}</td>
-            <td>{{request.requestEndDate}}</td>
-            <td>{{request.resourceQuantity}}</td>
-            <td>{{request.resourceType}}</td>
-            <td>{{request.resourceVersion}}</td>
-            <td>{{request.requestStatus}}</td>
-            <td><img src="images/right-arrow.png" data-toggle="modal" data-target="#deviceViewModal"
-                     ng-click="deviceView(request)"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<hr>
-
-<h3>Inactive Requests</h3>
-
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Type</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Quantity</th>
-            <th>Type</th>
-            <th>Version</th>
-            <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="request in requests" ng-if="request.requestStatus == 'Inactive'">
-            <td>{{request.requestType}}</td>
-            <td>{{request.requestStartDate}}</td>
-            <td>{{request.requestEndDate}}</td>
-            <td>{{request.resourceQuantity}}</td>
-            <td>{{request.resourceType}}</td>
-            <td>{{request.resourceVersion}}</td>
-            <td>{{request.requestStatus}}</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-</div>
 </div>
 
 <div role="tabpanel" class="tab-pane container-fluid" id="billing">
@@ -166,13 +167,17 @@
     <div class="billWrapper">
         <div class="amount">
             <h2 class="totalAmt">Total Spent</h2>
-            <p>Welcome to the MIAAS Account Billing console. Your current balance appears below. The accompanying bar shows distribution of the costs per request.</p>
+
+            <p>Welcome to the MIAAS Account Billing console. Your current balance appears below. The accompanying bar
+                shows distribution of the costs per request.</p>
+
             <h1>${{calculateBill()}}.00</h1>
 
             <div class="progress progress-striped">
                 <progress>
                     <bar ng-repeat="bar in stacked track by $index" role="progressbar"
-                         value="bar.value" type="{{bar.type}}" style="border-right: 1px solid #000000"><span>${{bar.displayText}}</span></bar>
+                         value="bar.value" type="{{bar.type}}" style="border-right: 1px solid #000000"><span>${{bar.displayText}}</span>
+                    </bar>
                 </progress>
 
             </div>
@@ -248,26 +253,33 @@
                 <th>Sensors</th>
                 <th>Status</th>
                 <th>Toggle</th>
+                <th>More Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="request in activeDevices">
                 <td>{{request.deviceType}}</td>
-                <td >{{request.manufacturer}}</td>
+                <td>{{request.manufacturer}}</td>
                 <td>{{request.deviceVersion}}</td>
                 <td>{{request.deviceMemory}}</td>
                 <td>{{request.gprs}}</td>
                 <td>{{request.wifi}}</td>
                 <td class="sensors">{{request.sensors}}</td>
-                <td ng-if="request.deviceStatus == 'running'"><div class="led-green"></div></td>
-                <td ng-if="request.deviceStatus == 'stopped'"><div class="led-red"></div></td>
-                <td ng-if="request.deviceStatus == 'starting'"><div class="led-yellow"></div></td>
+                <td ng-if="request.deviceStatus == 'running'">
+                    <div class="led-green"></div>
+                </td>
+                <td ng-if="request.deviceStatus == 'stopped'">
+                    <div class="led-red"></div>
+                </td>
+                <td ng-if="request.deviceStatus == 'starting'">
+                    <div class="led-yellow"></div>
+                </td>
                 <td ng-if="request.deviceStatus == 'running'">
                     <div class="onoffswitch">
                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
                                id="deviceSwitch-{{$index}}"
                                checked
-                               ng-click="deviceOnOff(request.deviceId, $event)" >
+                               ng-click="deviceOnOff(request.deviceId, $event)">
                         <label class="onoffswitch-label" for="deviceSwitch-{{$index}}">
                             <span class="onoffswitch-inner"></span>
                             <span class="onoffswitch-switch"></span>
@@ -278,16 +290,64 @@
                     <div class="onoffswitch">
                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
                                id="deviceSwitch-{{$index}}"
-                               ng-click="deviceOnOff(request.deviceId, $event)" >
+                               ng-click="deviceOnOff(request.deviceId, $event)">
                         <label class="onoffswitch-label" for="deviceSwitch-{{$index}}">
                             <span class="onoffswitch-inner"></span>
                             <span class="onoffswitch-switch"></span>
                         </label>
                     </div>
                 </td>
+                <td>
+                    <button class="btn btn-primary" id="{{request.deviceId}}" data-toggle="modal"
+                            data-target="#deviceActionModal">
+                        App Actions
+                    </button>
+                </td>
             </tr>
             </tbody>
         </table>
+
+        <div class="modal fade" id="deviceActionModal" tabindex="-2" role="dialog" aria-labelledby="myRequestLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <table class="table table-striped apps">
+                        <thead>
+                            <th>Application</th>
+                            <th>Actions</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Contacts</td>
+                                <td>
+                                    <button class="btn btn-success">Launch</button>
+                                    <button class="btn btn-warning">Abort</button>
+                                    <button class="btn btn-danger">Terminate</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Gallery</td>
+                                <td>
+                                    <button class="btn btn-success">Launch</button>
+                                    <button class="btn btn-warning">Abort</button>
+                                    <button class="btn btn-danger">Terminate</button>
+                                </td>
+                            </tr><tr>
+                                <td>Settings</td>
+                                <td>
+                                    <button class="btn btn-success">Launch</button>
+                                    <button class="btn btn-warning">Abort</button>
+                                    <button class="btn btn-danger">Terminate</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

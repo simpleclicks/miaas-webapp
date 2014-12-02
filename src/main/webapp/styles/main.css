@@ -250,3 +250,7 @@ ul#strength {
     width: 100%;
     table-layout: fixed;
 }
+
+.apps{
+    border-spacing: 10px 10px ;
+}

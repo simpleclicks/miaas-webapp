@@ -205,6 +205,10 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         $('#saveRequestModal').modal('show');
     };
 
+    $scope.deviceAction = function (devId){
+        $('#deviceActionModal').modal('show');
+    }
+
     $scope.delete = function (id) {
         Request.delete({id: id},
             function () {
