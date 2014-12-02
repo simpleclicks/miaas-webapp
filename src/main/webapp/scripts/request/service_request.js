@@ -29,6 +29,12 @@ miaasApp.factory('RequestDevices', function ($http) {
                 return response.data;
             });
             return promise;
+        },
+        launchDeviceApp: function(devId,appName){
+            var promise = $http.get('app/rest/startapp/device/'+devId+'/' + appName).then(function(response) {
+                return response.data;
+            });
+            return promise;
         }
     };
 });

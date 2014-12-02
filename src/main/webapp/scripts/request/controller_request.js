@@ -75,6 +75,7 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         $(this).tab('show');
     });
 
+
     $scope.exampleData = [];
 
     $scope.memPieData = [];
@@ -249,6 +250,11 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
 
     $scope.randomStacked();
 
+    $scope.deviceAppAction = function(devId){
+        $scope.selectedDevice = devId;
+        console.log($scope.selectedDevice);
+    }
+
     $scope.deviceView = function (req) {
         $scope.selectedReqId = req.id;
 
@@ -268,6 +274,10 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
             console.log(data);
         });
     };
+
+    $scope.launchApp = function(appName){
+        RequestDevices.launchDeviceApp($scope.selectedDevice,appName);
+    }
 
     $scope.clear = function () {
         $scope.request = {requestType: null, requestStartDate: null, requestEndDate: null, resourceQuantity: null, resourceType: null, resourceVersion: null, resourceMemory: null, resourceBackup: null, id: null};
