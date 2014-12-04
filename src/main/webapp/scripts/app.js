@@ -15,6 +15,9 @@ miaasApp
                         authorizedRoles: [USER_ROLES.all]
                     }
                 })
+                .when('/pricing', {
+                    templateUrl: 'views/pricing.html'
+                })
                 .when('/activate', {
                     templateUrl: 'views/activate.html',
                     controller: 'ActivationController',
@@ -103,6 +106,21 @@ miaasApp
                 })
                 .when('/account', {
                     templateUrl: 'views/account.html',
+                    controller: 'RequestController',
+                    resolve:{
+                        resolvedRequest: ['UserRequest', function (UserRequest) {
+                            return UserRequest.getRequestsForUser();
+                        }],
+                        resolvedStat : ['UserStatistics', function(UserStatistics){
+                            return UserStatistics.getStatsForUser();
+                        }]
+                    },
+                    access: {
+                        authorizedRoles: [USER_ROLES.all]
+                    }
+                })
+                .when('/mydevices', {
+                    templateUrl: 'views/mydevices.html',
                     controller: 'RequestController',
                     resolve:{
                         resolvedRequest: ['UserRequest', function (UserRequest) {

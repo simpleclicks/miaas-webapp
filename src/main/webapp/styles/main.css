@@ -101,6 +101,11 @@ ul#strength {
 }
 /* end Password strength bar style */
 
+
+.alwaysshow{
+    float: left;
+}
+
 .itemWrapper{
     width: 100%;
 }
@@ -253,4 +258,8 @@ ul#strength {
 
 .apps{
     border-spacing: 10px 10px ;
+}
+
+.tagline{
+    font-size: small;
 }

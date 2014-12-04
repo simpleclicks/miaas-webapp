@@ -54,8 +54,6 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
 
     $scope.deviceOnOff = function (deviceId, $event){
         $event.target.checked ? $scope.startDevice(deviceId) : $scope.stopDevice(deviceId);
-        $scope.activeDevices = [];
-        $scope.refreshDeviceList();
     };
 
     console.log($scope.userStats);
@@ -185,7 +183,7 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
         };
         $scope.request.user = userobj;
         console.log($scope.request);
-        $scope.request['requestPrice'] = $scope.calculatePrice($scope.request.requestStartDate, $scope.request.requestEndDate, resourcePricePerDay, $scope.request.resourceQuantity);
+        $scope.request['requestPrice'] = $scope.calculatePrice($scope.request.requestStartDate, $scope.request.requestEndDate, resourcePricePerDay, $scope.request.resourceQuantity,$scope.request.resourceMemory);
         console.log(JSON.stringify($scope.request));
         Request.save($scope.request,
             function () {
@@ -217,11 +215,17 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
             });
     };
 
-    $scope.calculatePrice = function (startDate, endDate, rate, numResources) {
+    $scope.calculatePrice = function (startDate, endDate, rate, numResources, memory) {
         var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
         var firstDate = new Date(endDate);
         var secondDate = new Date(startDate);
         var timeDiff = (firstDate - secondDate) / oneDay;
+        if(memory == "512"){
+            rate = 5;
+        }
+        else if(memory == 1024){
+            rate = 10;
+        }
         var price = timeDiff * rate * numResources;
         console.log(price);
         return price;
@@ -265,13 +269,15 @@ miaasApp.controller('RequestController', function ($rootScope, $scope, resolvedR
 
     $scope.startDevice = function (devId) {
         Emulator.startDeviceEmulator(devId).then(function (data) {
-            console.log(data);
+            $scope.activeDevices = [];
+            $scope.refreshDeviceList();
         });
     };
 
     $scope.stopDevice = function (devId) {
         Emulator.stopDeviceEmulator(devId).then(function (data) {
-            console.log(data);
+            $scope.activeDevices = [];
+            $scope.refreshDeviceList();
         });
     };
 

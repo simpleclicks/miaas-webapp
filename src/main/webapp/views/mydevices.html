@@ -1,0 +1,149 @@
+<div class="table-responsive">
+    <table class="table table-striped devices">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Manufacturer</th>
+            <th>API Version</th>
+            <th>Memory</th>
+            <th>GPRS</th>
+            <th>Wi-Fi</th>
+            <th>Sensors</th>
+            <th>Status</th>
+            <th>Toggle</th>
+            <th>More Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="request in activeDevices">
+            <td>{{request.deviceType}}</td>
+            <td>{{request.manufacturer}}</td>
+            <td>{{request.deviceVersion}}</td>
+            <td>{{request.deviceMemory}}</td>
+            <td>{{request.gprs}}</td>
+            <td>{{request.wifi}}</td>
+            <td class="sensors">{{request.sensors}}</td>
+            <td ng-if="request.deviceStatus == 'running'">
+                <div class="led-green"></div>
+            </td>
+            <td ng-if="request.deviceStatus == 'stopped'">
+                <div class="led-red"></div>
+            </td>
+            <td ng-if="request.deviceStatus == 'starting'">
+                <div class="led-yellow"></div>
+            </td>
+            <td ng-if="request.deviceStatus == 'running'">
+                <div class="onoffswitch">
+                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
+                           id="deviceSwitch-{{$index}}"
+                           checked
+                           ng-click="deviceOnOff(request.deviceId, $event)">
+                    <label class="onoffswitch-label" for="deviceSwitch-{{$index}}">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                </div>
+            </td>
+            <td ng-if="request.deviceStatus == 'stopped'">
+                <div class="onoffswitch">
+                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox"
+                           id="deviceSwitch-{{$index}}"
+                           ng-click="deviceOnOff(request.deviceId, $event)">
+                    <label class="onoffswitch-label" for="deviceSwitch-{{$index}}">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                </div>
+            </td>
+            <td>
+                <button class="btn btn-primary" id="{{request.deviceId}}" data-toggle="modal"
+                        data-target="#deviceActionModal" ng-click="deviceAppAction(request.deviceId)">
+                    App Actions
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="deviceActionModal" tabindex="-2" role="dialog" aria-labelledby="myRequestLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <table class="table table-striped apps">
+                    <thead>
+                    <th>Application</th>
+                    <th>Actions</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="appName">Calendar</td>
+                        <td>
+                            <button class="btn btn-success launch" ng-click="launchApp('Calendar')">Launch</button>
+                            <button class="btn btn-warning">Abort</button>
+                            <button class="btn btn-danger">Terminate</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="appName">Calculator</td>
+                        <td>
+                            <button class="btn btn-success launch" ng-click="launchApp('Calculator')">Launch</button>
+                            <button class="btn btn-warning">Abort</button>
+                            <button class="btn btn-danger">Terminate</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="appName">Music</td>
+                        <td>
+                            <button class="btn btn-success launch" ng-click="launchApp('Music')">Launch</button>
+                            <button class="btn btn-warning">Abort</button>
+                            <button class="btn btn-danger">Terminate</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="appName">Gallery</td>
+                        <td>
+                            <button class="btn btn-success launch" ng-click="launchApp('Gallery')">Launch</button>
+                            <button class="btn btn-warning">Abort</button>
+                            <button class="btn btn-danger">Terminate</button>
+                        </td>
+                    </tr><tr>
+                        <td class="appName">Speech Recorder</td>
+                        <td>
+                            <button class="btn btn-success launch" ng-click="launchApp('SpeechRecorder')">Launch</button>
+                            <button class="btn btn-warning">Abort</button>
+                            <button class="btn btn-danger">Terminate</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="appName">Quick Search Box</td>
+                        <td>
+                            <button class="btn btn-success launch" ng-click="launchApp('QuickSearchBox')">Launch</button>
+                            <button class="btn btn-warning">Abort</button>
+                            <button class="btn btn-danger">Terminate</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="appName">Browser</td>
+                        <td>
+                            <button class="btn btn-success launch" ng-click="launchApp('Browser')">Launch</button>
+                            <button class="btn btn-warning">Abort</button>
+                            <button class="btn btn-danger">Terminate</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="appName">Camera</td>
+                        <td>
+                            <button class="btn btn-success launch" ng-click="launchApp('Camera')">Launch</button>
+                            <button class="btn btn-warning">Abort</button>
+                            <button class="btn btn-danger">Terminate</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
