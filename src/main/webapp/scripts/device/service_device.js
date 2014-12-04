@@ -24,3 +24,18 @@ miaasApp.factory('Emulator', function ($http) {
         }
     };
 });
+
+miaasApp.factory('DeviceDetails', function($http){
+    var selectedDev = {};
+    function setDev(dev) {
+        selectedDev = dev;
+    }
+    function getDev() {
+        return selectedDev;
+    }
+
+    return {
+        set: setDev,
+        get: getDev
+    }
+});

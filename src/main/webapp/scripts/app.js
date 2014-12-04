@@ -3,7 +3,7 @@
 /* App Module */
 
 var miaasApp = angular.module('miaasApp', ['http-auth-interceptor', 'tmh.dynamicLocale',
-    'ngResource', 'ngRoute', 'ngCookies', 'miaasAppUtils', 'pascalprecht.translate', 'truncate','nvd3ChartDirectives','ui.bootstrap']);
+    'ngResource', 'ngRoute', 'ngCookies', 'miaasAppUtils', 'pascalprecht.translate', 'truncate','nvd3ChartDirectives','ui.bootstrap','flow']);
 
 miaasApp
     .config(function ($routeProvider, $httpProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {
@@ -121,7 +121,7 @@ miaasApp
                 })
                 .when('/mydevices', {
                     templateUrl: 'views/mydevices.html',
-                    controller: 'RequestController',
+                    controller: 'DevicesController',
                     resolve:{
                         resolvedRequest: ['UserRequest', function (UserRequest) {
                             return UserRequest.getRequestsForUser();
@@ -156,6 +156,13 @@ miaasApp
                     templateUrl: 'views/docs.html',
                     access: {
                         authorizedRoles: [USER_ROLES.admin]
+                    }
+                })
+                .when('/devdetails', {
+                    templateUrl: 'views/deviceDetails.html',
+                    controller: 'DevDetailsController',
+                    access: {
+                        authorizedRoles: [USER_ROLES.all]
                     }
                 })
                 .otherwise({

@@ -1,0 +1,96 @@
+<div class="devDetailsWrapper">
+    <div class="devWrapper">
+        <div class="devImage">
+            <img src="images/Nexus_5.png">
+        </div>
+        <div class="devInfo">
+            <h2>Device Specification</h2>
+            <br>
+            <ul>
+                <li>
+                    <label>Device ID : </label> {{selectedDevice.deviceId}}
+                </li>
+                <li>
+                    <label>Device Image : </label> {{selectedDevice.deviceImageName}}
+                </li>
+                <li>
+                    <label>Device Memory : </label> {{selectedDevice.deviceMemory}} Mb
+                </li>
+                <li>
+                    <label>Device API Version : </label> {{selectedDevice.deviceVersion}}
+                </li>
+                <li>
+                    <label>Device OS Version : </label> {{selectedDevice.deviceOS}}
+                </li>
+                <li>
+                    <label>Device OS : </label> {{selectedDevice.deviceOSName}}
+                </li>
+                <li>
+                    <label>Device Model : </label> {{selectedDevice.deviceType}}
+                </li>
+                <li>
+                    <label>Device Manufacturer : </label> {{selectedDevice.manufacturer}}
+                </li>
+                <li>
+                    <label>Valid till : </label> {{selectedDevice.request.requestEndDate}}
+                </li>
+                <li ng-if="selectedDevice.deviceStatus == 'running'">
+                    <div><div class="statLabel"><label>Device Status : </label></div><div class="devDetailsStatus led-green"></div></div> Running
+                </li>
+                <li ng-if="selectedDevice.deviceStatus == 'stopped'">
+                   <div><div class="statLabel"><label>Device Status : </label></div><div class="devDetailsStatus led-red"></div></div> Stopped
+                </li>
+                <li ng-if="selectedDevice.deviceStatus == 'starting'">
+                    <div><div class="statLabel"><label>Device Status : </label></div><div class="devDetailsStatus led-yellow"></div></div> Starting
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    <div class="installedApps">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#saveRequestModal" ng-click="clear()">
+            <span class="glyphicon glyphicon-flash"></span> Install New App
+        </button>
+
+        <hr>
+        <h3>Apps installed by you</h3>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Quantity</th>
+                    <th>Type</th>
+                    <th>Version</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+    <div class="devUpload" flow-init flow-object="uploader">
+        <label>Enter App Name : </label><input type="text" ng-model="app.name" placeholder="Enter your app name" />
+        <p>Your app name is {{app.name}}</p>
+        <input type="file" flow-btn/>
+        <br>
+        <button class="btn btn-success" ng-click="uploadFiles()">Upload File</button>
+
+        <table>
+            <tr ng-repeat="file in $flow.files">
+                <td>{{$index+1}}</td>
+                <td>{{file.name}}</td>
+                <td>{{file.msg}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+

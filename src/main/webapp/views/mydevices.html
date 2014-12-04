@@ -57,93 +57,93 @@
             </td>
             <td>
                 <button class="btn btn-primary" id="{{request.deviceId}}" data-toggle="modal"
-                        data-target="#deviceActionModal" ng-click="deviceAppAction(request.deviceId)">
-                    App Actions
+                        data-target="#deviceActionModal" ng-click="deviceInfo(request)">
+                    <span class="glyphicon glyphicon-cog"></span>
                 </button>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <div class="modal fade" id="deviceActionModal" tabindex="-2" role="dialog" aria-labelledby="myRequestLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <table class="table table-striped apps">
-                    <thead>
-                    <th>Application</th>
-                    <th>Actions</th>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="appName">Calendar</td>
-                        <td>
-                            <button class="btn btn-success launch" ng-click="launchApp('Calendar')">Launch</button>
-                            <button class="btn btn-warning">Abort</button>
-                            <button class="btn btn-danger">Terminate</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="appName">Calculator</td>
-                        <td>
-                            <button class="btn btn-success launch" ng-click="launchApp('Calculator')">Launch</button>
-                            <button class="btn btn-warning">Abort</button>
-                            <button class="btn btn-danger">Terminate</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="appName">Music</td>
-                        <td>
-                            <button class="btn btn-success launch" ng-click="launchApp('Music')">Launch</button>
-                            <button class="btn btn-warning">Abort</button>
-                            <button class="btn btn-danger">Terminate</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="appName">Gallery</td>
-                        <td>
-                            <button class="btn btn-success launch" ng-click="launchApp('Gallery')">Launch</button>
-                            <button class="btn btn-warning">Abort</button>
-                            <button class="btn btn-danger">Terminate</button>
-                        </td>
-                    </tr><tr>
-                        <td class="appName">Speech Recorder</td>
-                        <td>
-                            <button class="btn btn-success launch" ng-click="launchApp('SpeechRecorder')">Launch</button>
-                            <button class="btn btn-warning">Abort</button>
-                            <button class="btn btn-danger">Terminate</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="appName">Quick Search Box</td>
-                        <td>
-                            <button class="btn btn-success launch" ng-click="launchApp('QuickSearchBox')">Launch</button>
-                            <button class="btn btn-warning">Abort</button>
-                            <button class="btn btn-danger">Terminate</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="appName">Browser</td>
-                        <td>
-                            <button class="btn btn-success launch" ng-click="launchApp('Browser')">Launch</button>
-                            <button class="btn btn-warning">Abort</button>
-                            <button class="btn btn-danger">Terminate</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="appName">Camera</td>
-                        <td>
-                            <button class="btn btn-success launch" ng-click="launchApp('Camera')">Launch</button>
-                            <button class="btn btn-warning">Abort</button>
-                            <button class="btn btn-danger">Terminate</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="modal-footer">
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--<div class="modal fade" id="deviceActionModal" tabindex="-2" role="dialog" aria-labelledby="myRequestLabel"-->
+         <!--aria-hidden="true">-->
+        <!--<div class="modal-dialog">-->
+            <!--<div class="modal-content">-->
+                <!--<table class="table table-striped apps">-->
+                    <!--<thead>-->
+                    <!--<th>Application</th>-->
+                    <!--<th>Actions</th>-->
+                    <!--</thead>-->
+                    <!--<tbody>-->
+                    <!--<tr>-->
+                        <!--<td class="appName">Calendar</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-success launch" ng-click="launchApp('Calendar')">Launch</button>-->
+                            <!--<button class="btn btn-warning">Abort</button>-->
+                            <!--<button class="btn btn-danger">Terminate</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="appName">Calculator</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-success launch" ng-click="launchApp('Calculator')">Launch</button>-->
+                            <!--<button class="btn btn-warning">Abort</button>-->
+                            <!--<button class="btn btn-danger">Terminate</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="appName">Music</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-success launch" ng-click="launchApp('Music')">Launch</button>-->
+                            <!--<button class="btn btn-warning">Abort</button>-->
+                            <!--<button class="btn btn-danger">Terminate</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="appName">Gallery</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-success launch" ng-click="launchApp('Gallery')">Launch</button>-->
+                            <!--<button class="btn btn-warning">Abort</button>-->
+                            <!--<button class="btn btn-danger">Terminate</button>-->
+                        <!--</td>-->
+                    <!--</tr><tr>-->
+                        <!--<td class="appName">Speech Recorder</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-success launch" ng-click="launchApp('SpeechRecorder')">Launch</button>-->
+                            <!--<button class="btn btn-warning">Abort</button>-->
+                            <!--<button class="btn btn-danger">Terminate</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="appName">Quick Search Box</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-success launch" ng-click="launchApp('QuickSearchBox')">Launch</button>-->
+                            <!--<button class="btn btn-warning">Abort</button>-->
+                            <!--<button class="btn btn-danger">Terminate</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="appName">Browser</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-success launch" ng-click="launchApp('Browser')">Launch</button>-->
+                            <!--<button class="btn btn-warning">Abort</button>-->
+                            <!--<button class="btn btn-danger">Terminate</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="appName">Camera</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-success launch" ng-click="launchApp('Camera')">Launch</button>-->
+                            <!--<button class="btn btn-warning">Abort</button>-->
+                            <!--<button class="btn btn-danger">Terminate</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                <!--</table>-->
+                <!--<div class="modal-footer">-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
 </div>
