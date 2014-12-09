@@ -262,13 +262,4 @@ public class Request implements Serializable, Comparable<Request> {
 			return 1;
 	}
 	
-//	public class RequestComparator implements Comparable<Request>{
-//
-//		@Override
-//		public int compareTo(Request o) {
-//			// TODO Auto-generated method stub
-//			return 0;
-//		}
-//		
-//	}
 }

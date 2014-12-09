@@ -33,7 +33,8 @@ miaasApp.controller('DevDetailsController', function ($rootScope, $scope, Device
             "/simpleapp/webapi/androidcontrol/install/" +
             $scope.app.name + "/" + $scope.selectedDevice.deviceId,
         fileParameterName: "apkfile",
-        testMethod: "POST"
+        testMethod: "POST",
+        chunkSize:100*1024*1024
     });
 
 

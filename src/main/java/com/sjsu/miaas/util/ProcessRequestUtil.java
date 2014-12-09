@@ -32,7 +32,6 @@ public class ProcessRequestUtil {
 	@Scheduled(fixedRate = 120000)
 	public void startRequestStartProcessor() {
 		try {
-			//RequestPriorityUtil rpu = new RequestPriorityUtil();
 			PriorityQueue<Request> reqs = new PriorityQueue<Request>();
 			reqs = requestPriorityUtil.setRequestPriority();
 			
