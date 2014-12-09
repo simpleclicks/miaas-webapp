@@ -78,19 +78,12 @@
     </div>
     <hr>
     <div class="devUpload" flow-init flow-object="uploader">
-        <label>Enter App Name : </label><input type="text" ng-model="app.name" placeholder="Enter your app name" />
-        <p>Your app name is {{app.name}}</p>
-        <input type="file" flow-btn/>
-        <br>
-        <button class="btn btn-success" ng-click="uploadFiles()">Upload File</button>
-
-        <table>
-            <tr ng-repeat="file in $flow.files">
-                <td>{{$index+1}}</td>
-                <td>{{file.name}}</td>
-                <td>{{file.msg}}</td>
-            </tr>
-        </table>
+        <form id="file-form" action="handler.php" method="POST">
+            <label>Enter App Name : </label><input type="text" ng-model="app.name" placeholder="Enter your app name" />
+            <p>Your app name is {{app.name}}</p>
+            <input type="file" id="uploadfile" name="uploadfile" />
+            <input type="button" value="upload" ng-click="upload()" />
+        </form>
     </div>
 </div>
 

@@ -4,7 +4,8 @@
 
 'use strict';
 
-miaasApp.controller('DevDetailsController', function ($rootScope, $scope, DeviceDetails) {
+miaasApp.controller('DevDetailsController', function ($rootScope, $scope, DeviceDetails,fileUpload) {
+
     $scope.app = {};
     var device = DeviceDetails.get();
     if (device.deviceVersion == 19) {
@@ -37,12 +38,38 @@ miaasApp.controller('DevDetailsController', function ($rootScope, $scope, Device
         chunkSize:100*1024*1024
     });
 
+    $scope.client = new XMLHttpRequest();
 
+    $scope.upload = function()
+    {
+        var file = document.getElementById("uploadfile");
 
-    $scope.uploadFiles = function () {
-        $scope.uploader.opts.target = $scope.getTartgetUrl();
-        $scope.uploader.upload();
+        /* Create a FormData instance */
+        var formData = new FormData();
+        /* Add the file */
+        formData.append("upload", file.files[0]);
+
+        $scope.client.open("post", $scope.getTartgetUrl(), true);
+        $scope.client.setRequestHeader("Content-Type", "multipart/form-data");
+        $scope.client.send(formData);  /* Send to server */
     }
+
+    /* Check the response status */
+    $scope.client.onreadystatechange = function()
+    {
+        if ($scope.client.readyState == 4 && $scope.client.status == 200)
+        {
+            alert($scope.client.statusText);
+        }
+    }
+
+    $scope.myFile = "";
+    $scope.uploadFile = function(){
+        var file = $scope.myFile;
+        console.log('file is ' + JSON.stringify(file));
+        var uploadUrl = "/fileUpload";
+        fileUpload.uploadFileToUrl(file,uploadUrl)
+    };
 
 
 });
