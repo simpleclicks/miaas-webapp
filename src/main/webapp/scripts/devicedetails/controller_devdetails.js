@@ -47,7 +47,7 @@ miaasApp.controller('DevDetailsController', function ($rootScope, $scope, Device
         /* Create a FormData instance */
         var formData = new FormData();
         /* Add the file */
-        formData.append("upload", file.files[0]);
+        formData.append("apkfile", file.files[0]);
 
         $scope.client.open("post", $scope.getTartgetUrl(), true);
         $scope.client.setRequestHeader("Content-Type", "multipart/form-data");
