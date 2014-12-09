@@ -4,7 +4,7 @@
 
 'use strict';
 
-miaasApp.controller('DevDetailsController', function ($rootScope, $scope, DeviceDetails,fileUpload) {
+miaasApp.controller('DevDetailsController', function ($rootScope, $scope, DeviceDetails) {
 
     $scope.app = {};
     var device = DeviceDetails.get();
@@ -24,8 +24,7 @@ miaasApp.controller('DevDetailsController', function ($rootScope, $scope, Device
     console.log($scope.selectedDevice);
 
     $scope.getTartgetUrl = function(){
-        return "http://" + $scope.selectedDevice.amazonInstance.publicDnsName +
-            "/simpleapp/webapi/androidcontrol/install/" +
+        return "http://localhost:8080/simpleapp/webapi/androidcontrol/install/" +
             $scope.app.name + "/" + $scope.selectedDevice.deviceId;
     };
 
@@ -62,15 +61,6 @@ miaasApp.controller('DevDetailsController', function ($rootScope, $scope, Device
             alert($scope.client.statusText);
         }
     }
-
-    $scope.myFile = "";
-    $scope.uploadFile = function(){
-        var file = $scope.myFile;
-        console.log('file is ' + JSON.stringify(file));
-        var uploadUrl = "/fileUpload";
-        fileUpload.uploadFileToUrl(file,uploadUrl)
-    };
-
 
 });
 
