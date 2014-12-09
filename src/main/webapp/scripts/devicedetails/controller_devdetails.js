@@ -25,13 +25,13 @@ miaasApp.controller('DevDetailsController', function ($rootScope, $scope, Device
 
     $scope.getTartgetUrl = function(){
         return "http://" + $scope.selectedDevice.amazonInstance.publicDnsName +
-            "/simpleapp/webapi/androidcontrol/install/" +
+            ":8080/simpleapp/webapi/androidcontrol/install/" +
             $scope.app.name + "/" + $scope.selectedDevice.deviceId;
     };
 
     $scope.uploader = new Flow({
         target: "http://" + $scope.selectedDevice.amazonInstance.publicDnsName +
-            "/simpleapp/webapi/androidcontrol/install/" +
+            ":8080/simpleapp/webapi/androidcontrol/install/" +
             $scope.app.name + "/" + $scope.selectedDevice.deviceId,
         fileParameterName: "apkfile",
         testMethod: "POST",
